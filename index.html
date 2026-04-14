@@ -6,334 +6,164 @@
     <title>Welcome to AzathothLXL's Space</title>
     <meta
         name="description"
-        content="AzathothLXL 的个人主页，展示个人简介、技能栈、项目作品与联系方式。"
+        content="AzathothLXL 的个人网站，包含简介、博客、相册、简历和联系方式。"
     >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap"
         rel="stylesheet"
     >
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="page-shell">
-        <div class="ambient ambient-one" aria-hidden="true"></div>
-        <div class="ambient ambient-two" aria-hidden="true"></div>
-        <div class="ambient ambient-three" aria-hidden="true"></div>
+<body data-page="home">
+    <main class="page-stack">
+        <section class="page-section intro-section" id="intro">
+            <div class="container">
+                <div class="glass-panel hero-panel reveal">
+                    <div class="avatar-column">
+                        <div class="avatar-shell">
+                            <img src="./src/pictures/avatar.png" alt="AzathothLXL 的头像">
+                        </div>
+                    </div>
 
-        <header class="site-header">
-            <div class="container nav">
-                <a class="brand" href="#top" data-scroll>
-                    <span class="brand-mark">A</span>
-                    <span class="brand-text">Azath</span>
-                </a>
-                <nav class="nav-links" aria-label="主导航">
-                    <a class="nav-link" href="#about" data-scroll>关于</a>
-                    <a class="nav-link" href="#skills" data-scroll>技能</a>
-                    <a class="nav-link" href="#projects" data-scroll>作品</a>
-                    <a class="nav-link" href="#journey" data-scroll>经历</a>
-                    <a class="nav-link" href="#contact" data-scroll>联系</a>
-                </nav>
-                <a class="nav-cta" href="#contact" data-scroll>开始交流</a>
-            </div>
-        </header>
-
-        <main>
-            <section class="hero" id="top">
-                <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
-                <div class="hero-grid" aria-hidden="true"></div>
-
-                <div class="container hero-content">
-                    <div class="hero-copy reveal">
-                        <p class="eyebrow">PERSONAL WEBSITE / CODE, DESIGN, STORYTELLING</p>
-                        <h1>
-                            <span class="serif">你好，我是</span>
-                            AzathothLXL
-                        </h1>
+                    <div class="hero-copy">
+                        <p class="section-kicker">INTRO</p>
+                        <h1>AzathothLXL</h1>
                         <p class="hero-lead">
-                            把技术表达、视觉美感和个人经历，整理成一张有记忆点的数字名片。
+                            以 High Performance Compute、Computer Vision 和 Quantam Chemistry Compute 为核心兴趣的个人数字空间。
                         </p>
                         <p class="hero-description">
-                            这个首页参考了 SimonAKing/HomePage 那种有仪式感的首屏体验，
-                            但内容结构更偏向个人展示与长期维护。你后续只需要把名字、项目、链接和简介换成自己的真实信息，
-                            就能继续把它打磨成真正属于你的主页。
+                            这里会逐渐沉淀我的文章、图片随笔和长期记录。页面整体使用固定背景与局部毛玻璃蒙版的方式，
+                            让内容像悬浮在背景上的独立窗口，尽量克制、平静，同时保留一点 macOS 式的轻盈感。
                         </p>
-                        <div class="hero-actions">
-                            <a class="button button-primary" href="#about" data-scroll>进入主页</a>
-                            <a class="button button-secondary" href="#projects" data-scroll>查看作品</a>
-                        </div>
-                    </div>
 
-                    <aside class="hero-panel reveal">
-                        <div class="panel-card">
-                            <p class="panel-label">当前状态</p>
-                            <h2>持续构建中</h2>
-                            <ul class="panel-list">
-                                <li>专注前端体验、交互设计与个人表达</li>
-                                <li>喜欢把复杂信息整理成清晰又好看的页面</li>
-                                <li>正在完善作品展示与长期内容输出</li>
-                            </ul>
-                        </div>
-
-                        <div class="panel-card panel-highlight">
-                            <p class="panel-label">快速信息</p>
-                            <div class="fact-row">
-                                <span>方向</span>
-                                <strong>Web / UI / Personal Branding</strong>
-                            </div>
-                            <div class="fact-row">
-                                <span>位置</span>
-                                <strong>Asia / Remote Friendly</strong>
-                            </div>
-                            <div class="fact-row">
-                                <span>联系</span>
-                                <strong>hello@yourdomain.com</strong>
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-
-                <a class="scroll-indicator" href="#about" data-scroll>
-                    <span>向下探索</span>
-                </a>
-            </section>
-
-            <section class="section" id="about">
-                <div class="container">
-                    <div class="section-heading reveal">
-                        <p class="section-kicker">ABOUT</p>
-                        <h2>不是只有“我是谁”，而是“我如何工作、如何表达、想做什么”。</h2>
-                        <p>
-                            如果你把这里换成自己的真实介绍，这一块会非常适合放个人定位、
-                            工作方式、价值观，以及你希望别人记住你的那一句话。
-                        </p>
-                    </div>
-
-                    <div class="about-layout">
-                        <article class="about-card reveal">
-                            <p class="about-intro">
-                                我希望这个个人网站不只是一个链接集合，而是一张能快速建立印象的首页。
-                                它需要有审美、有秩序，也要足够直接，让人一眼知道你是谁、擅长什么、值不值得继续了解。
-                            </p>
-                            <p>
-                                所以这次页面结构用了首屏沉浸式引导 + 下拉式内容展开的方式：
-                                首屏负责建立氛围和气质，下面的模块负责承接信息、沉淀作品和建立信任。
-                            </p>
-                            <div class="quote-card">
-                                <span class="quote-mark">01</span>
-                                <p>让页面先传达气质，再传达信息。</p>
-                            </div>
-                        </article>
-
-                        <div class="stats-grid">
-                            <article class="stat-card reveal">
-                                <span class="stat-number">3+</span>
-                                <p class="stat-title">核心展示模块</p>
-                                <p class="stat-text">关于我、技能与项目都已经搭好骨架，后续可直接替换成真实内容。</p>
-                            </article>
-                            <article class="stat-card reveal">
-                                <span class="stat-number">100%</span>
-                                <p class="stat-title">响应式适配</p>
-                                <p class="stat-text">桌面与移动端都进行了布局调整，首屏和卡片不会挤成一团。</p>
-                            </article>
-                            <article class="stat-card reveal">
-                                <span class="stat-number">Smooth</span>
-                                <p class="stat-title">轻交互体验</p>
-                                <p class="stat-text">加入了滚动显现、导航高亮与背景动效，观感会更完整。</p>
-                            </article>
-                            <article class="stat-card reveal">
-                                <span class="stat-number">Editable</span>
-                                <p class="stat-title">方便继续改</p>
-                                <p class="stat-text">内容命名清晰，后面你自己维护或继续扩展都会更轻松。</p>
-                            </article>
+                        <div class="intro-lines">
+                            <p><span>focus</span> High Performance Compute / Computer Vision / Quantam Chemistry Compute</p>
+                            <p><span>hobby</span> 拼胶 / 健身 / League of Legends</p>
+                            <p><span>notes</span> 博客、相册与个人长期记录会继续慢慢补齐。</p>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <section class="section" id="skills">
-                <div class="container">
-                    <div class="section-heading reveal">
-                        <p class="section-kicker">SKILLS</p>
-                        <h2>把能力写得清楚，不如让结构和细节一起说明问题。</h2>
-                    </div>
-
-                    <div class="skill-grid">
-                        <article class="skill-card reveal">
-                            <p class="skill-title">前端开发</p>
-                            <p class="skill-copy">
-                                注重页面节奏、信息层次和交互反馈，追求既顺手又耐看的浏览体验。
-                            </p>
-                            <div class="tag-list">
-                                <span>HTML</span>
-                                <span>CSS</span>
-                                <span>JavaScript</span>
-                                <span>Responsive UI</span>
-                            </div>
-                        </article>
-
-                        <article class="skill-card reveal">
-                            <p class="skill-title">视觉表达</p>
-                            <p class="skill-copy">
-                                会从配色、留白、字体和动效一起思考，让页面风格有明确方向，而不是只有“能用”。
-                            </p>
-                            <div class="tag-list">
-                                <span>Visual Design</span>
-                                <span>Typography</span>
-                                <span>Motion</span>
-                                <span>Layout Systems</span>
-                            </div>
-                        </article>
-
-                        <article class="skill-card reveal">
-                            <p class="skill-title">内容组织</p>
-                            <p class="skill-copy">
-                                擅长把零散的信息整合成清晰结构，让介绍、项目和经历更容易被快速理解。
-                            </p>
-                            <div class="tag-list">
-                                <span>Portfolio Writing</span>
-                                <span>Storytelling</span>
-                                <span>Information Design</span>
-                                <span>Personal Branding</span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="projects">
-                <div class="container">
-                    <div class="section-heading reveal">
-                        <p class="section-kicker">PROJECTS</p>
-                        <h2>这里适合放最能代表你的 3 个项目，而不是所有项目的堆砌。</h2>
-                    </div>
-
-                    <div class="project-grid">
-                        <article class="project-card reveal">
-                            <div class="project-top">
-                                <span class="project-index">01</span>
-                                <span class="project-state">Featured</span>
-                            </div>
-                            <h3>个人主页改版</h3>
-                            <p>
-                                以“首屏沉浸感 + 主体信息展开”为核心，突出个人身份、审美与项目展示，是当前这个网站最适合作为首个主打作品的案例。
-                            </p>
-                            <div class="tag-list">
-                                <span>Landing Page</span>
-                                <span>UI Polish</span>
-                                <span>Interaction</span>
-                            </div>
-                        </article>
-
-                        <article class="project-card reveal">
-                            <div class="project-top">
-                                <span class="project-index">02</span>
-                                <span class="project-state">Concept</span>
-                            </div>
-                            <h3>内容型博客空间</h3>
-                            <p>
-                                如果你计划后面继续写文章、记录项目和输出观点，这里可以替换成你的博客、知识库或作品日志系统。
-                            </p>
-                            <div class="tag-list">
-                                <span>Writing</span>
-                                <span>Content Design</span>
-                                <span>Archive</span>
-                            </div>
-                        </article>
-
-                        <article class="project-card reveal">
-                            <div class="project-top">
-                                <span class="project-index">03</span>
-                                <span class="project-state">Experiment</span>
-                            </div>
-                            <h3>交互视觉实验</h3>
-                            <p>
-                                可以用来展示你做过的小型动效、创意页面或实验性质的前端作品，让主页更有辨识度和个性。
-                            </p>
-                            <div class="tag-list">
-                                <span>Creative Coding</span>
-                                <span>Animation</span>
-                                <span>Visual System</span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="journey">
-                <div class="container">
-                    <div class="section-heading reveal">
-                        <p class="section-kicker">JOURNEY</p>
-                        <h2>把经历写成时间线，会比一大段自述更容易读。</h2>
-                    </div>
-
-                    <div class="timeline-list">
-                        <article class="timeline-item reveal">
-                            <span class="timeline-year">NOW</span>
-                            <div>
-                                <h3>继续打磨个人表达</h3>
-                                <p>把主页、作品和文字内容连接起来，让网站成为长期更新的个人入口。</p>
-                            </div>
-                        </article>
-
-                        <article class="timeline-item reveal">
-                            <span class="timeline-year">2025</span>
-                            <div>
-                                <h3>开始关注设计感与技术整合</h3>
-                                <p>不再只追求功能完成，而是开始认真思考页面气质、排版和体验细节。</p>
-                            </div>
-                        </article>
-
-                        <article class="timeline-item reveal">
-                            <span class="timeline-year">2024</span>
-                            <div>
-                                <h3>积累前端与网页制作能力</h3>
-                                <p>通过不断练习页面搭建和样式实现，逐渐建立自己的审美偏好与表达方式。</p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section contact-section" id="contact">
-                <div class="container">
-                    <div class="contact-card reveal">
-                        <div class="contact-copy">
-                            <p class="section-kicker">CONTACT</p>
-                            <h2>如果你愿意，我们可以让这个主页继续长成更完整的版本。</h2>
-                            <p>
-                                下一步很适合继续补上你的真实头像、GitHub、邮箱、项目链接，以及更准确的个人介绍。
-                                这些内容一旦替换进去，这个网站就会从“好看的模板”变成“真正属于你的主页”。
-                            </p>
-                        </div>
-
-                        <div class="contact-links">
-                            <a class="contact-link" href="mailto:hello@yourdomain.com">
-                                <span class="contact-label">Email</span>
-                                <strong>hello@yourdomain.com</strong>
-                            </a>
-                            <a class="contact-link" href="https://github.com/" target="_blank" rel="noreferrer">
-                                <span class="contact-label">GitHub</span>
-                                <strong>github.com/yourname</strong>
-                            </a>
-                            <a class="contact-link" href="#top" data-scroll>
-                                <span class="contact-label">Back to top</span>
-                                <strong>返回顶部</strong>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer class="site-footer">
-            <div class="container footer-inner">
-                <p>© <span id="year"></span> Azath. Built for a personal presence with taste and clarity.</p>
             </div>
-        </footer>
+        </section>
+
+        <section class="page-section" id="blogs">
+            <div class="container split-layout">
+                <div class="glass-panel section-panel reveal">
+                    <p class="section-kicker">BLOGS</p>
+                    <h2>按时间组织的文章列表</h2>
+                    <p class="section-copy">
+                        每篇文章都放在 `blogs/&lt;文章标题&gt;/` 下，正文使用 Markdown，
+                        配图存放在 `pic/` 目录里。首页会按最新内容优先展示，文章卡片点击后会在新窗口打开详情页。
+                    </p>
+                </div>
+
+                <div class="glass-panel content-panel reveal">
+                    <div class="panel-head">
+                        <div>
+                            <p class="panel-kicker">Latest Writing</p>
+                            <h3>最新文章</h3>
+                        </div>
+                        <span class="panel-note">面板内可独立滚动</span>
+                    </div>
+                    <div class="panel-scroll blog-scroll" id="blogs-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-section" id="album">
+            <div class="container split-layout album-layout">
+                <div class="glass-panel section-panel reveal">
+                    <p class="section-kicker">ALBUM</p>
+                    <h2>瀑布流式的图片与随笔</h2>
+                    <p class="section-copy">
+                        相册参考了 SimonAKing Gallery 那种轻盈的画廊排列方式，但每一张图片下面都保留一点随笔预览。
+                        点击图片卡片后，会在当前页弹出内部详情窗口，展示大图和 Markdown 渲染后的文字。
+                    </p>
+                </div>
+
+                <div class="glass-panel content-panel reveal">
+                    <div class="panel-head">
+                        <div>
+                            <p class="panel-kicker">Selected Frames</p>
+                            <h3>相册预览</h3>
+                        </div>
+                        <span class="panel-note">面板内可独立滚动，点击卡片查看详情</span>
+                    </div>
+                    <div class="panel-scroll album-scroll">
+                        <div class="album-masonry" id="album-list"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-section" id="resume">
+            <div class="container">
+                <div class="glass-panel resume-panel reveal">
+                    <p class="section-kicker">RESUME</p>
+                    <h2>developing...</h2>
+                    <p class="section-copy">
+                        这一部分已预留版式，后续可以继续补充教育经历、科研方向、项目经验或技术栈时间线。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-section contact-section" id="contact">
+            <div class="container">
+                <div class="glass-panel contact-panel reveal">
+                    <div class="contact-copy">
+                        <p class="section-kicker">CONTACT</p>
+                        <h2>联系方式</h2>
+                        <p class="section-copy">
+                            如果你想交流技术、合作项目，或者只是想看看我还会把这个主页继续做成什么样子，都可以从这里找到我。
+                        </p>
+                    </div>
+
+                    <div class="contact-grid">
+                        <a class="contact-card" href="mailto:AzathothLXL@outlook.com">
+                            <span class="info-label">Email</span>
+                            <strong>AzathothLXL@outlook.com</strong>
+                        </a>
+                        <a class="contact-card" href="https://github.com/knight46" target="_blank" rel="noreferrer">
+                            <span class="info-label">GitHub</span>
+                            <strong>github.com/knight46</strong>
+                        </a>
+                        <a
+                            class="contact-card"
+                            href="https://space.bilibili.com/11588930?spm_id_from=333.1007.0.0"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <span class="info-label">Bilibili</span>
+                            <strong>space.bilibili.com/11588930</strong>
+                        </a>
+                    </div>
+
+                    <p class="contact-footnote">© <span id="year"></span> AzathothLXL. Blogs, gallery and notes are still evolving.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal-shell" id="album-modal" hidden>
+        <button class="modal-backdrop" type="button" aria-label="关闭相册详情" data-close-album></button>
+        <div class="glass-panel modal-window" role="dialog" aria-modal="true" aria-labelledby="album-modal-title">
+            <button class="modal-close" type="button" aria-label="关闭" data-close-album>×</button>
+            <div class="modal-media">
+                <img id="album-modal-image" alt="">
+            </div>
+            <div class="modal-content">
+                <p class="detail-date" id="album-modal-date"></p>
+                <h3 id="album-modal-title"></h3>
+                <div class="pill-row detail-pills" id="album-modal-tags"></div>
+                <article class="markdown-body" id="album-modal-markdown"></article>
+            </div>
+        </div>
     </div>
 
+    <script src="content-manifest.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
