@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Detail | AzathothLXL</title>
+    <meta name="description" content="AzathothLXL 的博客详情页。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+        rel="stylesheet"
+    >
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="blog-detail">
+    <main class="detail-page">
+        <div class="container">
+            <div class="glass-panel detail-shell">
+                <div class="detail-topbar">
+                    <a class="ghost-button detail-back" href="./index.html#blogs">返回首页</a>
+                </div>
+
+                <header class="detail-header">
+                    <p class="detail-date" id="detail-date">Loading...</p>
+                    <h1 id="detail-title">正在加载文章</h1>
+                    <div class="pill-row detail-pills" id="detail-tags"></div>
+                </header>
+
+                <div class="detail-cover" id="detail-cover" hidden>
+                    <img id="detail-cover-image" alt="">
+                </div>
+
+                <article class="markdown-body detail-markdown" id="detail-markdown">
+                    <p>文章内容加载中...</p>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <script src="content-manifest.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
