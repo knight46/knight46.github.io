@@ -943,6 +943,12 @@ img {
         --radius-lg: 22px;
     }
 
+    body[data-page="home"] {
+        height: auto;
+        min-height: 100svh;
+        overflow: auto;
+    }
+
     body::after {
         background-size: auto, 58px 58px, 58px 58px;
     }
@@ -965,8 +971,18 @@ img {
         font-size: 0.82rem;
     }
 
+    .page-stack {
+        height: auto;
+        overflow: visible;
+        overscroll-behavior-y: auto;
+        scroll-snap-type: none;
+    }
+
     .page-section {
+        min-height: auto;
         padding: 58px 0 18px;
+        scroll-snap-align: none;
+        scroll-snap-stop: normal;
     }
 
     .hero-panel,
