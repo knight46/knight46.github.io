@@ -1,7 +1,7 @@
 ---
 title: Workbench Noon
 date: 2026-04-12
-summary: 一条偏安静的测试随笔，用来模拟拼胶或者桌面物件相关的图片记录。
+summary: 桌面、工具和模型零件组成一段偏安静的午间记录，像生活里稳定的小坐标。
 tags: Album, Hobby, Figure
 ---
 

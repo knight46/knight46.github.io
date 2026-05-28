@@ -218,11 +218,11 @@ function setupReveal() {
 
 function createBlogCard(item) {
     return `
-        <a class="blog-card" href="blog.html?slug=${encodeURIComponent(item.slug)}" target="_blank" rel="noreferrer">
+        <a class="blog-card" href="blog.html?slug=${encodeURIComponent(item.slug)}">
             <h4 class="blog-card-title">${escapeHtml(item.title)}</h4>
             <div class="blog-meta">
                 <span>${formatDate(item.date)}</span>
-                <span>新窗口打开</span>
+                <span>阅读全文</span>
             </div>
             <p class="blog-summary">${escapeHtml(item.summary)}</p>
             ${renderMiniTags(item.tags)}
@@ -250,13 +250,13 @@ function renderHomePage() {
     if (blogsList) {
         blogsList.innerHTML = manifest.blogs.length
             ? manifest.blogs.map(createBlogCard).join("")
-            : '<div class="empty-state">还没有发现博客内容。后续在 `blogs/` 下添加文章文件夹后，再运行一次内容生成脚本即可。</div>';
+            : '<div class="empty-state">专业文章正在整理中。</div>';
     }
 
     if (albumList) {
         albumList.innerHTML = manifest.album.length
             ? manifest.album.map(createAlbumCard).join("")
-            : '<div class="empty-state">还没有发现相册内容。后续在 `album/` 下添加图片目录后，再运行一次内容生成脚本即可。</div>';
+            : '<div class="empty-state">随笔和照片还在整理中。</div>';
     }
 
     setupAlbumModal();
@@ -359,7 +359,7 @@ function renderBlogDetail() {
         document.title = "Article Not Found | AzathothLXL";
         titleTarget.textContent = "没有找到这篇文章";
         dateTarget.textContent = "NOT FOUND";
-        markdownTarget.innerHTML = "<p>请确认文章存在，并在更新内容后重新运行一次内容生成脚本。</p>";
+        markdownTarget.innerHTML = "<p>这篇文章暂时不可访问，请返回首页查看已有内容。</p>";
         renderTagPills(tagsTarget, []);
         return;
     }

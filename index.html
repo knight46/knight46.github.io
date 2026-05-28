@@ -17,6 +17,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="home">
+    <nav class="site-nav" aria-label="站点导航">
+        <a href="#intro" data-scroll>简介</a>
+        <a href="#blogs" data-scroll>专业文章</a>
+        <a href="#album" data-scroll>随笔</a>
+        <a href="#resume" data-scroll>简历</a>
+        <a href="#contact" data-scroll>联系</a>
+    </nav>
+
     <main class="page-stack">
         <section class="page-section intro-section" id="intro">
             <div class="container">
@@ -30,18 +38,16 @@
                     <div class="hero-copy">
                         <p class="section-kicker">INTRO</p>
                         <h1>AzathothLXL</h1>
-                        <p class="hero-lead">
-                            以 High Performance Compute、Computer Vision 和 Quantam Chemistry Compute 为核心兴趣的个人数字空间。
-                        </p>
+                        <p class="hero-lead">High Performance Computing / Computer Vision / Quantum Chemistry Computing</p>
                         <p class="hero-description">
-                            这里会逐渐沉淀我的文章、图片随笔和长期记录。页面整体使用固定背景与局部毛玻璃蒙版的方式，
-                            让内容像悬浮在背景上的独立窗口，尽量克制、平静，同时保留一点 macOS 式的轻盈感。
+                            这里整理我对高性能计算、视觉算法与计算化学的长期学习记录，也收纳一些生活照片和短随笔。
+                            主页会保持轻量、克制和可持续更新：专业内容放在文章里，日常片段留给相册。
                         </p>
 
                         <div class="intro-lines">
-                            <p><span>focus</span> High Performance Compute / Computer Vision / Quantam Chemistry Compute</p>
-                            <p><span>hobby</span> 拼胶 / 健身 / League of Legends</p>
-                            <p><span>notes</span> 博客、相册与个人长期记录会继续慢慢补齐。</p>
+                            <p><span>focus</span> HPC runtime / GPU communication / Computer Vision / Quantum Chemistry</p>
+                            <p><span>life</span> 拼胶 / 健身 / League of Legends / 随手拍</p>
+                            <p><span>site</span> 一个持续更新的个人知识库与生活切片。</p>
                         </div>
                     </div>
                 </div>
@@ -51,21 +57,21 @@
         <section class="page-section" id="blogs">
             <div class="container split-layout">
                 <div class="glass-panel section-panel reveal">
-                    <p class="section-kicker">BLOGS</p>
-                    <h2>按时间组织的文章列表</h2>
+                    <p class="section-kicker">PROFESSIONAL WRITING</p>
+                    <h2>专业文章</h2>
                     <p class="section-copy">
-                        每篇文章都放在 `blogs/&lt;文章标题&gt;/` 下，正文使用 Markdown，
-                        配图存放在 `pic/` 目录里。首页会按最新内容优先展示，文章卡片点击后会在新窗口打开详情页。
+                        这里放偏技术和研究向的长文：高性能计算方法、GPU 通信、视觉模型、计算化学工具链，以及读论文后的方法整理。
+                        每篇文章都尽量讲清楚问题背景、方法流程和个人理解。
                     </p>
                 </div>
 
                 <div class="glass-panel content-panel reveal">
                     <div class="panel-head">
                         <div>
-                            <p class="panel-kicker">Latest Writing</p>
-                            <h3>最新文章</h3>
+                            <p class="panel-kicker">Latest Notes</p>
+                            <h3>近期专业文章</h3>
                         </div>
-                        <span class="panel-note">面板内可独立滚动</span>
+                        <span class="panel-note">Research / HPC / Systems</span>
                     </div>
                     <div class="panel-scroll blog-scroll" id="blogs-list"></div>
                 </div>
@@ -75,21 +81,21 @@
         <section class="page-section" id="album">
             <div class="container split-layout album-layout">
                 <div class="glass-panel section-panel reveal">
-                    <p class="section-kicker">ALBUM</p>
-                    <h2>瀑布流式的图片与随笔</h2>
+                    <p class="section-kicker">PHOTO ESSAYS</p>
+                    <h2>随笔</h2>
                     <p class="section-copy">
-                        相册参考了 SimonAKing Gallery 那种轻盈的画廊排列方式，但每一张图片下面都保留一点随笔预览。
-                        点击图片卡片后，会在当前页弹出内部详情窗口，展示大图和 Markdown 渲染后的文字。
+                        这里不是正式相册，而是生活照片和短句记录。训练后的状态、桌面的物件、游戏后的片刻，
+                        都可以以更轻的方式留下来。
                     </p>
                 </div>
 
                 <div class="glass-panel content-panel reveal">
                     <div class="panel-head">
                         <div>
-                            <p class="panel-kicker">Selected Frames</p>
-                            <h3>相册预览</h3>
+                            <p class="panel-kicker">Life Frames</p>
+                            <h3>生活片段</h3>
                         </div>
-                        <span class="panel-note">面板内可独立滚动，点击卡片查看详情</span>
+                        <span class="panel-note">点击卡片查看照片随笔</span>
                     </div>
                     <div class="panel-scroll album-scroll">
                         <div class="album-masonry" id="album-list"></div>
@@ -102,10 +108,24 @@
             <div class="container">
                 <div class="glass-panel resume-panel reveal">
                     <p class="section-kicker">RESUME</p>
-                    <h2>developing...</h2>
+                    <h2>个人简历</h2>
                     <p class="section-copy">
-                        这一部分已预留版式，后续可以继续补充教育经历、科研方向、项目经验或技术栈时间线。
+                        这一栏先保留为简历入口。后续可以继续补充教育经历、科研方向、项目经验、技术栈和代表作品。
                     </p>
+                    <div class="resume-grid" aria-label="简历占位内容">
+                        <div>
+                            <span>Research</span>
+                            <strong>HPC / GPU Systems</strong>
+                        </div>
+                        <div>
+                            <span>Engineering</span>
+                            <strong>Static Site / Tooling</strong>
+                        </div>
+                        <div>
+                            <span>Status</span>
+                            <strong>Preparing</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -117,7 +137,7 @@
                         <p class="section-kicker">CONTACT</p>
                         <h2>联系方式</h2>
                         <p class="section-copy">
-                            如果你想交流技术、合作项目，或者只是想看看我还会把这个主页继续做成什么样子，都可以从这里找到我。
+                            欢迎交流技术、研究笔记、项目想法，或者单纯看看这个个人主页接下来会变成什么样。
                         </p>
                     </div>
 
@@ -141,7 +161,7 @@
                         </a>
                     </div>
 
-                    <p class="contact-footnote">© <span id="year"></span> AzathothLXL. Blogs, gallery and notes are still evolving.</p>
+                    <p class="contact-footnote">© <span id="year"></span> AzathothLXL. Built as a quiet place for notes, photos and research thoughts.</p>
                 </div>
             </div>
         </section>

@@ -1,7 +1,7 @@
 ---
 title: After Queue
 date: 2026-04-11
-summary: 用来测试相册预览摘要截断和卡片点击反馈的一条记录，也顺便模拟游戏相关的小随笔。
+summary: 排队结束、游戏开始之前的短暂停顿，也是一种很适合被记录下来的日常瞬间。
 tags: Album, Game, Queue
 ---
 

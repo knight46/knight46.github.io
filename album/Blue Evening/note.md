@@ -1,8 +1,8 @@
 ---
 title: Blue Evening
 date: 2026-04-09
-summary: 这条测试内容主要用来继续拉长相册列表，观察在手机和桌面上滚动时的整体稳定性。
-tags: Album, Evening, Test
+summary: 蓝色傍晚适合做情绪参照：不太热烈，但足够让页面慢下来。
+tags: Album, Evening, Note
 ---
 
 # Blue Evening
