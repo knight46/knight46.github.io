@@ -144,6 +144,7 @@ async function readBlog(folderName) {
         slug: folderName,
         title: attributes.title || folderName,
         date: attributes.date || new Date().toISOString().slice(0, 10),
+        category: attributes.category || "未分类",
         summary: attributes.summary || extractSummary(content, folderName),
         tags: normalizeTags(attributes.tags),
         coverImage,

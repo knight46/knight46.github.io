@@ -454,6 +454,12 @@ img {
     font-size: 0.83rem;
 }
 
+.detail-pills .category-pill {
+    background: rgba(240, 179, 106, 0.16);
+    border-color: rgba(240, 179, 106, 0.28);
+    color: #ffe0b3;
+}
+
 .album-scroll {
     padding-bottom: 4px;
 }

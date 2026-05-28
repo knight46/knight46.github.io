@@ -24,18 +24,35 @@ function formatDate(dateString) {
     }).format(date);
 }
 
-function renderTagPills(container, tags) {
+function renderTagPills(container, tags, category = "") {
     if (!container) {
         return;
     }
 
-    if (!tags || !tags.length) {
+    const pills = [];
+    if (category) {
+        pills.push({
+            label: category,
+            className: "category-pill"
+        });
+    }
+
+    if (tags && tags.length) {
+        tags.forEach((tag) => {
+            pills.push({
+                label: tag,
+                className: ""
+            });
+        });
+    }
+
+    if (!pills.length) {
         container.innerHTML = "";
         return;
     }
 
-    container.innerHTML = tags
-        .map((tag) => `<span>${escapeHtml(tag)}</span>`)
+    container.innerHTML = pills
+        .map((pill) => `<span${pill.className ? ` class="${pill.className}"` : ""}>${escapeHtml(pill.label)}</span>`)
         .join("");
 }
 
@@ -222,6 +239,7 @@ function createBlogCard(item) {
             <h4 class="blog-card-title">${escapeHtml(item.title)}</h4>
             <div class="blog-meta">
                 <span>${formatDate(item.date)}</span>
+                <span>${escapeHtml(item.category || "未分类")}</span>
                 <span>阅读全文</span>
             </div>
             <p class="blog-summary">${escapeHtml(item.summary)}</p>
@@ -367,7 +385,7 @@ function renderBlogDetail() {
     document.title = `${article.title} | AzathothLXL`;
     titleTarget.textContent = article.title;
     dateTarget.textContent = formatDate(article.date);
-    renderTagPills(tagsTarget, article.tags);
+    renderTagPills(tagsTarget, article.tags, article.category);
     markdownTarget.innerHTML = renderMarkdown(article.markdown);
 
     if (article.coverImage) {

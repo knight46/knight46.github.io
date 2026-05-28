@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">CUDA performance basics framework</title>
+  <desc id="desc">A framework diagram connecting CUDA source code to warp execution, register pressure, PTX and SASS compilation targets, and GPU P-state monitoring.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#09131e"/>
+      <stop offset="55%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0a0f14"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#172235"/>
+      <stop offset="100%" stop-color="#0d1522"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#8bd3dd"/>
+    </marker>
+    <style>
+      .title { font: 800 34px "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #f4f0e8; }
+      .subtitle { font: 500 18px "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #b8c4cf; }
+      .card-title { font: 800 24px "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #f4f0e8; }
+      .card-copy { font: 500 16px "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #c8d2dc; }
+      .mono { font: 700 15px "SFMono-Regular", Consolas, monospace; fill: #8bd3dd; }
+      .label { font: 800 14px "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #101820; }
+      .muted { fill: #8ea0ad; }
+      .accent { fill: #8bd3dd; }
+      .warm { fill: #f0b36a; }
+      .line { stroke: #8bd3dd; stroke-width: 3; fill: none; marker-end: url(#arrow); opacity: 0.8; }
+      .soft-line { stroke: #ffffff; stroke-opacity: 0.18; stroke-width: 2; fill: none; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <path d="M0 92 H1200 M0 224 H1200 M0 356 H1200 M0 488 H1200 M0 620 H1200" stroke="#ffffff" stroke-opacity="0.04"/>
+  <path d="M110 0 V720 M302 0 V720 M494 0 V720 M686 0 V720 M878 0 V720 M1070 0 V720" stroke="#ffffff" stroke-opacity="0.04"/>
+
+  <text class="title" x="72" y="72">CUDA 高性能编程（1）</text>
+  <text class="subtitle" x="72" y="106">从源代码到硬件状态的第一条排查链路</text>
+
+  <g filter="url(#shadow)">
+    <rect x="72" y="156" width="250" height="150" rx="12" fill="url(#panel)" stroke="#ffffff" stroke-opacity="0.16"/>
+    <text class="card-title" x="98" y="202">控制流</text>
+    <text class="card-copy" x="98" y="236">warp 内条件不一致</text>
+    <text class="card-copy" x="98" y="262">路径会被串行执行</text>
+    <text class="mono" x="98" y="286">if / else / predication</text>
+  </g>
+
+  <g transform="translate(392 156)" filter="url(#shadow)">
+    <rect width="250" height="150" rx="12" fill="url(#panel)" stroke="#ffffff" stroke-opacity="0.16"/>
+    <text class="card-title" x="26" y="46">寄存器压力</text>
+    <text class="card-copy" x="26" y="80">临时变量和 live range</text>
+    <text class="card-copy" x="26" y="106">影响 occupancy / spill</text>
+    <text class="mono" x="26" y="130">reg, lmem, ld.local</text>
+  </g>
+
+  <g transform="translate(712 156)" filter="url(#shadow)">
+    <rect width="250" height="150" rx="12" fill="url(#panel)" stroke="#ffffff" stroke-opacity="0.16"/>
+    <text class="card-title" x="26" y="46">编译目标</text>
+    <text class="card-copy" x="26" y="80">PTX 负责兼容</text>
+    <text class="card-copy" x="26" y="106">SASS 贴近具体架构</text>
+    <text class="mono" x="26" y="130">compute_86 / sm_86</text>
+  </g>
+
+  <g transform="translate(872 416)" filter="url(#shadow)">
+    <rect width="250" height="150" rx="12" fill="url(#panel)" stroke="#ffffff" stroke-opacity="0.16"/>
+    <text class="card-title" x="26" y="46">运行状态</text>
+    <text class="card-copy" x="26" y="80">P-state 和频率波动</text>
+    <text class="card-copy" x="26" y="106">会污染 benchmark</text>
+    <text class="mono" x="26" y="130">nvidia-smi, clocks</text>
+  </g>
+
+  <g transform="translate(72 416)" filter="url(#shadow)">
+    <rect width="328" height="150" rx="12" fill="#0f1c2c" stroke="#8bd3dd" stroke-opacity="0.28"/>
+    <text class="card-title" x="26" y="46">观察工具</text>
+    <text class="card-copy" x="26" y="80">Nsight Compute 看硬件计数器</text>
+    <text class="card-copy" x="26" y="108">ptxas report 看 reg/lmem</text>
+    <text class="card-copy" x="26" y="136">nvdisasm 看最终指令</text>
+  </g>
+
+  <g transform="translate(470 416)" filter="url(#shadow)">
+    <rect width="328" height="150" rx="12" fill="#0f1c2c" stroke="#f0b36a" stroke-opacity="0.34"/>
+    <text class="card-title" x="26" y="46">优化旋钮</text>
+    <text class="card-copy" x="26" y="80">整理数据分布和控制流</text>
+    <text class="card-copy" x="26" y="108">缩短变量生命周期</text>
+    <text class="card-copy" x="26" y="136">调 block size / maxrregcount</text>
+  </g>
+
+  <path class="line" d="M322 231 H382"/>
+  <path class="line" d="M642 231 H702"/>
+  <path class="line" d="M962 236 C1050 270 1098 332 1044 408"/>
+  <path class="line" d="M872 492 H810"/>
+  <path class="line" d="M470 492 H410"/>
+  <path class="line" d="M236 416 C244 365 244 334 236 318"/>
+
+  <g transform="translate(94 332)">
+    <rect width="192" height="46" rx="23" fill="#8bd3dd"/>
+    <text class="label" x="24" y="30">先定位机制</text>
+  </g>
+  <g transform="translate(512 332)">
+    <rect width="192" height="46" rx="23" fill="#f0b36a"/>
+    <text class="label" x="24" y="30">再选择优化</text>
+  </g>
+  <path class="soft-line" d="M286 355 H502"/>
+  <path class="soft-line" d="M704 355 H982"/>
+
+  <g transform="translate(90 624)">
+    <circle cx="10" cy="10" r="10" class="accent"/>
+    <text class="subtitle" x="30" y="16">不要把经验规则当定律：每个优化都要回到计数器、编译结果和实际时间验证。</text>
+  </g>
+</svg>
