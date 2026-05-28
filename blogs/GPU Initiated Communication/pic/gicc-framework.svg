@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="640" viewBox="0 0 1120 640" role="img" aria-labelledby="title desc">
+  <title id="title">GICC framework diagram</title>
+  <desc id="desc">A left-to-right diagram showing GPU kernels triggering NIC operations directly while host threads reclaim resources asynchronously.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6f849a"/>
+    </marker>
+    <style>
+      .bg { fill: #f7f9fc; }
+      .title { fill: #1b2633; font: 700 30px Arial, sans-serif; }
+      .subtitle { fill: #5d6b7a; font: 16px Arial, sans-serif; }
+      .lane { fill: #ffffff; stroke: #d9e1ea; stroke-width: 2; }
+      .lane-title { fill: #263647; font: 700 18px Arial, sans-serif; }
+      .box { rx: 16; ry: 16; stroke-width: 2; }
+      .gpu { fill: #eaf4ff; stroke: #78a9d6; }
+      .nic { fill: #eef9f2; stroke: #73b88a; }
+      .host { fill: #fff4e8; stroke: #d9a45f; }
+      .remote { fill: #f1edff; stroke: #9a85d6; }
+      .label { fill: #1f2c3a; font: 700 17px Arial, sans-serif; }
+      .small { fill: #405064; font: 14px Arial, sans-serif; }
+      .arrow { fill: none; stroke: #6f849a; stroke-width: 3; marker-end: url(#arrow); }
+      .dash { fill: none; stroke: #9aa8b7; stroke-width: 3; stroke-dasharray: 8 8; marker-end: url(#arrow); }
+      .note { fill: #ffffff; stroke: #d9e1ea; stroke-width: 2; rx: 14; ry: 14; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1120" height="640"/>
+  <text class="title" x="56" y="58">GPU-Initiated Communication in GICC</text>
+  <text class="subtitle" x="56" y="86">Move high-frequency coordination off the host fast path, while keeping resource recycling asynchronous.</text>
+
+  <rect class="lane" x="48" y="122" width="1024" height="142" rx="20"/>
+  <text class="lane-title" x="76" y="154">GPU kernel timeline</text>
+  <rect class="box gpu" x="76" y="178" width="210" height="58"/>
+  <text class="label" x="102" y="202">Compute boundary</text>
+  <text class="small" x="102" y="222">halo region becomes ready</text>
+  <rect class="box gpu" x="378" y="178" width="210" height="58"/>
+  <text class="label" x="404" y="202">Trigger NIC work</text>
+  <text class="small" x="404" y="222">without host on fast path</text>
+  <rect class="box gpu" x="680" y="178" width="250" height="58"/>
+  <text class="label" x="706" y="202">Continue interior compute</text>
+  <text class="small" x="706" y="222">overlap transfer with useful work</text>
+
+  <rect class="lane" x="48" y="292" width="1024" height="126" rx="20"/>
+  <text class="lane-title" x="76" y="324">NIC and network</text>
+  <rect class="box nic" x="378" y="344" width="210" height="50"/>
+  <text class="label" x="404" y="375">Pre-staged work</text>
+  <rect class="box remote" x="680" y="344" width="250" height="50"/>
+  <text class="label" x="706" y="375">Remote GPU memory</text>
+
+  <rect class="lane" x="48" y="446" width="1024" height="126" rx="20"/>
+  <text class="lane-title" x="76" y="478">Host slow path</text>
+  <rect class="box host" x="378" y="500" width="210" height="50"/>
+  <text class="label" x="404" y="531">Recycle resources</text>
+  <rect class="note" x="680" y="492" width="250" height="66"/>
+  <text class="small" x="706" y="516">Completion is visible to GPU</text>
+  <text class="small" x="706" y="538">and host memory locations</text>
+
+  <path class="arrow" d="M 286 207 C 318 207 342 207 378 207"/>
+  <path class="arrow" d="M 588 207 C 620 207 644 207 680 207"/>
+  <path class="arrow" d="M 483 236 C 483 274 483 304 483 344"/>
+  <path class="arrow" d="M 588 369 C 620 369 644 369 680 369"/>
+  <path class="dash" d="M 805 394 C 805 428 805 458 805 492"/>
+  <path class="dash" d="M 680 525 C 642 525 626 525 588 525"/>
+
+  <text class="small" x="606" y="286">GPU-triggered coordination</text>
+  <text class="small" x="606" y="334">NIC performs data movement</text>
+  <text class="small" x="606" y="468">asynchronous completion path</text>
+</svg>
