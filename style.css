@@ -684,35 +684,42 @@ img {
 
 .floating-back {
     position: fixed;
-    right: 24px;
-    bottom: 24px;
-    z-index: 45;
+    right: 28px;
+    bottom: 28px;
+    z-index: 120;
     display: inline-flex;
     align-items: center;
+    gap: 8px;
     justify-content: center;
-    width: 54px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 1px solid rgba(229, 234, 242, 0.2);
-    background: rgba(8, 12, 18, 0.78);
+    min-width: 92px;
+    min-height: 48px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(139, 211, 221, 0.5);
+    background: rgba(8, 12, 18, 0.92);
     color: var(--text);
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.36);
+    box-shadow: 0 18px 52px rgba(0, 0, 0, 0.46), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
     backdrop-filter: blur(18px) saturate(150%);
     -webkit-backdrop-filter: blur(18px) saturate(150%);
     transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
 }
 
-.floating-back span {
-    font-size: 1.58rem;
+.floating-back-icon {
+    font-size: 1.34rem;
     line-height: 1;
     transform: translateY(-1px);
+}
+
+.floating-back-text {
+    font-size: 0.86rem;
+    font-weight: 800;
 }
 
 .floating-back:hover,
 .floating-back:focus-visible {
     transform: translateY(-2px);
-    border-color: rgba(139, 211, 221, 0.44);
-    background: rgba(13, 18, 25, 0.9);
+    border-color: rgba(139, 211, 221, 0.78);
+    background: rgba(13, 18, 25, 0.96);
     outline: none;
 }
 
@@ -991,7 +998,9 @@ img {
     .floating-back {
         right: 14px;
         bottom: 14px;
-        width: 48px;
+        min-width: 82px;
+        min-height: 44px;
+        padding: 0 14px;
     }
 }
 
