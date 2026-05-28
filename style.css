@@ -396,10 +396,21 @@ img {
 }
 
 .blog-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     border-radius: var(--radius-md);
-    padding: 22px;
+    padding: 22px 22px 24px;
+    overflow: visible;
     transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.blog-card::before {
+    z-index: 0;
+}
+
+.blog-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 .blog-card-title {
@@ -441,17 +452,25 @@ img {
 }
 
 .mini-tags {
-    margin-top: 14px;
+    margin-top: 16px;
+    padding-top: 2px;
+    position: relative;
+    z-index: 1;
 }
 
 .mini-tags span,
 .detail-pills span {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
     padding: 7px 11px;
     border-radius: var(--radius-pill);
     background: rgba(139, 211, 221, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.08);
     color: rgba(255, 255, 255, 0.92);
     font-size: 0.83rem;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
 }
 
 .detail-pills .category-pill {
