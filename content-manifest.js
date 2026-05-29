@@ -1,5 +1,5 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-05-29T08:54:42.490Z",
+    "generatedAt": "2026-05-29T09:00:36.977Z",
     "blogs": [
         {
             "slug": "CUDA Performance Programming 1",
@@ -64,84 +64,6 @@ window.CONTENT_MANIFEST = {
             ],
             "image": "album/Conan%20Movie%202026/conan-2026.jpg",
             "markdown": "# Conan Movie 2026\n\n去看了今年的《名侦探柯南》新剧场版。\n\n每年剧场版都有一种很固定的仪式感：海报、影院、片头熟悉的节奏，还有最后走出影厅时那种“今年也看过了”的确认感。\n\n这张图就留在随笔区，作为 2026 年的一枚小书签。"
-        },
-        {
-            "slug": "First Picture",
-            "title": "First Picture",
-            "date": "2026-04-14",
-            "summary": "第一张留在站点里的照片记录，用来给这个还在生长的个人空间定下一个安静的起点。",
-            "tags": [
-                "Album",
-                "Note",
-                "First Frame"
-            ],
-            "image": "album/First%20Picture/asuka.png",
-            "markdown": "# First Picture\n\n这是一张留给网站初始阶段的照片。\n\n我希望随笔区不只是把图片铺在页面上，而是让每一张图都带一点情绪、观察或者当时顺手记下来的想法。这样它才更像个人网站，而不是单纯的图库。\n\n## 一点随笔\n\n页面的背景、信息密度和浏览节奏，其实都会影响一张图被观看的方式。\n如果背景本身已经很强，前景信息就更需要克制、有边界，而且要有一点呼吸感。"
-        },
-        {
-            "slug": "Neon Silence",
-            "title": "Neon Silence",
-            "date": "2026-04-14",
-            "summary": "夜晚、霓虹和安静的反光适合放慢观看速度，也适合作为随笔区的冷色片段。",
-            "tags": [
-                "Album",
-                "Night",
-                "Note"
-            ],
-            "image": "album/Neon%20Silence/asuka.png",
-            "markdown": "# Neon Silence\n\n夜晚、霓虹、玻璃和反光，会让城市显得比白天更安静。\n\n我更喜欢这种慢一点的浏览节奏。照片不需要急着解释自己，只要在页面里留下一点冷色的停顿就够了。\n\n## 备注\n\n这类照片很适合放在个人主页里，像是在技术文章之外保留一小块不需要证明什么的空间。"
-        },
-        {
-            "slug": "Gym Reflection",
-            "title": "Gym Reflection",
-            "date": "2026-04-13",
-            "summary": "训练之后身体很吵，脑子却会慢下来；这是一段关于节奏和恢复的小记录。",
-            "tags": [
-                "Album",
-                "Gym",
-                "Reflection"
-            ],
-            "image": "album/Gym%20Reflection/asuka.png",
-            "markdown": "# Gym Reflection\n\n训练之后的状态很奇怪，身体很吵，但脑子反而会慢下来。\n\n有时候我会觉得，相册页里的随笔和博客页里的文章不应该是同一类文字。  \n博客更像整理过后的表达，而相册里的文字应该更靠近当时的感觉、更短、更轻，但又不至于只有一句话。\n\n## 继续展开一点\n\n训练记录和技术笔记很不一样。技术笔记追求可复现、可解释、可引用；训练后的随笔更像是在恢复呼吸时给自己留一个标记。\n\n如果以后这里慢慢积累起来，它应该会变成一种很轻的日常索引：不是为了总结生活，而是为了记住某些状态确实发生过。"
-        },
-        {
-            "slug": "Workbench Noon",
-            "title": "Workbench Noon",
-            "date": "2026-04-12",
-            "summary": "桌面、工具和模型零件组成一段偏安静的午间记录，像生活里稳定的小坐标。",
-            "tags": [
-                "Album",
-                "Hobby",
-                "Figure"
-            ],
-            "image": "album/Workbench%20Noon/asuka.png",
-            "markdown": "# Workbench Noon\n\n桌面、工具、模型零件和中午偏白的光线，通常会组成一种很具体的安静感。\n\n这类图片放在个人网站里，其实是在补充“我是一个怎样的人”这件事，而不仅仅是给页面加些图。"
-        },
-        {
-            "slug": "After Queue",
-            "title": "After Queue",
-            "date": "2026-04-11",
-            "summary": "排队结束、游戏开始之前的短暂停顿，也是一种很适合被记录下来的日常瞬间。",
-            "tags": [
-                "Album",
-                "Game",
-                "Queue"
-            ],
-            "image": "album/After%20Queue/asuka.png",
-            "markdown": "# After Queue\n\n排队结束之后，真正开始游戏的那一刻通常没有等待时想象得那么戏剧化。\n\n但那种从“还没开始”到“终于进去了”的微妙过渡，反而是很适合被记录下来的。"
-        },
-        {
-            "slug": "Blue Evening",
-            "title": "Blue Evening",
-            "date": "2026-04-09",
-            "summary": "蓝色傍晚适合做情绪参照：不太热烈，但足够让页面慢下来。",
-            "tags": [
-                "Album",
-                "Evening",
-                "Note"
-            ],
-            "image": "album/Blue%20Evening/asuka.png",
-            "markdown": "# Blue Evening\n\n蓝色的傍晚很适合做背景，也很适合做网页的情绪参照。\n\n如果前景信息过重，这类背景会被完全压掉；如果前景太轻，阅读又会失去中心。  \n所以页面里的玻璃层既要透明，也要足够稳，像是轻轻压住背景的一层空气。"
         }
     ]
 };
