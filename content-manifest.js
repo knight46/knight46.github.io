@@ -1,5 +1,5 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-05-29T08:47:52.744Z",
+    "generatedAt": "2026-05-29T08:54:42.490Z",
     "blogs": [
         {
             "slug": "CUDA Performance Programming 1",
@@ -51,6 +51,20 @@ window.CONTENT_MANIFEST = {
         }
     ],
     "album": [
+        {
+            "slug": "Conan Movie 2026",
+            "title": "Conan Movie 2026",
+            "date": "2026-04-26",
+            "summary": "记录一次去看今年名侦探柯南新剧场版的日常，像给这一年的影院记忆按下一枚小书签。",
+            "tags": [
+                "Album",
+                "Movie",
+                "Conan",
+                "Cinema"
+            ],
+            "image": "album/Conan%20Movie%202026/conan-2026.jpg",
+            "markdown": "# Conan Movie 2026\n\n去看了今年的《名侦探柯南》新剧场版。\n\n每年剧场版都有一种很固定的仪式感：海报、影院、片头熟悉的节奏，还有最后走出影厅时那种“今年也看过了”的确认感。\n\n这张图就留在随笔区，作为 2026 年的一枚小书签。"
+        },
         {
             "slug": "First Picture",
             "title": "First Picture",
