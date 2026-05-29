@@ -1,5 +1,5 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-05-29T09:00:36.977Z",
+    "generatedAt": "2026-05-29T10:26:57.423Z",
     "blogs": [
         {
             "slug": "CUDA Performance Programming 1",
@@ -51,6 +51,20 @@ window.CONTENT_MANIFEST = {
         }
     ],
     "album": [
+        {
+            "slug": "April Sakura in Japan",
+            "title": "日本四月的夜樱",
+            "date": "2026-05-29",
+            "summary": "四月的日本，夜里的樱花被灯光照亮，像把春天轻轻挂在屋檐和枝头。",
+            "tags": [
+                "Album",
+                "Sakura",
+                "Japan",
+                "Spring"
+            ],
+            "image": "album/April%20Sakura%20in%20Japan/april-sakura-night.jpg",
+            "markdown": "# 日本四月的夜樱\n\n四月的日本真的很适合看樱花。\n\n白天的樱花当然漂亮，柔软、明亮，像春天本身从枝头慢慢展开；但夜里的樱花又是另一种感觉。灯光从屋檐、庭院和路边一点点照上去，花瓣被映得发亮，树枝却还留在深色的夜空里，于是整棵树像忽然安静下来，只把最轻的部分交给人看。\n\n这种美不是很喧闹的。它更像是走在路上突然抬头，看见一树花正好盛开，然后心里很自然地停了一下：啊，原来四月已经走到这里了。\n\n日本四月的樱花真好看。哪怕只是夜里路过的一眼，也会让人想把它留下来。"
+        },
         {
             "slug": "Conan Movie 2026",
             "title": "Conan Movie 2026",
