@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" role="img" aria-labelledby="title desc">
+  <title id="title">KVServe framework</title>
+  <desc id="desc">A framework diagram for service-aware KV cache compression in disaggregated LLM serving.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#264653"/>
+    </marker>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .panel { fill: #ffffff; stroke: #d5dbe6; stroke-width: 2; rx: 8; }
+      .stage { fill: #eef6f8; stroke: #2a9d8f; stroke-width: 2; rx: 8; }
+      .stage2 { fill: #fff3e9; stroke: #e76f51; stroke-width: 2; rx: 8; }
+      .stage3 { fill: #f2f1ff; stroke: #6c63c7; stroke-width: 2; rx: 8; }
+      .dark { fill: #243447; }
+      .muted { fill: #5f6f7f; }
+      .line { stroke: #264653; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .thin { stroke: #9aa8b8; stroke-width: 1.8; fill: none; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 7 6; }
+      text { font-family: Inter, "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif; }
+      .h1 { font-size: 26px; font-weight: 700; fill: #1f2933; }
+      .h2 { font-size: 18px; font-weight: 700; fill: #243447; }
+      .body { font-size: 14px; fill: #334e68; }
+      .small { font-size: 12px; fill: #627386; }
+      .tag { font-size: 12px; font-weight: 700; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1120" height="560"/>
+  <text class="h1" x="48" y="52">KVServe：把 KV cache 压缩变成服务感知的在线决策</text>
+  <text class="body" x="48" y="82">Prefill/Decode 分离后，KV cache 从 GPU 内部状态变成跨网络/存储边界移动的显式负载。</text>
+
+  <rect class="panel" x="42" y="120" width="298" height="355"/>
+  <text class="h2" x="68" y="154">离线：策略空间与画像</text>
+  <rect class="stage" x="68" y="184" width="236" height="62"/>
+  <text class="body" x="92" y="210">模块化压缩流水线</text>
+  <text class="small" x="92" y="232">Transform / Quantize / Codec</text>
+  <rect class="stage" x="68" y="276" width="236" height="62"/>
+  <text class="body" x="92" y="302">Bayesian Profiling Engine</text>
+  <text class="small" x="92" y="324">少量端到端 profiling 搜索候选</text>
+  <rect class="stage" x="68" y="368" width="236" height="62"/>
+  <text class="body" x="92" y="394">3D Pareto 候选表</text>
+  <text class="small" x="92" y="416">质量 / 压缩率 / 延迟</text>
+
+  <rect class="panel" x="410" y="120" width="300" height="355"/>
+  <text class="h2" x="436" y="154">在线：服务感知控制器</text>
+  <rect class="stage3" x="436" y="184" width="238" height="70"/>
+  <text class="body" x="460" y="210">服务上下文</text>
+  <text class="small" x="460" y="232">workload, bandwidth, SLO, quality</text>
+  <rect class="stage3" x="436" y="292" width="238" height="70"/>
+  <text class="body" x="460" y="318">解析延迟模型</text>
+  <text class="small" x="460" y="340">过滤无收益策略，查 lower envelope</text>
+  <rect class="stage3" x="436" y="394" width="238" height="50"/>
+  <text class="body" x="460" y="424">轻量 bandit 修正在线漂移</text>
+
+  <rect class="panel" x="780" y="120" width="298" height="355"/>
+  <text class="h2" x="806" y="154">运行时：插入 KV 移动路径</text>
+  <rect class="stage2" x="806" y="184" width="236" height="62"/>
+  <text class="body" x="830" y="210">Prefill worker</text>
+  <text class="small" x="830" y="232">生成 prompt KV cache</text>
+  <rect class="stage2" x="806" y="284" width="236" height="62"/>
+  <text class="body" x="830" y="310">压缩后传输 KV</text>
+  <text class="small" x="830" y="332">网络 / CPU DRAM / SSD / remote pool</text>
+  <rect class="stage2" x="806" y="384" width="236" height="62"/>
+  <text class="body" x="830" y="410">Decode worker</text>
+  <text class="small" x="830" y="432">解压并继续 token generation</text>
+
+  <path class="line" d="M304 215 C352 215, 382 215, 430 215"/>
+  <path class="line" d="M304 307 C352 307, 382 327, 430 327"/>
+  <path class="line" d="M674 327 C728 327, 748 315, 800 315"/>
+  <path class="thin" d="M924 246 L924 277"/>
+  <path class="thin" d="M924 346 L924 377"/>
+  <path class="thin dash" d="M806 430 C700 510, 538 505, 510 450"/>
+
+  <rect class="dark" x="445" y="92" width="76" height="28" rx="14"/>
+  <text class="tag" x="461" y="111">offline</text>
+  <rect class="dark" x="554" y="92" width="72" height="28" rx="14"/>
+  <text class="tag" x="572" y="111">online</text>
+  <rect class="dark" x="890" y="92" width="80" height="28" rx="14"/>
+  <text class="tag" x="906" y="111">runtime</text>
+
+  <text class="small" x="66" y="510">目标：在质量与 SLO 约束下，选择“当前真的有收益”的 KV 压缩 profile。</text>
+  <text class="small" x="666" y="510">核心直觉：带宽越紧，压缩越可能划算；带宽足够高时，压缩开销反而会拖慢请求。</text>
+</svg>
