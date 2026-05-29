@@ -8,6 +8,15 @@
         name="description"
         content="AzathothLXL 的个人网站，包含简介、博客、相册、简历和联系方式。"
     >
+    <link rel="canonical" href="https://knight46.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AzathothLXL's Space">
+    <meta property="og:title" content="AzathothLXL's Space">
+    <meta property="og:description" content="AzathothLXL 的个人网站，整理高性能计算、GPU 系统、深度学习系统、视觉算法和计算化学相关笔记。">
+    <meta property="og:url" content="https://knight46.github.io/">
+    <meta property="og:image" content="https://knight46.github.io/src/pictures/avatar.png">
+    <meta name="twitter:card" content="summary">
+    <link rel="alternate" type="application/rss+xml" title="AzathothLXL Professional Articles" href="https://knight46.github.io/rss.xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -73,6 +82,13 @@
                         </div>
                         <span class="panel-note">Research / HPC / Systems</span>
                     </div>
+                    <div class="blog-tools" aria-label="文章筛选和搜索">
+                        <label class="search-field">
+                            <span>搜索文章</span>
+                            <input id="blog-search" type="search" placeholder="Search title, tag, summary..." autocomplete="off">
+                        </label>
+                        <div class="category-filter" id="blog-category-filter" aria-label="文章分类"></div>
+                    </div>
                     <div class="panel-scroll blog-scroll" id="blogs-list"></div>
                 </div>
             </div>
@@ -110,21 +126,45 @@
                     <p class="section-kicker">RESUME</p>
                     <h2>个人简历</h2>
                     <p class="section-copy">
-                        这一栏先保留为简历入口。后续可以继续补充教育经历、科研方向、项目经验、技术栈和代表作品。
+                        这里整理研究兴趣、工程能力和持续产出的内容入口。相比完整 CV，这一栏更适合快速说明我正在关注什么、
+                        能做什么，以及哪些文章和项目可以代表近期积累。
                     </p>
-                    <div class="resume-grid" aria-label="简历占位内容">
+                    <div class="resume-grid" aria-label="简历概要">
                         <div>
                             <span>Research</span>
-                            <strong>HPC / GPU Systems</strong>
+                            <strong>HPC / GPU Systems / AI Infrastructure</strong>
                         </div>
                         <div>
                             <span>Engineering</span>
-                            <strong>Static Site / Tooling</strong>
+                            <strong>CUDA / Distributed Runtime / Web Tooling</strong>
                         </div>
                         <div>
                             <span>Status</span>
-                            <strong>Preparing</strong>
+                            <strong>Building A Public Research Notebook</strong>
                         </div>
+                    </div>
+                    <div class="resume-detail-grid" aria-label="简历详细内容">
+                        <section>
+                            <h3>研究方向</h3>
+                            <ul>
+                                <li>高性能计算、GPU kernel 优化与通信隐藏</li>
+                                <li>深度学习系统、推理服务、KV cache 与调度策略</li>
+                                <li>Computer Vision 与计算化学工具链的工程化应用</li>
+                            </ul>
+                        </section>
+                        <section>
+                            <h3>近期产出</h3>
+                            <ul>
+                                <li>维护个人技术网站，定期整理 HPC / deep learning systems 文章</li>
+                                <li>撰写 GPU 通信、CUDA 性能和推理系统相关方法笔记</li>
+                                <li>沉淀可复用的静态站内容生成与发布流程</li>
+                            </ul>
+                        </section>
+                    </div>
+                    <div class="resume-actions">
+                        <a class="ghost-button" href="#blogs" data-scroll>查看技术文章</a>
+                        <a class="ghost-button" href="https://github.com/knight46" target="_blank" rel="noreferrer">GitHub</a>
+                        <a class="ghost-button" href="mailto:AzathothLXL@outlook.com">Email</a>
                     </div>
                 </div>
             </div>

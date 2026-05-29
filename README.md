@@ -13,8 +13,9 @@ The current site includes:
 - **Intro**: a personal profile and research focus.
 - **Professional Articles**: technical blog posts about high performance computing, CUDA programming, GPU systems, distributed communication, computer vision, and related topics.
 - **Photo Essays**: short life notes paired with images.
-- **Resume**: a placeholder section for future academic and project details.
+- **Resume**: a compact research and engineering profile with links to articles, GitHub, and email.
 - **Contact**: email, GitHub, and Bilibili links.
+- **Discovery**: article search, category filters, RSS, sitemap, and robots metadata for better navigation and indexing.
 
 ## Content Structure
 
@@ -41,6 +42,14 @@ The browser reads generated content from:
 
 ```text
 content-manifest.js
+```
+
+The build script also generates:
+
+```text
+rss.xml
+sitemap.xml
+robots.txt
 ```
 
 ## Adding Or Updating Content

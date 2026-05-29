@@ -3,6 +3,10 @@ import path from "node:path";
 
 const rootDir = process.cwd();
 const outputFile = path.join(rootDir, "content-manifest.js");
+const siteUrl = "https://knight46.github.io";
+const rssFile = path.join(rootDir, "rss.xml");
+const sitemapFile = path.join(rootDir, "sitemap.xml");
+const robotsFile = path.join(rootDir, "robots.txt");
 
 const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif"]);
 
@@ -69,6 +73,23 @@ function normalizeTags(rawTags) {
         .split(",")
         .map((tag) => tag.trim())
         .filter(Boolean);
+}
+
+function xmlEscape(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+}
+
+function sitePath(pathname = "") {
+    return `${siteUrl}/${pathname.replace(/^\/+/, "")}`;
+}
+
+function blogUrl(blog) {
+    return sitePath(`blog.html?slug=${encodeURIComponent(blog.slug)}`);
 }
 
 function stripMarkdown(markdown) {
@@ -186,6 +207,79 @@ function sortByDateDescending(left, right) {
     return rightTime - leftTime;
 }
 
+function buildRss(blogs) {
+    const latestDate = blogs[0]?.date || new Date().toISOString().slice(0, 10);
+    const items = blogs
+        .map((blog) => {
+            const url = blogUrl(blog);
+            const categories = [blog.category, ...(blog.tags || [])]
+                .filter(Boolean)
+                .map((tag) => `<category>${xmlEscape(tag)}</category>`)
+                .join("");
+
+            return `        <item>
+            <title>${xmlEscape(blog.title)}</title>
+            <link>${xmlEscape(url)}</link>
+            <guid>${xmlEscape(url)}</guid>
+            <pubDate>${new Date(blog.date).toUTCString()}</pubDate>
+            <description>${xmlEscape(blog.summary)}</description>
+            ${categories}
+        </item>`;
+        })
+        .join("\n");
+
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>AzathothLXL Professional Articles</title>
+        <link>${siteUrl}/</link>
+        <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
+        <language>zh-CN</language>
+        <lastBuildDate>${new Date(latestDate).toUTCString()}</lastBuildDate>
+${items}
+    </channel>
+</rss>
+`;
+}
+
+function buildSitemap(blogs) {
+    const staticUrls = [
+        {
+            loc: sitePath(""),
+            lastmod: new Date().toISOString().slice(0, 10),
+            priority: "1.0"
+        }
+    ];
+
+    const blogUrls = blogs.map((blog) => ({
+        loc: blogUrl(blog),
+        lastmod: blog.date,
+        priority: "0.8"
+    }));
+
+    const urls = [...staticUrls, ...blogUrls]
+        .map((entry) => `    <url>
+        <loc>${xmlEscape(entry.loc)}</loc>
+        <lastmod>${xmlEscape(entry.lastmod)}</lastmod>
+        <priority>${entry.priority}</priority>
+    </url>`)
+        .join("\n");
+
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>
+`;
+}
+
+function buildRobots() {
+    return `User-agent: *
+Allow: /
+
+Sitemap: ${sitePath("sitemap.xml")}
+`;
+}
+
 async function buildManifest() {
     const blogFolders = await getDirectories(path.join(rootDir, "blogs"));
     const albumFolders = await getDirectories(path.join(rootDir, "album"));
@@ -201,8 +295,13 @@ async function buildManifest() {
 
     const output = `window.CONTENT_MANIFEST = ${JSON.stringify(manifest, null, 4)};\n`;
     await fs.writeFile(outputFile, output, "utf8");
+    await fs.writeFile(rssFile, buildRss(blogs), "utf8");
+    await fs.writeFile(sitemapFile, buildSitemap(blogs), "utf8");
+    await fs.writeFile(robotsFile, buildRobots(), "utf8");
 
-    console.log(`Generated ${path.basename(outputFile)} with ${blogs.length} blog(s) and ${album.length} album item(s).`);
+    console.log(
+        `Generated ${path.basename(outputFile)}, ${path.basename(rssFile)}, ${path.basename(sitemapFile)}, and ${path.basename(robotsFile)} with ${blogs.length} blog(s) and ${album.length} album item(s).`
+    );
 }
 
 buildManifest().catch((error) => {

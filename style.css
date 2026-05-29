@@ -381,6 +381,69 @@ img {
     color: var(--muted-soft);
 }
 
+.blog-tools {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.search-field {
+    display: grid;
+    gap: 7px;
+}
+
+.search-field span {
+    color: var(--accent);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.search-field input {
+    width: 100%;
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--text);
+    outline: none;
+}
+
+.search-field input:focus {
+    border-color: rgba(139, 211, 221, 0.58);
+    box-shadow: 0 0 0 3px rgba(139, 211, 221, 0.12);
+}
+
+.category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.category-chip {
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(244, 240, 232, 0.76);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 800;
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.category-chip:hover,
+.category-chip:focus-visible,
+.category-chip.is-active {
+    color: var(--text);
+    border-color: rgba(139, 211, 221, 0.44);
+    background: rgba(139, 211, 221, 0.14);
+    outline: none;
+}
+
 .panel-scroll {
     flex: 1 1 auto;
     min-height: 0;
@@ -558,6 +621,40 @@ img {
     color: var(--text);
     font-size: 1.08rem;
     line-height: 1.35;
+}
+
+.resume-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.resume-detail-grid section {
+    padding: 18px;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.resume-detail-grid h3 {
+    margin: 0 0 12px;
+    color: var(--text);
+    font-size: 1.06rem;
+}
+
+.resume-detail-grid ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: var(--muted);
+    line-height: 1.78;
+}
+
+.resume-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
 }
 
 .contact-panel {
@@ -934,6 +1031,10 @@ img {
     .resume-grid {
         grid-template-columns: 1fr;
     }
+
+    .resume-detail-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 720px) {
@@ -1006,6 +1107,10 @@ img {
     .panel-head {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .blog-tools {
+        margin-bottom: 14px;
     }
 
     .panel-note {

@@ -1,6 +1,11 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const pageType = document.body.dataset.page || "home";
 const manifest = window.CONTENT_MANIFEST || { blogs: [], album: [] };
+const SITE_URL = "https://knight46.github.io";
+const blogState = {
+    query: "",
+    category: "全部"
+};
 
 function escapeHtml(value) {
     return String(value)
@@ -22,6 +27,42 @@ function formatDate(dateString) {
         month: "2-digit",
         day: "2-digit"
     }).format(date);
+}
+
+function absoluteSiteUrl(path = "") {
+    if (/^https?:\/\//.test(path)) {
+        return path;
+    }
+
+    return `${SITE_URL}/${String(path).replace(/^\.?\//, "")}`;
+}
+
+function setMeta(selector, attribute, value) {
+    const element = document.head.querySelector(selector);
+    if (element) {
+        element.setAttribute(attribute, value);
+    }
+}
+
+function updatePageMeta({ title, description, url, image }) {
+    if (title) {
+        document.title = title;
+        setMeta('meta[property="og:title"]', "content", title);
+    }
+
+    if (description) {
+        setMeta('meta[name="description"]', "content", description);
+        setMeta('meta[property="og:description"]', "content", description);
+    }
+
+    if (url) {
+        setMeta('link[rel="canonical"]', "href", url);
+        setMeta('meta[property="og:url"]', "content", url);
+    }
+
+    if (image) {
+        setMeta('meta[property="og:image"]', "content", absoluteSiteUrl(image));
+    }
 }
 
 function renderTagPills(container, tags, category = "") {
@@ -248,6 +289,90 @@ function createBlogCard(item) {
     `;
 }
 
+function getBlogCategories() {
+    return ["全部", ...Array.from(new Set(manifest.blogs.map((item) => item.category || "未分类")))];
+}
+
+function filterBlogs() {
+    const normalizedQuery = blogState.query.trim().toLowerCase();
+
+    return manifest.blogs.filter((item) => {
+        const matchesCategory = blogState.category === "全部" || (item.category || "未分类") === blogState.category;
+        if (!matchesCategory) {
+            return false;
+        }
+
+        if (!normalizedQuery) {
+            return true;
+        }
+
+        const searchable = [
+            item.title,
+            item.summary,
+            item.category,
+            ...(item.tags || [])
+        ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+        return searchable.includes(normalizedQuery);
+    });
+}
+
+function renderBlogCategoryFilter() {
+    const filter = document.getElementById("blog-category-filter");
+    if (!filter) {
+        return;
+    }
+
+    filter.innerHTML = getBlogCategories()
+        .map((category) => {
+            const isActive = category === blogState.category;
+            return `<button class="category-chip${isActive ? " is-active" : ""}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`;
+        })
+        .join("");
+}
+
+function renderBlogList() {
+    const blogsList = document.getElementById("blogs-list");
+    if (!blogsList) {
+        return;
+    }
+
+    const visibleBlogs = filterBlogs();
+    blogsList.innerHTML = visibleBlogs.length
+        ? visibleBlogs.map(createBlogCard).join("")
+        : '<div class="empty-state">没有找到匹配的专业文章。</div>';
+}
+
+function setupBlogTools() {
+    const search = document.getElementById("blog-search");
+    const filter = document.getElementById("blog-category-filter");
+
+    renderBlogCategoryFilter();
+
+    if (search) {
+        search.addEventListener("input", () => {
+            blogState.query = search.value;
+            renderBlogList();
+        });
+    }
+
+    if (filter) {
+        filter.addEventListener("click", (event) => {
+            const button = event.target.closest("[data-category]");
+            if (!button) {
+                return;
+            }
+
+            blogState.category = button.dataset.category;
+            renderBlogCategoryFilter();
+            renderBlogList();
+        });
+    }
+}
+
 function createAlbumCard(item) {
     return `
         <button class="album-card" type="button" data-album-slug="${escapeHtml(item.slug)}">
@@ -266,9 +391,8 @@ function renderHomePage() {
     const albumList = document.getElementById("album-list");
 
     if (blogsList) {
-        blogsList.innerHTML = manifest.blogs.length
-            ? manifest.blogs.map(createBlogCard).join("")
-            : '<div class="empty-state">专业文章正在整理中。</div>';
+        setupBlogTools();
+        renderBlogList();
     }
 
     if (albumList) {
@@ -382,7 +506,13 @@ function renderBlogDetail() {
         return;
     }
 
-    document.title = `${article.title} | AzathothLXL`;
+    const articleUrl = `${SITE_URL}/blog.html?slug=${encodeURIComponent(article.slug)}`;
+    updatePageMeta({
+        title: `${article.title} | AzathothLXL`,
+        description: article.summary || "AzathothLXL 的技术文章。",
+        url: articleUrl,
+        image: article.coverImage || "src/pictures/avatar.png"
+    });
     titleTarget.textContent = article.title;
     dateTarget.textContent = formatDate(article.date);
     renderTagPills(tagsTarget, article.tags, article.category);

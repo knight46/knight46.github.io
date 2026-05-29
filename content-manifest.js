@@ -1,5 +1,5 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-05-29T01:40:45.014Z",
+    "generatedAt": "2026-05-29T08:47:52.744Z",
     "blogs": [
         {
             "slug": "CUDA Performance Programming 1",
