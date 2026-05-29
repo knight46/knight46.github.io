@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">GPU supercomputer communication optimization timeline</title>
+  <desc id="desc">A layered framework showing workload signals, adaptive communication libraries, GPU-driven runtime, NIC execution, and shorter critical path.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#75d7ff"/>
+    </marker>
+    <style>
+      .bg { fill: #07111f; }
+      .panel { fill: #0e1b2c; stroke: #29445e; stroke-width: 2; rx: 18; }
+      .panel-soft { fill: #102437; stroke: #315a72; stroke-width: 2; rx: 18; }
+      .input { fill: #12304a; stroke: #69b7ff; stroke-width: 2; rx: 14; }
+      .compute { fill: #203247; stroke: #f1c86b; stroke-width: 2; rx: 14; }
+      .runtime { fill: #162b3a; stroke: #72dfb3; stroke-width: 2; rx: 14; }
+      .network { fill: #241e3a; stroke: #c9a6ff; stroke-width: 2; rx: 14; }
+      .text { fill: #edf6ff; font-family: Arial, sans-serif; font-size: 24px; font-weight: 700; }
+      .small { fill: #c8d7e6; font-family: Arial, sans-serif; font-size: 18px; }
+      .tiny { fill: #9fb4c9; font-family: Arial, sans-serif; font-size: 15px; }
+      .label { fill: #75d7ff; font-family: Arial, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0; }
+      .line { stroke: #75d7ff; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .muted-line { stroke: #49647c; stroke-width: 2; fill: none; stroke-dasharray: 8 8; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="720"/>
+  <text x="60" y="70" class="text">GPU 超算通信优化：把 critical path 压短</text>
+  <text x="60" y="104" class="small">核心不是单点函数更快，而是让计算、通信、同步和资源回收更早、更贴近硬件时间线发生。</text>
+
+  <rect x="50" y="145" width="260" height="380" class="panel"/>
+  <text x="80" y="190" class="label">Workload signals</text>
+  <rect x="78" y="220" width="204" height="64" class="input"/>
+  <text x="100" y="248" class="small">消息大小 / 拓扑</text>
+  <text x="100" y="272" class="tiny">PCCL, All-to-All</text>
+  <rect x="78" y="310" width="204" height="64" class="input"/>
+  <text x="100" y="338" class="small">数据 ready time</text>
+  <text x="100" y="362" class="tiny">GICC, halo exchange</text>
+  <rect x="78" y="400" width="204" height="64" class="input"/>
+  <text x="100" y="428" class="small">局部稀疏结构</text>
+  <text x="100" y="452" class="tiny">HC-SpMM</text>
+
+  <rect x="390" y="145" width="330" height="380" class="panel-soft"/>
+  <text x="420" y="190" class="label">Adaptive path selection</text>
+  <rect x="420" y="225" width="270" height="72" class="compute"/>
+  <text x="445" y="254" class="small">Collective algorithm</text>
+  <text x="445" y="278" class="tiny">all-gather / reduce-scatter / all-reduce</text>
+  <rect x="420" y="320" width="270" height="72" class="runtime"/>
+  <text x="445" y="349" class="small">GPU-triggered runtime</text>
+  <text x="445" y="373" class="tiny">host leaves the fast path</text>
+  <rect x="420" y="415" width="270" height="72" class="compute"/>
+  <text x="445" y="444" class="small">CUDA Core or Tensor Core</text>
+  <text x="445" y="468" class="tiny">choose by submatrix features</text>
+
+  <rect x="800" y="145" width="350" height="380" class="panel"/>
+  <text x="830" y="190" class="label">Shorter critical path</text>
+  <rect x="830" y="225" width="290" height="64" class="network"/>
+  <text x="855" y="253" class="small">NIC work starts earlier</text>
+  <text x="855" y="277" class="tiny">communication overlaps compute</text>
+  <rect x="830" y="315" width="290" height="64" class="runtime"/>
+  <text x="855" y="343" class="small">Async completion / reclaim</text>
+  <text x="855" y="367" class="tiny">resource management off hot path</text>
+  <rect x="830" y="405" width="290" height="64" class="network"/>
+  <text x="855" y="433" class="small">Less launch and sync gap</text>
+  <text x="855" y="457" class="tiny">better scaling at thousands of GPUs</text>
+
+  <path d="M 310 252 C 350 252 350 260 390 260" class="line"/>
+  <path d="M 310 342 C 350 342 350 356 390 356" class="line"/>
+  <path d="M 310 432 C 350 432 350 451 390 451" class="line"/>
+  <path d="M 720 260 C 760 260 760 257 800 257" class="line"/>
+  <path d="M 720 356 C 760 356 760 347 800 347" class="line"/>
+  <path d="M 720 451 C 760 451 760 437 800 437" class="line"/>
+
+  <line x1="95" y1="590" x2="1085" y2="590" class="muted-line"/>
+  <rect x="95" y="565" width="150" height="50" class="compute"/>
+  <text x="120" y="597" class="tiny">Compute</text>
+  <rect x="265" y="565" width="190" height="50" class="network"/>
+  <text x="290" y="597" class="tiny">Communication</text>
+  <rect x="475" y="565" width="170" height="50" class="runtime"/>
+  <text x="500" y="597" class="tiny">Runtime</text>
+  <rect x="665" y="565" width="210" height="50" class="input"/>
+  <text x="690" y="597" class="tiny">Workload feature</text>
+  <text x="95" y="665" class="small">Design rule: expose workload features early, choose the hardware path locally, and keep host progress out of repeated fast paths.</text>
+</svg>

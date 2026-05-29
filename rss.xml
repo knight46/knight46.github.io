@@ -15,6 +15,14 @@
             <category>CUDA 编程基础</category><category>CUDA</category><category>GPU</category><category>Performance</category><category>Register</category><category>PTX</category><category>SASS</category>
         </item>
         <item>
+            <title>2025-2026 GPU 超算通信优化：从 Collective Library 到 GPU-Driven Runtime</title>
+            <link>https://knight46.github.io/blog.html?slug=GPU%20Supercomputer%20Communication%202026</link>
+            <guid>https://knight46.github.io/blog.html?slug=GPU%20Supercomputer%20Communication%202026</guid>
+            <pubDate>Fri, 29 May 2026 00:00:00 GMT</pubDate>
+            <description>阅读近两年 GPU 超算通信与高性能计算方法论文后的一篇技术笔记，梳理 PCCL、Frontier All-to-All、GICC 和 HC-SpMM 背后的共同思路：把通信、计算和资源管理放到更贴近硬件时间线的位置。</description>
+            <category>HPC 通信优化</category><category>HPC</category><category>GPU</category><category>Communication</category><category>Collective</category><category>Runtime</category><category>Distributed Training</category>
+        </item>
+        <item>
             <title>KVServe：让 KV Cache 压缩跟着服务状态走</title>
             <link>https://knight46.github.io/blog.html?slug=KVServe%20KV%20Cache%20Compression</link>
             <guid>https://knight46.github.io/blog.html?slug=KVServe%20KV%20Cache%20Compression</guid>
