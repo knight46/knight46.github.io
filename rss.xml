@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 29 May 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 01 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>MoE 推理的 Expert Parallel 通信：从 DeepEP 到 NCCL EP</title>
+            <link>https://knight46.github.io/blog.html?slug=MoE%20Expert%20Parallel%20Communication</link>
+            <guid>https://knight46.github.io/blog.html?slug=MoE%20Expert%20Parallel%20Communication</guid>
+            <pubDate>Mon, 01 Jun 2026 00:00:00 GMT</pubDate>
+            <description>阅读 2025-2026 年 MoE 推理与分布式 LLM inference 相关论文后的一篇技术笔记，梳理 DeepEP、MegaScale-Infer、TokenWeave 和 NCCL EP 如何把 expert dispatch、compute 与 combine 排成更紧凑的 GPU 通信流水线。</description>
+            <category>LLM 系统优化</category><category>MoE</category><category>Expert Parallelism</category><category>GPU Communication</category><category>LLM Inference</category><category>CUDA</category><category>Distributed Systems</category>
+        </item>
         <item>
             <title>CUDA 高性能编程（1）：从分支发散、寄存器到编译目标</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20Performance%20Programming%201</link>
