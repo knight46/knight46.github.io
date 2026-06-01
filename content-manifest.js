@@ -1,5 +1,5 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-05-31T23:03:02.981Z",
+    "generatedAt": "2026-06-01T07:42:38.744Z",
     "blogs": [
         {
             "slug": "MoE Expert Parallel Communication",
@@ -85,6 +85,20 @@ window.CONTENT_MANIFEST = {
         }
     ],
     "album": [
+        {
+            "slug": "暮光白强袭自由高达",
+            "title": "暮光白强袭自由高达",
+            "date": "2026-06-01",
+            "summary": "前段时间拼好的暮光白强袭自由高达，白色机体在黑色背景里显得很干净，也更能看出强袭自由展开后的线条感。",
+            "tags": [
+                "Album",
+                "Gundam",
+                "Gunpla",
+                "Strike Freedom"
+            ],
+            "image": "album/%E6%9A%AE%E5%85%89%E7%99%BD%E5%BC%BA%E8%A2%AD%E8%87%AA%E7%94%B1%E9%AB%98%E8%BE%BE/twilight-white-strike-freedom-gundam.png",
+            "markdown": "# 暮光白强袭自由高达\n\n这是前段时间拼好的暮光白强袭自由高达。\n\n相比常见配色，这套暮光白的观感会更冷静一些：大面积白色装甲压住了强袭自由本身很张扬的轮廓，透明蓝和银灰色细节则把机体的层次感慢慢托出来。展开背包和武装之后，整个姿态还是很有压迫感，但画面不会显得太吵。\n\n黑色背景下拍出来的效果也不错，白色装甲的边线、肩部和翼状单元的分件都更清楚。拼完之后回头看，这台机体最吸引人的地方大概就是这种反差：配色很安静，展开时却依然很有主角机的气势。"
+        },
         {
             "slug": "April Sakura in Japan",
             "title": "日本四月的夜樱",
