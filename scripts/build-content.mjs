@@ -7,6 +7,7 @@ const siteUrl = "https://knight46.github.io";
 const rssFile = path.join(rootDir, "rss.xml");
 const sitemapFile = path.join(rootDir, "sitemap.xml");
 const robotsFile = path.join(rootDir, "robots.txt");
+const htmlFiles = ["index.html", "blog.html"].map((fileName) => path.join(rootDir, fileName));
 
 const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif"]);
 
@@ -280,15 +281,34 @@ Sitemap: ${sitePath("sitemap.xml")}
 `;
 }
 
+function buildAssetVersion(date = new Date()) {
+    return date.toISOString().replace(/\D/g, "").slice(0, 14);
+}
+
+async function updateAssetVersions(version) {
+    await Promise.all(
+        htmlFiles.map(async (htmlFile) => {
+            const html = await fs.readFile(htmlFile, "utf8");
+            const updatedHtml = html
+                .replace(/(href="style\.css)(?:\?v=[^"]*)?"/g, `$1?v=${version}"`)
+                .replace(/(src="content-manifest\.js)(?:\?v=[^"]*)?"/g, `$1?v=${version}"`)
+                .replace(/(src="script\.js)(?:\?v=[^"]*)?"/g, `$1?v=${version}"`);
+
+            await fs.writeFile(htmlFile, updatedHtml, "utf8");
+        })
+    );
+}
+
 async function buildManifest() {
     const blogFolders = await getDirectories(path.join(rootDir, "blogs"));
     const albumFolders = await getDirectories(path.join(rootDir, "album"));
 
     const blogs = (await Promise.all(blogFolders.map(readBlog))).filter(Boolean).sort(sortByDateDescending);
     const album = (await Promise.all(albumFolders.map(readAlbum))).filter(Boolean).sort(sortByDateDescending);
+    const generatedAt = new Date();
 
     const manifest = {
-        generatedAt: new Date().toISOString(),
+        generatedAt: generatedAt.toISOString(),
         blogs,
         album
     };
@@ -298,9 +318,10 @@ async function buildManifest() {
     await fs.writeFile(rssFile, buildRss(blogs), "utf8");
     await fs.writeFile(sitemapFile, buildSitemap(blogs), "utf8");
     await fs.writeFile(robotsFile, buildRobots(), "utf8");
+    await updateAssetVersions(buildAssetVersion(generatedAt));
 
     console.log(
-        `Generated ${path.basename(outputFile)}, ${path.basename(rssFile)}, ${path.basename(sitemapFile)}, and ${path.basename(robotsFile)} with ${blogs.length} blog(s) and ${album.length} album item(s).`
+        `Generated ${path.basename(outputFile)}, ${path.basename(rssFile)}, ${path.basename(sitemapFile)}, ${path.basename(robotsFile)}, and refreshed asset versions with ${blogs.length} blog(s) and ${album.length} album item(s).`
     );
 }
 
