@@ -408,6 +408,58 @@ function renderHomePage() {
     setupAlbumModal();
 }
 
+function setupImageFullscreen() {
+    const shell = document.getElementById("image-fullscreen");
+    const image = document.getElementById("image-fullscreen-img");
+    if (!shell || !image) {
+        return;
+    }
+
+    let previousBodyOverflow = "";
+    const imageSelector = "#album-modal-image, #album-modal-markdown img, #detail-cover-image, #detail-markdown img";
+
+    const close = () => {
+        shell.hidden = true;
+        image.removeAttribute("src");
+        image.alt = "";
+        document.body.style.overflow = previousBodyOverflow;
+    };
+
+    const open = (sourceImage) => {
+        const source = sourceImage.currentSrc || sourceImage.src;
+        if (!source) {
+            return;
+        }
+
+        previousBodyOverflow = document.body.style.overflow;
+        image.src = source;
+        image.alt = sourceImage.alt || "";
+        shell.hidden = false;
+        document.body.style.overflow = "hidden";
+    };
+
+    document.addEventListener("dblclick", (event) => {
+        const sourceImage = event.target.closest(imageSelector);
+        if (!sourceImage) {
+            return;
+        }
+
+        event.preventDefault();
+        open(sourceImage);
+    });
+
+    shell.querySelectorAll("[data-close-fullscreen-image]").forEach((element) => {
+        element.addEventListener("click", close);
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !shell.hidden) {
+            event.preventDefault();
+            close();
+        }
+    });
+}
+
 function setupAlbumModal() {
     const modal = document.getElementById("album-modal");
     const albumList = document.getElementById("album-list");
@@ -502,6 +554,11 @@ function setupAlbumModal() {
     });
 
     document.addEventListener("keydown", (event) => {
+        const fullscreenShell = document.getElementById("image-fullscreen");
+        if (fullscreenShell && !fullscreenShell.hidden) {
+            return;
+        }
+
         if (event.key === "Escape" && !modal.hidden) {
             closeModal();
         }
@@ -567,3 +624,5 @@ if (pageType === "home") {
 if (pageType === "blog-detail") {
     renderBlogDetail();
 }
+
+setupImageFullscreen();
