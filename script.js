@@ -438,7 +438,7 @@ function setupImageFullscreen() {
         document.body.style.overflow = "hidden";
     };
 
-    document.addEventListener("dblclick", (event) => {
+    document.addEventListener("click", (event) => {
         const sourceImage = event.target.closest(imageSelector);
         if (!sourceImage) {
             return;
