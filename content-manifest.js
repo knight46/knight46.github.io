@@ -1,5 +1,5 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-06-02T09:00:48.398Z",
+    "generatedAt": "2026-06-02T09:24:57.129Z",
     "blogs": [
         {
             "slug": "MoE Expert Parallel Communication",
@@ -126,6 +126,20 @@ window.CONTENT_MANIFEST = {
             ],
             "image": "album/Conan%20Movie%202026/conan-2026.jpg",
             "markdown": "# Conan Movie 2026\n\n去看了今年的《名侦探柯南》新剧场版。\n\n每年剧场版都有一种很固定的仪式感：海报、影院、片头熟悉的节奏，还有最后走出影厅时那种“今年也看过了”的确认感。\n\n这张图就留在随笔区，作为 2026 年的一枚小书签。"
+        },
+        {
+            "slug": "Mazda HQ Internship 2025",
+            "title": "马自达本社实习",
+            "date": "2025-09-25",
+            "summary": "2025 年 9 月 25 日，留下一张马自达本社实习时的临时通行证照片，纪念那段真正走进企业现场的经历。",
+            "tags": [
+                "Album",
+                "Mazda",
+                "Internship",
+                "Hiroshima"
+            ],
+            "image": "album/Mazda%20HQ%20Internship%202025/mazda-hq-internship-gate-pass.jpg",
+            "markdown": "# 马自达本社实习\n\n2025 年 9 月 25 日，去了马自达本社实习。\n\n这张临时通行证本身很普通，但对我来说它像一个很具体的坐标：那一天不是只在资料、论文和项目里理解工程，而是真的走进企业现场，去感受一家公司怎样组织产品、技术、流程和人。\n\n实习经历不一定会留下很多宏大的瞬间，更多时候是一些细节：桌面、工牌、会议、说明、路线，还有自己一边观察一边把很多想法慢慢对上的过程。\n\n把这张照片放在这里，纪念那段去马自达本社实习的经历。以后再回头看，希望还能想起当时那种新鲜、紧张，也有一点兴奋的心情。"
         }
     ]
 };
