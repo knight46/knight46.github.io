@@ -1,7 +1,7 @@
 ---
 title: 2025-2026 GPU 超算通信优化：从 Collective Library 到 GPU-Driven Runtime
 date: 2026-05-29
-category: HPC 通信优化
+category: HPC
 summary: 阅读近两年 GPU 超算通信与高性能计算方法论文后的一篇技术笔记，梳理 PCCL、Frontier All-to-All、GICC 和 HC-SpMM 背后的共同思路：把通信、计算和资源管理放到更贴近硬件时间线的位置。
 tags: HPC, GPU, Communication, Collective, Runtime, Distributed Training
 ---

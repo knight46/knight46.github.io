@@ -1,11 +1,11 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-06-01T07:47:32.733Z",
+    "generatedAt": "2026-06-02T09:00:48.398Z",
     "blogs": [
         {
             "slug": "MoE Expert Parallel Communication",
             "title": "MoE 推理的 Expert Parallel 通信：从 DeepEP 到 NCCL EP",
             "date": "2026-06-01",
-            "category": "LLM 系统优化",
+            "category": "AI",
             "summary": "阅读 2025-2026 年 MoE 推理与分布式 LLM inference 相关论文后的一篇技术笔记，梳理 DeepEP、MegaScale-Infer、TokenWeave 和 NCCL EP 如何把 expert dispatch、compute 与 combine 排成更紧凑的 GPU 通信流水线。",
             "tags": [
                 "MoE",
@@ -39,7 +39,7 @@ window.CONTENT_MANIFEST = {
             "slug": "GPU Supercomputer Communication 2026",
             "title": "2025-2026 GPU 超算通信优化：从 Collective Library 到 GPU-Driven Runtime",
             "date": "2026-05-29",
-            "category": "HPC 通信优化",
+            "category": "HPC",
             "summary": "阅读近两年 GPU 超算通信与高性能计算方法论文后的一篇技术笔记，梳理 PCCL、Frontier All-to-All、GICC 和 HC-SpMM 背后的共同思路：把通信、计算和资源管理放到更贴近硬件时间线的位置。",
             "tags": [
                 "HPC",
@@ -56,7 +56,7 @@ window.CONTENT_MANIFEST = {
             "slug": "KVServe KV Cache Compression",
             "title": "KVServe：让 KV Cache 压缩跟着服务状态走",
             "date": "2026-05-29",
-            "category": "AI 系统",
+            "category": "AI",
             "summary": "读 KVServe、Dynamo、Mooncake 和 DistServe 后的一篇系统笔记，解释分离式 LLM 推理为什么会把 KV cache 推到网络关键路径上，以及 KVServe 如何用服务感知的压缩策略降低通信瓶颈。",
             "tags": [
                 "AI Systems",
@@ -72,7 +72,7 @@ window.CONTENT_MANIFEST = {
             "slug": "GPU Initiated Communication",
             "title": "GPU-Initiated Communication：把通信控制权交还给 GPU",
             "date": "2026-05-28",
-            "category": "未分类",
+            "category": "HPC",
             "summary": "读几篇近期 HPC 与分布式 GPU 训练论文后的一篇方法笔记，重点解释 GICC 如何让 GPU 内核直接触发跨节点通信，从而减少 host 介入并提升计算-通信重叠。",
             "tags": [
                 "High Performance Compute",

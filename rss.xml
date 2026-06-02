@@ -12,7 +12,7 @@
             <guid>https://knight46.github.io/blog.html?slug=MoE%20Expert%20Parallel%20Communication</guid>
             <pubDate>Mon, 01 Jun 2026 00:00:00 GMT</pubDate>
             <description>阅读 2025-2026 年 MoE 推理与分布式 LLM inference 相关论文后的一篇技术笔记，梳理 DeepEP、MegaScale-Infer、TokenWeave 和 NCCL EP 如何把 expert dispatch、compute 与 combine 排成更紧凑的 GPU 通信流水线。</description>
-            <category>LLM 系统优化</category><category>MoE</category><category>Expert Parallelism</category><category>GPU Communication</category><category>LLM Inference</category><category>CUDA</category><category>Distributed Systems</category>
+            <category>AI</category><category>MoE</category><category>Expert Parallelism</category><category>GPU Communication</category><category>LLM Inference</category><category>CUDA</category><category>Distributed Systems</category>
         </item>
         <item>
             <title>CUDA 高性能编程（1）：从分支发散、寄存器到编译目标</title>
@@ -28,7 +28,7 @@
             <guid>https://knight46.github.io/blog.html?slug=GPU%20Supercomputer%20Communication%202026</guid>
             <pubDate>Fri, 29 May 2026 00:00:00 GMT</pubDate>
             <description>阅读近两年 GPU 超算通信与高性能计算方法论文后的一篇技术笔记，梳理 PCCL、Frontier All-to-All、GICC 和 HC-SpMM 背后的共同思路：把通信、计算和资源管理放到更贴近硬件时间线的位置。</description>
-            <category>HPC 通信优化</category><category>HPC</category><category>GPU</category><category>Communication</category><category>Collective</category><category>Runtime</category><category>Distributed Training</category>
+            <category>HPC</category><category>HPC</category><category>GPU</category><category>Communication</category><category>Collective</category><category>Runtime</category><category>Distributed Training</category>
         </item>
         <item>
             <title>KVServe：让 KV Cache 压缩跟着服务状态走</title>
@@ -36,7 +36,7 @@
             <guid>https://knight46.github.io/blog.html?slug=KVServe%20KV%20Cache%20Compression</guid>
             <pubDate>Fri, 29 May 2026 00:00:00 GMT</pubDate>
             <description>读 KVServe、Dynamo、Mooncake 和 DistServe 后的一篇系统笔记，解释分离式 LLM 推理为什么会把 KV cache 推到网络关键路径上，以及 KVServe 如何用服务感知的压缩策略降低通信瓶颈。</description>
-            <category>AI 系统</category><category>AI Systems</category><category>LLM Serving</category><category>KV Cache</category><category>Disaggregated Inference</category><category>vLLM</category>
+            <category>AI</category><category>AI Systems</category><category>LLM Serving</category><category>KV Cache</category><category>Disaggregated Inference</category><category>vLLM</category>
         </item>
         <item>
             <title>GPU-Initiated Communication：把通信控制权交还给 GPU</title>
@@ -44,7 +44,7 @@
             <guid>https://knight46.github.io/blog.html?slug=GPU%20Initiated%20Communication</guid>
             <pubDate>Thu, 28 May 2026 00:00:00 GMT</pubDate>
             <description>读几篇近期 HPC 与分布式 GPU 训练论文后的一篇方法笔记，重点解释 GICC 如何让 GPU 内核直接触发跨节点通信，从而减少 host 介入并提升计算-通信重叠。</description>
-            <category>未分类</category><category>High Performance Compute</category><category>GPU</category><category>Communication Overlap</category><category>Distributed Systems</category>
+            <category>HPC</category><category>High Performance Compute</category><category>GPU</category><category>Communication Overlap</category><category>Distributed Systems</category>
         </item>
     </channel>
 </rss>

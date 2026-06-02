@@ -1,7 +1,7 @@
 ---
 title: KVServe：让 KV Cache 压缩跟着服务状态走
 date: 2026-05-29
-category: AI 系统
+category: AI
 summary: 读 KVServe、Dynamo、Mooncake 和 DistServe 后的一篇系统笔记，解释分离式 LLM 推理为什么会把 KV cache 推到网络关键路径上，以及 KVServe 如何用服务感知的压缩策略降低通信瓶颈。
 tags: AI Systems, LLM Serving, KV Cache, Disaggregated Inference, vLLM
 ---

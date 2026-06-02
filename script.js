@@ -290,7 +290,11 @@ function createBlogCard(item) {
 }
 
 function getBlogCategories() {
-    return ["全部", ...Array.from(new Set(manifest.blogs.map((item) => item.category || "未分类")))];
+    const preferredCategories = ["HPC", "AI", "CUDA 编程基础"];
+    const existingCategories = new Set(manifest.blogs.map((item) => item.category || "未分类"));
+    const orderedCategories = preferredCategories.filter((category) => existingCategories.has(category));
+    const otherCategories = Array.from(existingCategories).filter((category) => !preferredCategories.includes(category));
+    return ["全部", ...orderedCategories, ...otherCategories];
 }
 
 function filterBlogs() {

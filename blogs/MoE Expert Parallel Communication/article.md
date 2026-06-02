@@ -1,7 +1,7 @@
 ---
 title: MoE 推理的 Expert Parallel 通信：从 DeepEP 到 NCCL EP
 date: 2026-06-01
-category: LLM 系统优化
+category: AI
 summary: 阅读 2025-2026 年 MoE 推理与分布式 LLM inference 相关论文后的一篇技术笔记，梳理 DeepEP、MegaScale-Infer、TokenWeave 和 NCCL EP 如何把 expert dispatch、compute 与 combine 排成更紧凑的 GPU 通信流水线。
 tags: MoE, Expert Parallelism, GPU Communication, LLM Inference, CUDA, Distributed Systems
 ---

@@ -1,6 +1,7 @@
 ---
 title: GPU-Initiated Communication：把通信控制权交还给 GPU
 date: 2026-05-28
+category: HPC
 summary: 读几篇近期 HPC 与分布式 GPU 训练论文后的一篇方法笔记，重点解释 GICC 如何让 GPU 内核直接触发跨节点通信，从而减少 host 介入并提升计算-通信重叠。
 tags: High Performance Compute, GPU, Communication Overlap, Distributed Systems
 ---
