@@ -343,7 +343,7 @@ function renderBlogList() {
     const visibleBlogs = filterBlogs();
     blogsList.innerHTML = visibleBlogs.length
         ? visibleBlogs.map(createBlogCard).join("")
-        : '<div class="empty-state">没有找到匹配的专业文章。</div>';
+        : '<div class="empty-state">没有找到匹配的文章。</div>';
 }
 
 function setupBlogTools() {
