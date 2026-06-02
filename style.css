@@ -335,8 +335,8 @@ img {
 }
 
 .blog-layout {
-    grid-template-columns: minmax(230px, 0.52fr) minmax(0, 2.18fr);
-    gap: 18px;
+    display: block;
+    width: min(1500px, calc(100vw - 32px));
 }
 
 .blog-layout .section-panel {
@@ -381,7 +381,7 @@ img {
 
 .blog-layout .content-panel {
     height: min(82svh, 900px);
-    padding: 18px;
+    padding: 22px;
 }
 
 .panel-head {
@@ -411,10 +411,10 @@ img {
 }
 
 .blog-layout .blog-tools {
-    grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1fr);
+    grid-template-columns: minmax(300px, 0.55fr) minmax(0, 1.45fr);
     align-items: end;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 14px;
+    margin-bottom: 14px;
 }
 
 .search-field {
@@ -499,6 +499,8 @@ img {
 }
 
 .blog-layout .blog-scroll {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
     gap: 10px;
 }
 
@@ -512,6 +514,7 @@ img {
 }
 
 .blog-layout .blog-card {
+    min-height: 148px;
     padding: 14px 16px 15px;
 }
 
@@ -532,8 +535,12 @@ img {
 }
 
 .blog-layout .blog-card-title {
-    font-size: 1.12rem;
+    font-size: 1.02rem;
     line-height: 1.24;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .blog-meta {
@@ -548,7 +555,7 @@ img {
 .blog-layout .blog-meta {
     gap: 8px;
     margin-top: 6px;
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     line-height: 1.35;
 }
 
@@ -569,9 +576,9 @@ img {
 .blog-layout .blog-summary {
     max-width: none;
     margin-top: 7px;
-    font-size: 0.88rem;
-    line-height: 1.58;
-    -webkit-line-clamp: 1;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    -webkit-line-clamp: 2;
 }
 
 .mini-tags,
@@ -1100,6 +1107,10 @@ img {
         grid-template-columns: 1fr;
     }
 
+    .blog-layout .blog-scroll {
+        grid-template-columns: 1fr;
+    }
+
     .modal-window {
         height: min(90svh, 980px);
         min-height: 0;
@@ -1196,6 +1207,10 @@ img {
 
     .blog-tools {
         margin-bottom: 14px;
+    }
+
+    .blog-layout {
+        width: min(100vw - 24px, 100vw - 24px);
     }
 
     .blog-layout .section-panel {
