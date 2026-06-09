@@ -1,5 +1,5 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-06-09T15:12:19.095Z",
+    "generatedAt": "2026-06-09T17:40:17.923Z",
     "blogs": [
         {
             "slug": "MoE Expert Parallel Communication",
@@ -126,6 +126,20 @@ window.CONTENT_MANIFEST = {
             ],
             "image": "album/Conan%20Movie%202026/conan-2026.jpg",
             "markdown": "# Conan Movie 2026\n\n去看了今年的《名侦探柯南》新剧场版。\n\n每年剧场版都有一种很固定的仪式感：海报、影院、片头熟悉的节奏，还有最后走出影厅时那种“今年也看过了”的确认感。\n\n这张图就留在随笔区，作为 2026 年的一枚小书签。"
+        },
+        {
+            "slug": "Fujitsu SRL Exchange Meeting 2025",
+            "title": "富士通 SRL 合作交流会",
+            "date": "2025-10-10",
+            "summary": "2025 年 10 月 10 日，参加富士通 SRL 合作交流会，和来自京都大学、东京科学大学、筑波大学、广岛大学等高校的教授与学生一起汇报、交流。",
+            "tags": [
+                "Album",
+                "Research",
+                "Fujitsu SRL",
+                "Exchange"
+            ],
+            "image": "album/Fujitsu%20SRL%20Exchange%20Meeting%202025/fujitsu-srl-exchange-meeting-2025.jpg",
+            "markdown": "# 富士通 SRL 合作交流会\n\n2025 年 10 月 10 日，参加富士通 SRL 合作交流会。\n\n这次交流会聚集了来自多所知名大学的教授与学生，包括京都大学、东京科学大学、筑波大学、广岛大学等。大家围绕各自的研究进展进行汇报，也在讨论中交换了很多关于研究问题、技术路线和未来合作方向的想法。\n\n这种场合最有价值的地方，不只是正式报告本身，还有报告之间的提问、会后的讨论，以及不同背景的人在同一个问题上给出的不同视角。对研究来说，这些面对面的交流往往能把一些原本模糊的想法推得更清楚。\n\n最后一天结束后，晚上大家一起吃饭、喝酒、聊天。正式的议程结束了，但交流还在继续。把这张照片留在随笔里，记录一次很充实的合作交流经历。"
         },
         {
             "slug": "Mazda HQ Internship 2025",
