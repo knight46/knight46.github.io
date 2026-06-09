@@ -2,6 +2,14 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 const pageType = document.body.dataset.page || "home";
 const manifest = window.CONTENT_MANIFEST || { blogs: [], album: [] };
 const SITE_URL = "https://knight46.github.io";
+const SITE_ASSET_VERSION = "20260610002320";
+const RESUME_PACKET = {
+    path: `src/documents/resume-packet.bin?v=${SITE_ASSET_VERSION}`,
+    salt: "i/TdG0Buj6gWkCRzwiW/aw==",
+    iv: "mjA/vhWMKjTaXgTp",
+    iterations: 310000,
+    filename: "AzathothLXL-detailed-resume.pdf"
+};
 const blogState = {
     query: "",
     category: "全部"
@@ -220,6 +228,128 @@ function updateYear() {
     if (yearTarget) {
         yearTarget.textContent = String(new Date().getFullYear());
     }
+}
+
+function base64ToBytes(value) {
+    return Uint8Array.from(atob(value), (char) => char.charCodeAt(0));
+}
+
+async function decryptResumePacket(password) {
+    const encryptedResponse = await fetch(RESUME_PACKET.path);
+    if (!encryptedResponse.ok) {
+        throw new Error("network");
+    }
+
+    const passwordBytes = new TextEncoder().encode(password);
+    const baseKey = await crypto.subtle.importKey(
+        "raw",
+        passwordBytes,
+        "PBKDF2",
+        false,
+        ["deriveKey"]
+    );
+    const key = await crypto.subtle.deriveKey(
+        {
+            name: "PBKDF2",
+            salt: base64ToBytes(RESUME_PACKET.salt),
+            iterations: RESUME_PACKET.iterations,
+            hash: "SHA-256"
+        },
+        baseKey,
+        {
+            name: "AES-GCM",
+            length: 256
+        },
+        false,
+        ["decrypt"]
+    );
+
+    return crypto.subtle.decrypt(
+        {
+            name: "AES-GCM",
+            iv: base64ToBytes(RESUME_PACKET.iv)
+        },
+        key,
+        await encryptedResponse.arrayBuffer()
+    );
+}
+
+function setupResumeDownload() {
+    const modal = document.getElementById("resume-download-modal");
+    const openButton = document.querySelector("[data-open-resume-download]");
+    const form = document.getElementById("resume-download-form");
+    const passwordInput = document.getElementById("resume-password");
+    const status = document.getElementById("resume-download-status");
+    const submitButton = form ? form.querySelector(".resume-confirm-button") : null;
+
+    if (!modal || !openButton || !form || !passwordInput || !status || !submitButton) {
+        return;
+    }
+
+    const setStatus = (message, isError = false) => {
+        status.textContent = message;
+        status.classList.toggle("is-error", isError);
+    };
+
+    const closeModal = () => {
+        modal.hidden = true;
+        form.reset();
+        setStatus("");
+    };
+
+    const openModal = () => {
+        modal.hidden = false;
+        setStatus("");
+        window.setTimeout(() => passwordInput.focus(), 80);
+    };
+
+    openButton.addEventListener("click", openModal);
+    modal.querySelectorAll("[data-close-resume-download]").forEach((element) => {
+        element.addEventListener("click", closeModal);
+    });
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const password = passwordInput.value.trim();
+        if (!password) {
+            setStatus("请输入验证密码。", true);
+            passwordInput.focus();
+            return;
+        }
+
+        submitButton.disabled = true;
+        setStatus("正在验证并准备下载...");
+
+        try {
+            const pdfBuffer = await decryptResumePacket(password);
+            const blob = new Blob([pdfBuffer], {
+                type: "application/pdf"
+            });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = RESUME_PACKET.filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.setTimeout(() => URL.revokeObjectURL(url), 1200);
+            closeModal();
+        } catch (error) {
+            const message = error && error.message === "network"
+                ? "下载资源暂时不可用，请稍后再试。"
+                : "密码不正确，请重新输入。";
+            setStatus(message, true);
+            passwordInput.select();
+        } finally {
+            submitButton.disabled = false;
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !modal.hidden) {
+            closeModal();
+        }
+    });
 }
 
 function setupSmoothScroll() {
@@ -616,6 +746,7 @@ function renderBlogDetail() {
 updateYear();
 setupSmoothScroll();
 setupReveal();
+setupResumeDownload();
 
 if (pageType === "home") {
     renderHomePage();

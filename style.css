@@ -307,7 +307,9 @@ img {
 }
 
 .ghost-button,
-.modal-close {
+.modal-close,
+.resume-download-button,
+.resume-confirm-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -321,6 +323,8 @@ img {
 
 .ghost-button:hover,
 .modal-close:hover,
+.resume-download-button:hover,
+.resume-confirm-button:hover,
 .blog-card:hover,
 .album-card:hover,
 .contact-card:hover {
@@ -683,6 +687,39 @@ img {
     font-size: clamp(2rem, 3vw, 2.7rem);
 }
 
+.resume-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.resume-title-row h2 {
+    margin-bottom: 0;
+}
+
+.resume-download-button {
+    min-height: 44px;
+    margin-top: 6px;
+    border-color: rgba(240, 179, 106, 0.48);
+    background:
+        linear-gradient(135deg, rgba(240, 179, 106, 0.96), rgba(139, 211, 221, 0.86));
+    color: #111821;
+    cursor: pointer;
+    font-size: 0.94rem;
+    font-weight: 900;
+    box-shadow: 0 14px 34px rgba(240, 179, 106, 0.24);
+    white-space: nowrap;
+}
+
+.resume-download-button:focus-visible,
+.resume-confirm-button:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 3px rgba(139, 211, 221, 0.18),
+        0 14px 34px rgba(240, 179, 106, 0.24);
+}
+
 .resume-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -756,6 +793,100 @@ img {
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 14px;
+}
+
+.resume-download-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+.resume-download-modal[hidden] {
+    display: none;
+}
+
+.resume-download-backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgba(4, 7, 12, 0.48);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    cursor: pointer;
+}
+
+.resume-download-window {
+    position: relative;
+    z-index: 1;
+    width: min(420px, calc(100vw - 32px));
+    padding: 26px;
+    border-radius: var(--radius-lg);
+}
+
+.resume-download-window h3 {
+    margin: 10px 44px 20px 0;
+    color: #ffffff;
+    font-size: 1.45rem;
+    line-height: 1.2;
+}
+
+.resume-password-field {
+    display: grid;
+    gap: 8px;
+}
+
+.resume-password-field span {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.resume-password-field input {
+    width: 100%;
+    min-height: 46px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    outline: none;
+}
+
+.resume-password-field input:focus {
+    border-color: rgba(139, 211, 221, 0.58);
+    box-shadow: 0 0 0 3px rgba(139, 211, 221, 0.12);
+}
+
+.resume-download-status {
+    min-height: 22px;
+    margin: 12px 0 14px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.resume-download-status.is-error {
+    color: #ffb3a8;
+}
+
+.resume-confirm-button {
+    width: 100%;
+    border-color: rgba(139, 211, 221, 0.48);
+    background: rgba(139, 211, 221, 0.16);
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 900;
+}
+
+.resume-confirm-button:disabled {
+    cursor: wait;
+    opacity: 0.64;
+    transform: none;
 }
 
 .contact-panel {
@@ -1286,6 +1417,17 @@ img {
     .resume-detail-grid {
         grid-template-columns: 1fr;
     }
+
+    .resume-title-row {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .resume-download-button {
+        align-self: flex-start;
+        margin-top: 0;
+    }
 }
 
 @media (max-width: 720px) {
@@ -1485,6 +1627,15 @@ img {
 
     .modal-shell {
         padding: 10px;
+    }
+
+    .resume-download-modal {
+        padding: 12px;
+    }
+
+    .resume-download-window {
+        width: min(100vw - 24px, 100vw - 24px);
+        padding: 20px;
     }
 
     .modal-window {

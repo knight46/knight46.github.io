@@ -23,7 +23,7 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap"
         rel="stylesheet"
     >
-    <link rel="stylesheet" href="style.css?v=20260609151219">
+    <link rel="stylesheet" href="style.css?v=20260610002320">
 </head>
 <body data-page="home">
     <nav class="site-nav" aria-label="站点导航">
@@ -114,8 +114,15 @@
         <section class="page-section" id="resume">
             <div class="container">
                 <div class="glass-panel resume-panel reveal">
-                    <p class="section-kicker">RESUME</p>
-                    <h2>个人简历</h2>
+                    <div class="resume-title-row">
+                        <div>
+                            <p class="section-kicker">RESUME</p>
+                            <h2>个人简历</h2>
+                        </div>
+                        <button class="resume-download-button" type="button" data-open-resume-download>
+                            详细简历 Download
+                        </button>
+                    </div>
                     <div class="resume-grid" aria-label="简历概要">
                         <div>
                             <span>Research</span>
@@ -234,7 +241,22 @@
         <img id="image-fullscreen-img" alt="">
     </div>
 
-    <script src="content-manifest.js?v=20260609151219"></script>
-    <script src="script.js?v=20260609151219"></script>
+    <div class="resume-download-modal" id="resume-download-modal" hidden>
+        <button class="resume-download-backdrop" type="button" aria-label="关闭详细简历下载窗口" data-close-resume-download></button>
+        <form class="glass-panel resume-download-window" id="resume-download-form" aria-labelledby="resume-download-title">
+            <button class="modal-close" type="button" aria-label="关闭" data-close-resume-download>×</button>
+            <p class="section-kicker">PRIVATE CV</p>
+            <h3 id="resume-download-title">详细简历 Download</h3>
+            <label class="resume-password-field">
+                <span>验证密码</span>
+                <input id="resume-password" type="password" inputmode="numeric" autocomplete="off" placeholder="请输入验证密码">
+            </label>
+            <p class="resume-download-status" id="resume-download-status" aria-live="polite"></p>
+            <button class="resume-confirm-button" type="submit">验证并下载</button>
+        </form>
+    </div>
+
+    <script src="content-manifest.js?v=20260610002320"></script>
+    <script src="script.js?v=20260610002320"></script>
 </body>
 </html>
