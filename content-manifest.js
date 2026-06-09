@@ -1,5 +1,5 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-06-02T09:24:57.129Z",
+    "generatedAt": "2026-06-09T15:12:19.095Z",
     "blogs": [
         {
             "slug": "MoE Expert Parallel Communication",
