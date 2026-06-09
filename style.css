@@ -678,19 +678,34 @@ img {
     padding: 32px;
 }
 
+.resume-panel h2 {
+    margin-bottom: 20px;
+    font-size: clamp(2rem, 3vw, 2.7rem);
+}
+
 .resume-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 26px;
+    gap: 0;
+    margin-top: 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
 }
 
 .resume-grid div {
-    min-height: 112px;
-    padding: 18px;
-    border: 1px solid var(--line-soft);
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.055);
+    min-height: auto;
+    padding: 0 20px;
+    border-left: 1px solid var(--line-soft);
+}
+
+.resume-grid div:first-child {
+    padding-left: 0;
+    border-left: 0;
+}
+
+.resume-grid div:last-child {
+    padding-right: 0;
 }
 
 .resume-grid span {
@@ -704,44 +719,43 @@ img {
 
 .resume-grid strong {
     display: block;
-    margin-top: 14px;
+    margin-top: 8px;
     color: var(--text);
-    font-size: 1.08rem;
-    line-height: 1.35;
+    font-size: 1rem;
+    line-height: 1.32;
 }
 
 .resume-detail-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-    margin-top: 16px;
+    column-gap: 36px;
+    row-gap: 0;
+    margin-top: 18px;
 }
 
 .resume-detail-grid section {
-    padding: 18px;
-    border: 1px solid var(--line-soft);
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.045);
+    padding: 16px 0;
+    border-top: 1px solid var(--line-soft);
 }
 
 .resume-detail-grid h3 {
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     color: var(--text);
-    font-size: 1.06rem;
+    font-size: 1rem;
 }
 
 .resume-detail-grid ul {
     margin: 0;
     padding-left: 1.2rem;
     color: var(--muted);
-    line-height: 1.78;
+    line-height: 1.6;
 }
 
 .resume-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 14px;
 }
 
 .contact-panel {
@@ -1250,6 +1264,23 @@ img {
 
     .resume-grid {
         grid-template-columns: 1fr;
+    }
+
+    .resume-grid div,
+    .resume-grid div:first-child,
+    .resume-grid div:last-child {
+        padding: 12px 0;
+        border-left: 0;
+        border-top: 1px solid var(--line-soft);
+    }
+
+    .resume-grid div:first-child {
+        padding-top: 0;
+        border-top: 0;
+    }
+
+    .resume-grid div:last-child {
+        padding-bottom: 0;
     }
 
     .resume-detail-grid {
