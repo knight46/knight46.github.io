@@ -2,7 +2,7 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 const pageType = document.body.dataset.page || "home";
 const manifest = window.CONTENT_MANIFEST || { blogs: [], album: [] };
 const SITE_URL = "https://knight46.github.io";
-const SITE_ASSET_VERSION = "20260610021452";
+const SITE_ASSET_VERSION = "20260610022929";
 const RESUME_PACKET = {
     path: `src/documents/resume-packet.bin?v=${SITE_ASSET_VERSION}`,
     salt: "Rkm8W3X7TZpLM366qSuizw==",
