@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 01 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 15 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>资源感知的 GPU 训练重叠：让通信真正跑起来</title>
+            <link>https://knight46.github.io/blog.html?slug=Resource%20Aware%20GPU%20Overlap</link>
+            <guid>https://knight46.github.io/blog.html?slug=Resource%20Aware%20GPU%20Overlap</guid>
+            <pubDate>Mon, 15 Jun 2026 00:00:00 GMT</pubDate>
+            <description>阅读近期 GPU 分布式训练论文后的一篇工程笔记，讨论计算-通信重叠为什么会被资源竞争削弱，以及如何用 occupancy shaping、通信流优先级和 timeline profiling 把 overlap 做成可控优化。</description>
+            <category>HPC</category><category>HPC</category><category>GPU</category><category>CUDA</category><category>Distributed Training</category><category>Communication</category><category>Performance</category>
+        </item>
         <item>
             <title>MoE 推理的 Expert Parallel 通信：从 DeepEP 到 NCCL EP</title>
             <link>https://knight46.github.io/blog.html?slug=MoE%20Expert%20Parallel%20Communication</link>
