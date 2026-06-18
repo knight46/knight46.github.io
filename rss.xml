@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 15 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 19 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA Graph 与 LLM Serving：从启动开销到动态图执行</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20Graph%20LLM%20Serving</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20Graph%20LLM%20Serving</guid>
+            <pubDate>Fri, 19 Jun 2026 00:00:00 GMT</pubDate>
+            <description>阅读 2025-2026 年 CUDA Graph、LLM serving 和 GPU 通信系统论文后的一篇工程笔记，讨论为什么 CUDA Graph 能降低 launch overhead，却仍要面对冷启动、动态 shape、通信图和 megakernel 边界。</description>
+            <category>HPC</category><category>HPC</category><category>GPU</category><category>CUDA Graph</category><category>LLM Serving</category><category>Runtime</category><category>Performance</category>
+        </item>
         <item>
             <title>资源感知的 GPU 训练重叠：让通信真正跑起来</title>
             <link>https://knight46.github.io/blog.html?slug=Resource%20Aware%20GPU%20Overlap</link>

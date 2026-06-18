@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-labelledby="title desc">
+  <title id="title">CUDA Graph runtime for LLM serving</title>
+  <desc id="desc">A framework diagram showing stream launch overhead, CUDA Graph template materialization, graph replay, communication graph, and dynamic fallback paths.</desc>
+  <defs>
+    <linearGradient id="cpuGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+    <linearGradient id="graphGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#22c55e"/>
+    </linearGradient>
+    <linearGradient id="commGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <filter id="softShadow" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="560" fill="#f8fafc"/>
+  <rect x="42" y="36" width="896" height="488" rx="8" fill="#ffffff" stroke="#cbd5e1" filter="url(#softShadow)"/>
+
+  <text x="72" y="82" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#0f172a">CUDA Graph for LLM Serving</text>
+  <text x="72" y="112" font-family="Arial, sans-serif" font-size="15" fill="#475569">Turn repeated decode and communication workflows into reusable graph templates, while preserving dynamic fallback paths.</text>
+
+  <rect x="72" y="150" width="232" height="118" rx="8" fill="url(#panelGrad)" stroke="#cbd5e1"/>
+  <text x="94" y="181" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#0f172a">Stream baseline</text>
+  <rect x="94" y="204" width="46" height="24" rx="4" fill="url(#cpuGrad)"/>
+  <rect x="150" y="204" width="46" height="24" rx="4" fill="url(#cpuGrad)"/>
+  <rect x="206" y="204" width="46" height="24" rx="4" fill="url(#cpuGrad)"/>
+  <text x="94" y="248" font-family="Arial, sans-serif" font-size="13" fill="#475569">many CPU launches</text>
+
+  <path d="M 304 209 L 388 209" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="388" y="150" width="238" height="118" rx="8" fill="url(#panelGrad)" stroke="#cbd5e1"/>
+  <text x="410" y="181" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#0f172a">Offline template</text>
+  <circle cx="430" cy="216" r="14" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <circle cx="486" cy="216" r="14" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+  <circle cx="542" cy="216" r="14" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <path d="M 444 216 L 472 216 M 500 216 L 528 216" stroke="#334155" stroke-width="2"/>
+  <text x="410" y="248" font-family="Arial, sans-serif" font-size="13" fill="#475569">topology, memory layout, binaries</text>
+
+  <path d="M 626 209 L 710 209" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="710" y="150" width="176" height="118" rx="8" fill="url(#graphGrad)" opacity="0.95"/>
+  <text x="732" y="181" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#ffffff">Fast replay</text>
+  <text x="732" y="213" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">one graph launch</text>
+  <text x="732" y="239" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">lower cold start</text>
+
+  <text x="86" y="326" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#0f172a">Runtime control plane</text>
+  <line x1="86" y1="352" x2="866" y2="352" stroke="#cbd5e1" stroke-width="2"/>
+  <path d="M 840 352 L 866 352" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="386" width="176" height="74" rx="8" fill="#eff6ff" stroke="#60a5fa"/>
+  <text x="132" y="416" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#1d4ed8">Shape buckets</text>
+  <text x="132" y="441" font-family="Arial, sans-serif" font-size="13" fill="#334155">batch / seq / model</text>
+
+  <rect x="328" y="386" width="176" height="74" rx="8" fill="#f0fdf4" stroke="#4ade80"/>
+  <text x="350" y="416" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#15803d">Graph cache</text>
+  <text x="350" y="441" font-family="Arial, sans-serif" font-size="13" fill="#334155">instantiate once, replay</text>
+
+  <rect x="546" y="386" width="176" height="74" rx="8" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="568" y="416" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#c2410c">Comm graph</text>
+  <text x="568" y="441" font-family="Arial, sans-serif" font-size="13" fill="#334155">NCCL / UCX / P2P</text>
+
+  <rect x="764" y="386" width="102" height="74" rx="8" fill="#fef2f2" stroke="#f87171"/>
+  <text x="786" y="416" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#b91c1c">Fallback</text>
+  <text x="786" y="441" font-family="Arial, sans-serif" font-size="13" fill="#334155">recapture</text>
+
+  <path d="M 286 423 L 328 423" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 504 423 L 546 423" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 722 423 L 764 423" stroke="#334155" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="490" width="756" height="36" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <rect x="126" y="500" width="154" height="16" rx="3" fill="url(#graphGrad)"/>
+  <rect x="298" y="500" width="122" height="16" rx="3" fill="url(#commGrad)"/>
+  <rect x="438" y="500" width="228" height="16" rx="3" fill="url(#graphGrad)"/>
+  <rect x="684" y="500" width="82" height="16" rx="3" fill="#fee2e2" stroke="#f87171"/>
+  <text x="782" y="514" font-family="Arial, sans-serif" font-size="12" fill="#64748b">shorter critical path</text>
+</svg>
