@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 19 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 28 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA Agent：让模型学会写高性能 CUDA Kernel</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20Agent%20Kernel%20Generation</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20Agent%20Kernel%20Generation</guid>
+            <pubDate>Sun, 28 Jun 2026 00:00:00 GMT</pubDate>
+            <description>读 CUDA Agent、KernelBench 与 PyTorch torch.compile 文档后的一篇系统笔记，解释为什么自动 CUDA kernel 生成不能只靠一次性代码补全，以及 CUDA Agent 如何用任务合成、受保护执行环境和长程强化学习训练出可验证的优化能力。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>GPU</category><category>AI Systems</category><category>Kernel Generation</category><category>Reinforcement Learning</category><category>KernelBench</category>
+        </item>
         <item>
             <title>CUDA Graph 与 LLM Serving：从启动开销到动态图执行</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20Graph%20LLM%20Serving</link>
