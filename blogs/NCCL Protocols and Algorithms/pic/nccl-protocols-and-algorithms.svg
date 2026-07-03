@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 560" role="img" aria-labelledby="title desc">
+  <title id="title">NCCL collective execution framework</title>
+  <desc id="desc">A diagram showing how an NCCL collective is transformed into channels, protocols, topology algorithms, GPU kernels, CPU proxies, and NIC transfers.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#eef4ff"/>
+    </linearGradient>
+    <linearGradient id="gpu" x1="0" x2="1">
+      <stop offset="0" stop-color="#e6f7ff"/>
+      <stop offset="1" stop-color="#d2ecff"/>
+    </linearGradient>
+    <linearGradient id="net" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff4de"/>
+      <stop offset="1" stop-color="#ffe4b5"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b5b7a"/>
+    </marker>
+    <style>
+      .panel{fill:white;stroke:#b9c7d8;stroke-width:1.4;rx:18;filter:url(#shadow)}
+      .box{fill:#ffffff;stroke:#89a5c2;stroke-width:1.3;rx:12}
+      .gpuBox{fill:url(#gpu);stroke:#5c9fca;stroke-width:1.4;rx:14}
+      .netBox{fill:url(#net);stroke:#d59b46;stroke-width:1.4;rx:14}
+      .small{font: 14px sans-serif; fill:#31445a}
+      .tiny{font: 12px sans-serif; fill:#4e6177}
+      .title{font: 23px sans-serif; font-weight:700; fill:#1f344d}
+      .label{font: 16px sans-serif; font-weight:700; fill:#253b53}
+      .arrow{stroke:#3b5b7a;stroke-width:2;fill:none;marker-end:url(#arrow)}
+      .dash{stroke:#7c8fa5;stroke-width:1.7;fill:none;stroke-dasharray:6 5;marker-end:url(#arrow)}
+    </style>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#2c4966" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="980" height="560" fill="url(#bg)"/>
+  <text x="490" y="44" text-anchor="middle" class="title">NCCL：把 Collective API 展开成通信时间线</text>
+
+  <rect x="42" y="82" width="188" height="108" class="panel"/>
+  <text x="136" y="113" text-anchor="middle" class="label">用户侧调用</text>
+  <text x="136" y="142" text-anchor="middle" class="small">AllReduce / ReduceScatter</text>
+  <text x="136" y="164" text-anchor="middle" class="tiny">CUDA stream + communicator</text>
+
+  <rect x="286" y="72" width="214" height="128" class="panel"/>
+  <text x="393" y="103" text-anchor="middle" class="label">NCCL Runtime</text>
+  <rect x="310" y="122" width="76" height="42" class="box"/>
+  <text x="348" y="148" text-anchor="middle" class="tiny">Topology</text>
+  <rect x="400" y="122" width="76" height="42" class="box"/>
+  <text x="438" y="148" text-anchor="middle" class="tiny">Heuristic</text>
+  <text x="393" y="183" text-anchor="middle" class="tiny">选择 channel / protocol / algorithm</text>
+
+  <rect x="556" y="82" width="382" height="108" class="panel"/>
+  <text x="747" y="113" text-anchor="middle" class="label">执行计划</text>
+  <rect x="582" y="132" width="92" height="36" class="box"/>
+  <text x="628" y="154" text-anchor="middle" class="tiny">Channels</text>
+  <rect x="692" y="132" width="92" height="36" class="box"/>
+  <text x="738" y="154" text-anchor="middle" class="tiny">Simple/LL</text>
+  <rect x="802" y="132" width="104" height="36" class="box"/>
+  <text x="854" y="154" text-anchor="middle" class="tiny">Ring / Tree</text>
+
+  <path d="M230 136 C250 136 260 136 286 136" class="arrow"/>
+  <path d="M500 136 C524 136 534 136 556 136" class="arrow"/>
+
+  <rect x="74" y="260" width="262" height="210" class="gpuBox"/>
+  <text x="205" y="292" text-anchor="middle" class="label">GPU Kernel</text>
+  <text x="205" y="323" text-anchor="middle" class="small">每个 channel ≈ 一个通信流水线</text>
+  <rect x="102" y="350" width="206" height="34" class="box"/>
+  <text x="205" y="372" text-anchor="middle" class="tiny">copy / reduce / flag polling</text>
+  <rect x="102" y="396" width="206" height="34" class="box"/>
+  <text x="205" y="418" text-anchor="middle" class="tiny">chunk pipeline + SM 并行</text>
+  <text x="205" y="451" text-anchor="middle" class="tiny">目标：降低同步开销并吃满链路</text>
+
+  <rect x="408" y="260" width="198" height="210" class="panel"/>
+  <text x="507" y="292" text-anchor="middle" class="label">CPU Proxy</text>
+  <text x="507" y="324" text-anchor="middle" class="small">跨节点网络推进</text>
+  <rect x="438" y="350" width="138" height="34" class="box"/>
+  <text x="507" y="372" text-anchor="middle" class="tiny">FIFO / connection</text>
+  <rect x="438" y="396" width="138" height="34" class="box"/>
+  <text x="507" y="418" text-anchor="middle" class="tiny">QP / NUMA / progress</text>
+
+  <rect x="678" y="260" width="228" height="210" class="netBox"/>
+  <text x="792" y="292" text-anchor="middle" class="label">NIC / Interconnect</text>
+  <text x="792" y="324" text-anchor="middle" class="small">NVLink / PCIe / InfiniBand</text>
+  <rect x="706" y="350" width="172" height="34" class="box"/>
+  <text x="792" y="372" text-anchor="middle" class="tiny">payload utilization</text>
+  <rect x="706" y="396" width="172" height="34" class="box"/>
+  <text x="792" y="418" text-anchor="middle" class="tiny">multi-rail / ECMP</text>
+
+  <path d="M747 190 C720 220 600 230 507 260" class="dash"/>
+  <path d="M650 190 C530 222 350 220 205 260" class="dash"/>
+  <path d="M822 190 C850 220 850 235 792 260" class="dash"/>
+  <path d="M336 365 C360 365 382 365 408 365" class="arrow"/>
+  <path d="M606 365 C630 365 650 365 678 365" class="arrow"/>
+  <path d="M678 414 C650 414 630 414 606 414" class="arrow"/>
+  <path d="M408 414 C380 414 360 414 336 414" class="arrow"/>
+
+  <rect x="224" y="500" width="532" height="36" rx="18" fill="#e9f2fb" stroke="#abc0d5"/>
+  <text x="490" y="523" text-anchor="middle" class="small">性能拐点来自：消息大小 × channel 数 × protocol × 拓扑 × proxy/NIC 行为</text>
+</svg>

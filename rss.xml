@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Sun, 28 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 03 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>NCCL 内部机制：从 Channels、Protocols 到 Ring/Tree</title>
+            <link>https://knight46.github.io/blog.html?slug=NCCL%20Protocols%20and%20Algorithms</link>
+            <guid>https://knight46.github.io/blog.html?slug=NCCL%20Protocols%20and%20Algorithms</guid>
+            <pubDate>Fri, 03 Jul 2026 00:00:00 GMT</pubDate>
+            <description>阅读 Demystifying NCCL、NVIDIA NCCL 文档和官方主页后的一篇系统笔记，解释 NCCL 为什么不只是一个 all-reduce API，而是一套把 GPU、CPU、NIC、拓扑、协议和算法组织成通信时间线的 runtime。</description>
+            <category>HPC</category><category>HPC</category><category>GPU Communication</category><category>NCCL</category><category>Distributed Training</category><category>Collective Communication</category><category>AI Systems</category>
+        </item>
         <item>
             <title>CUDA Agent：让模型学会写高性能 CUDA Kernel</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20Agent%20Kernel%20Generation</link>
