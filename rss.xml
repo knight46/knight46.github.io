@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 03 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 07 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>SAC：用 CXL 重新设计稀疏注意力的 KV Cache</title>
+            <link>https://knight46.github.io/blog.html?slug=CXL%20Sparse%20KV%20Cache</link>
+            <guid>https://knight46.github.io/blog.html?slug=CXL%20Sparse%20KV%20Cache</guid>
+            <pubDate>Tue, 07 Jul 2026 00:00:00 GMT</pubDate>
+            <description>读 SAC 与 KV cache 分层管理相关工作的笔记：当长上下文 LLM 进入稀疏注意力时代，传统 RDMA 全量预取 prefix KV 的方式会浪费带宽和本地内存；CXL 的细粒度 load/store 语义则让按需读取 top-k KV 成为可能。</description>
+            <category>AI Systems</category><category>AI Systems</category><category>LLM Inference</category><category>KV Cache</category><category>CXL</category><category>Sparse Attention</category>
+        </item>
         <item>
             <title>NCCL 内部机制：从 Channels、Protocols 到 Ring/Tree</title>
             <link>https://knight46.github.io/blog.html?slug=NCCL%20Protocols%20and%20Algorithms</link>

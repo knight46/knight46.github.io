@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-labelledby="title desc">
+  <title id="title">SAC: CXL disaggregated KV cache for sparse attention</title>
+  <desc id="desc">Diagram comparing RDMA full-prefix fetching with CXL on-demand sparse KV fetching for LLM inference.</desc>
+  <defs>
+    <linearGradient id="gpu" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="cxl" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#15803d"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .label{font:600 20px ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;fill:#0f172a}
+      .small{font:500 15px ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;fill:#334155}
+      .tiny{font:500 13px ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;fill:#475569}
+      .box{rx:18;stroke:#cbd5e1;stroke-width:2;fill:#f8fafc}
+      .pill{rx:12;fill:#e2e8f0;stroke:#cbd5e1}
+      .bad{fill:#fee2e2;stroke:#fca5a5}
+      .good{fill:#dcfce7;stroke:#86efac}
+      .line{stroke:#334155;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .dashed{stroke-dasharray:8 7}
+    </style>
+  </defs>
+
+  <rect x="20" y="18" width="940" height="524" rx="28" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="490" y="58" text-anchor="middle" class="label">稀疏注意力下的 KV Cache：从“整段搬回”到“按需读取”</text>
+
+  <rect x="55" y="92" width="405" height="395" class="box"/>
+  <text x="258" y="128" text-anchor="middle" class="label">RDMA 式全量预取</text>
+  <rect x="95" y="160" width="145" height="70" rx="16" fill="url(#gpu)"/>
+  <text x="168" y="202" text-anchor="middle" fill="white" class="small">GPU Decode</text>
+  <rect x="280" y="156" width="130" height="78" class="pill bad"/>
+  <text x="345" y="187" text-anchor="middle" class="small">本地内存</text>
+  <text x="345" y="209" text-anchor="middle" class="tiny">完整 prefix KV</text>
+  <path d="M410 195 C455 195 455 282 410 282" class="line dashed"/>
+  <rect x="250" y="262" width="170" height="88" class="pill bad"/>
+  <text x="335" y="294" text-anchor="middle" class="small">RDMA KV Pool</text>
+  <text x="335" y="318" text-anchor="middle" class="tiny">GB 级连续搬运</text>
+  <path d="M335 262 L345 236" class="line"/>
+  <text x="106" y="390" class="small">问题：</text>
+  <text x="106" y="418" class="tiny">1. 解码前等待完整 prefix 到达，TTFT 被拉长</text>
+  <text x="106" y="443" class="tiny">2. 稀疏注意力只用少量 top-k，却占用本地内存</text>
+
+  <rect x="520" y="92" width="405" height="395" class="box"/>
+  <text x="723" y="128" text-anchor="middle" class="label">SAC：CXL 按需稀疏读取</text>
+  <rect x="560" y="160" width="145" height="70" rx="16" fill="url(#gpu)"/>
+  <text x="633" y="202" text-anchor="middle" fill="white" class="small">GPU Decode</text>
+  <rect x="746" y="147" width="130" height="98" class="pill good"/>
+  <text x="811" y="178" text-anchor="middle" class="small">CXL 内存池</text>
+  <text x="811" y="200" text-anchor="middle" class="tiny">完整 KV 常驻</text>
+  <text x="811" y="222" text-anchor="middle" class="tiny">cache-line load/store</text>
+  <path d="M706 195 L744 195" class="line"/>
+  <rect x="590" y="280" width="92" height="48" class="pill"/>
+  <text x="636" y="310" text-anchor="middle" class="tiny">Indexer</text>
+  <path d="M636 230 L636 278" class="line"/>
+  <path d="M682 304 C735 304 756 258 793 245" class="line dashed"/>
+  <text x="695" y="358" class="small">每层动态选择 top-k KV</text>
+  <text x="695" y="384" class="tiny">只把本轮真正访问的稀疏条目读到计算路径</text>
+  <text x="572" y="430" class="small">收益：</text>
+  <text x="572" y="456" class="tiny">更低传输压力、更少本地内存占用、更接近实时稀疏访存</text>
+
+  <text x="490" y="522" text-anchor="middle" class="tiny">核心区别：RDMA 更像消息式搬运大块数据；CXL 更像远端内存被处理器按 cache line 读取。</text>
+</svg>
