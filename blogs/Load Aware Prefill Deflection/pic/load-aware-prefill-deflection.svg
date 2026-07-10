@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title desc">
+  <title id="title">Load-aware prefill deflection for disaggregated LLM serving</title>
+  <desc id="desc">A scheduler estimates prefill-node TTFT and decode-node TBT headroom, then either keeps a request on prefill nodes or deflects chunked prefill to decode nodes to avoid KV transfer.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fbff"/>
+      <stop offset="100%" stop-color="#eef3ff"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <style>
+      .title { font: 700 28px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .subtitle { font: 500 15px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .label { font: 700 18px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .small { font: 500 13px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .tiny { font: 600 12px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #64748b; }
+      .white { fill: #fff; }
+      .card { fill: #fff; stroke: #cbd5e1; stroke-width: 1.5; filter: drop-shadow(0 8px 18px rgba(15,23,42,.08)); }
+      .soft { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .dash { stroke-dasharray: 8 7; }
+    </style>
+  </defs>
+
+  <rect width="1120" height="620" rx="28" fill="url(#bg)"/>
+  <text x="56" y="58" class="title">Kairos：负载感知的 Prefill Deflection</text>
+  <text x="56" y="86" class="subtitle">在分离式 LLM serving 中，把一部分 prefill 以 chunk 形式借道 decode 节点执行，降低 TTFT 尾延迟并保护 TBT SLO。</text>
+
+  <rect x="54" y="130" width="210" height="320" rx="22" class="card"/>
+  <text x="82" y="168" class="label">请求入口</text>
+  <text x="82" y="194" class="small">长尾 prompt / bursty arrivals</text>
+  <rect x="82" y="232" width="154" height="42" rx="12" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="108" y="258" class="small">Request A</text>
+  <rect x="82" y="292" width="154" height="42" rx="12" fill="#ede9fe" stroke="#c4b5fd"/>
+  <text x="108" y="318" class="small">Request B</text>
+  <rect x="82" y="352" width="154" height="42" rx="12" fill="#dcfce7" stroke="#86efac"/>
+  <text x="108" y="378" class="small">Request C</text>
+
+  <rect x="340" y="120" width="270" height="340" rx="24" class="card"/>
+  <rect x="372" y="154" width="206" height="54" rx="16" fill="url(#blue)"/>
+  <text x="414" y="187" class="label white">Kairos Scheduler</text>
+  <rect x="374" y="236" width="202" height="52" rx="14" class="soft"/>
+  <text x="397" y="258" class="small">估计 prefill 队列 TTFT</text>
+  <text x="397" y="276" class="tiny">queue + exec + KV transfer</text>
+  <rect x="374" y="310" width="202" height="52" rx="14" class="soft"/>
+  <text x="397" y="332" class="small">扫描 decode 节点余量</text>
+  <text x="397" y="350" class="tiny">batch, KV occupancy, TBT headroom</text>
+  <rect x="374" y="384" width="202" height="52" rx="14" class="soft"/>
+  <text x="397" y="406" class="small">选择安全 chunk schedule</text>
+  <text x="397" y="424" class="tiny">TTFT_dec ≤ α · TTFT_pf 且 TBT 安全</text>
+
+  <rect x="704" y="118" width="338" height="164" rx="24" class="card"/>
+  <text x="734" y="156" class="label">Prefill Pool</text>
+  <text x="734" y="180" class="small">计算密集，容易在突发流量下排队</text>
+  <rect x="734" y="210" width="126" height="42" rx="12" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="759" y="236" class="small">full prefill</text>
+  <rect x="884" y="210" width="126" height="42" rx="12" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="903" y="236" class="small">KV transfer</text>
+
+  <rect x="704" y="334" width="338" height="186" rx="24" class="card"/>
+  <text x="734" y="372" class="label">Decode Pool</text>
+  <text x="734" y="396" class="small">memory-bound decode，仍有计算余量</text>
+  <rect x="734" y="426" width="278" height="64" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+  <rect x="754" y="444" width="56" height="28" rx="8" fill="url(#purple)"/>
+  <text x="770" y="463" class="tiny white">D</text>
+  <rect x="824" y="444" width="70" height="28" rx="8" fill="url(#green)"/>
+  <text x="836" y="463" class="tiny white">P chunk</text>
+  <rect x="908" y="444" width="56" height="28" rx="8" fill="url(#purple)"/>
+  <text x="924" y="463" class="tiny white">D</text>
+  <text x="756" y="512" class="tiny">在 TBT SLO 内把 chunked prefill 插入 decode step</text>
+
+  <path d="M264 290 C300 290 306 290 340 290" fill="none" stroke="#475569" stroke-width="2.4" marker-end="url(#arrow)"/>
+  <path d="M610 252 C654 208 662 200 704 200" fill="none" stroke="#475569" stroke-width="2.4" marker-end="url(#arrow)"/>
+  <path d="M610 384 C652 420 662 426 704 426" fill="none" stroke="#2563eb" stroke-width="3" marker-end="url(#arrowBlue)"/>
+  <path d="M874 282 C874 310 874 314 874 334" fill="none" stroke="#ef4444" stroke-width="2.4" class="dash" marker-end="url(#arrow)"/>
+  <text x="892" y="312" class="tiny">传统路径需要跨节点 KV cache</text>
+
+  <rect x="86" y="494" width="500" height="70" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="112" y="522" class="small">核心收益：减少 prefill 排队 + 消除被 deflect 请求的 inter-node KV transfer</text>
+  <text x="112" y="546" class="small">核心约束：不能让已有 decode 的 Time-Between-Tokens 超过 SLO</text>
+</svg>

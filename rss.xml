@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Tue, 07 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 10 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>Kairos：分离式 LLM Serving 里的负载感知 Prefill Deflection</title>
+            <link>https://knight46.github.io/blog.html?slug=Load%20Aware%20Prefill%20Deflection</link>
+            <guid>https://knight46.github.io/blog.html?slug=Load%20Aware%20Prefill%20Deflection</guid>
+            <pubDate>Fri, 10 Jul 2026 00:00:00 GMT</pubDate>
+            <description>阅读 2026 年 Kairos / Load-Aware Prefill Deflection、Splitwise、vLLM 与 BulletServe 相关资料后的一篇系统笔记，解释为什么预填充-解码分离后 prefill 队列和 KV 传输会成为 TTFT 尾延迟瓶颈，以及如何用 TBT 安全的 chunked prefill 把部分请求借道 decode 节点执行。</description>
+            <category>AI Systems</category><category>AI Systems</category><category>LLM Serving</category><category>Disaggregated Inference</category><category>Scheduling</category><category>KV Cache</category><category>vLLM</category>
+        </item>
         <item>
             <title>SAC：用 CXL 重新设计稀疏注意力的 KV Cache</title>
             <link>https://knight46.github.io/blog.html?slug=CXL%20Sparse%20KV%20Cache</link>
