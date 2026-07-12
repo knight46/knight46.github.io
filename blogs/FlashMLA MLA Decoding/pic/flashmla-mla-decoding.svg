@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title desc">
+  <title id="title">FlashMLA and MLA decoding framework</title>
+  <desc id="desc">A framework diagram showing MLA model structure, paged latent KV cache, FlashMLA decoding kernel, Hopper tensor core execution, FP8 quantization, and serving runtime feedback.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#264653"/>
+    </marker>
+    <linearGradient id="kernelGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="cacheGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#facc15"/>
+    </linearGradient>
+    <filter id="shadow" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+    <style>
+      text { font-family: Inter, "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif; }
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 8; filter: url(#shadow); }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 8; }
+      .model { fill: #eff6ff; stroke: #3b82f6; stroke-width: 2; rx: 8; }
+      .cache { fill: #fff7ed; stroke: #fb923c; stroke-width: 2; rx: 8; }
+      .runtime { fill: #f0fdf4; stroke: #22c55e; stroke-width: 2; rx: 8; }
+      .quant { fill: #f5f3ff; stroke: #8b5cf6; stroke-width: 2; rx: 8; }
+      .line { stroke: #264653; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .thin { stroke: #94a3b8; stroke-width: 1.8; fill: none; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 7 6; }
+      .h1 { font-size: 27px; font-weight: 700; fill: #0f172a; }
+      .h2 { font-size: 17px; font-weight: 700; fill: #1e293b; }
+      .body { font-size: 14px; fill: #334155; }
+      .small { font-size: 12px; fill: #64748b; }
+      .white { fill: #ffffff; }
+      .chip { font-size: 12px; font-weight: 700; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1120" height="620"/>
+  <rect class="panel" x="38" y="32" width="1044" height="544"/>
+  <text class="h1" x="72" y="76">FlashMLA / MLA Decoding：把 latent KV 结构兑现成 GPU 时间线收益</text>
+  <text class="body" x="72" y="106">核心路径：MLA 降低 KV cache 字节数，FlashMLA 类内核把 paged cache、online softmax、Tensor Core tile 和 FP8 scale 组织到一条 decode fast path。</text>
+
+  <rect class="model" x="74" y="154" width="230" height="126"/>
+  <text class="h2" x="98" y="186">MLA model layer</text>
+  <text class="body" x="98" y="214">low-rank latent KV</text>
+  <text class="body" x="98" y="238">decoupled RoPE</text>
+  <text class="body" x="98" y="262">matrix absorption</text>
+
+  <path class="line" d="M304 217 L382 217"/>
+
+  <rect class="cache" x="382" y="154" width="238" height="126"/>
+  <text class="h2" x="406" y="186">Paged latent KV cache</text>
+  <rect x="406" y="208" width="42" height="28" rx="4" fill="url(#cacheGrad)"/>
+  <rect x="456" y="208" width="42" height="28" rx="4" fill="url(#cacheGrad)" opacity="0.86"/>
+  <rect x="506" y="208" width="42" height="28" rx="4" fill="url(#cacheGrad)" opacity="0.72"/>
+  <rect x="556" y="208" width="42" height="28" rx="4" fill="url(#cacheGrad)" opacity="0.58"/>
+  <text class="small" x="406" y="260">page table maps logical tokens to physical blocks</text>
+
+  <path class="line" d="M620 217 L696 217"/>
+
+  <rect x="696" y="144" width="316" height="146" rx="8" fill="url(#kernelGrad)" stroke="#0f766e" stroke-width="2"/>
+  <text class="h2 white" x="724" y="178">FlashMLA decode kernel</text>
+  <text class="body white" x="724" y="208">split KV along sequence length</text>
+  <text class="body white" x="724" y="232">online softmax in registers</text>
+  <text class="body white" x="724" y="256">shared-memory staging + Tensor Core MMA</text>
+
+  <rect class="box" x="74" y="354" width="220" height="112"/>
+  <text class="h2" x="98" y="386">Serving shape</text>
+  <text class="body" x="98" y="414">batch, context length</text>
+  <text class="body" x="98" y="438">head split, page size</text>
+
+  <rect class="quant" x="344" y="344" width="250" height="132"/>
+  <text class="h2" x="368" y="376">FP8 / BF16 policy</text>
+  <text class="body" x="368" y="404">RoPE-aware quantization</text>
+  <text class="body" x="368" y="428">scale-aware PV computation</text>
+  <text class="body" x="368" y="452">mixed precision for sensitive paths</text>
+
+  <rect class="runtime" x="650" y="344" width="362" height="132"/>
+  <text class="h2" x="674" y="376">Runtime integration</text>
+  <text class="body" x="674" y="404">CUDA Graph buckets and fallback paths</text>
+  <text class="body" x="674" y="428">FlashInfer-style scheduling for dynamic KV lengths</text>
+  <text class="body" x="674" y="452">Nsight metrics: HBM, L2, SM, Tensor Core utilization</text>
+
+  <path class="thin" d="M184 354 L184 282"/>
+  <path class="thin" d="M469 344 L498 282"/>
+  <path class="thin" d="M831 344 L852 292"/>
+  <path class="thin dash" d="M650 424 C548 532, 274 520, 190 468"/>
+  <path class="line" d="M294 410 L344 410"/>
+  <path class="line" d="M594 410 L650 410"/>
+
+  <rect x="88" y="508" width="944" height="42" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <rect x="110" y="520" width="160" height="18" rx="4" fill="#3b82f6"/>
+  <text class="chip" x="132" y="534">less KV bytes</text>
+  <rect x="292" y="520" width="174" height="18" rx="4" fill="#f97316"/>
+  <text class="chip" x="312" y="534">coalesced cache loads</text>
+  <rect x="488" y="520" width="182" height="18" rx="4" fill="#14b8a6"/>
+  <text class="chip" x="510" y="534">higher Tensor Core use</text>
+  <rect x="692" y="520" width="176" height="18" rx="4" fill="#8b5cf6"/>
+  <text class="chip" x="712" y="534">quantized long decode</text>
+  <text class="small" x="890" y="534">目标：降低 TPOT 与长上下文 tail latency</text>
+</svg>

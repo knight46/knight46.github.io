@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 10 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 13 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>FlashMLA 与 MLA 解码：把长上下文推理的带宽账算清楚</title>
+            <link>https://knight46.github.io/blog.html?slug=FlashMLA%20MLA%20Decoding</link>
+            <guid>https://knight46.github.io/blog.html?slug=FlashMLA%20MLA%20Decoding</guid>
+            <pubDate>Mon, 13 Jul 2026 00:00:00 GMT</pubDate>
+            <description>阅读 FlashMLA、FlashMLA-ETAP、FlashInfer、SnapMLA 和 DeepSeek-V3 技术报告后的一篇系统笔记，解释 Multi-head Latent Attention 为什么能减少 KV cache，FlashMLA 类内核如何围绕 Hopper Tensor Core、paged KV cache、转置流水线和 FP8 量化优化长上下文 decode。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>GPU</category><category>LLM Serving</category><category>Attention Kernel</category><category>FlashMLA</category><category>MLA</category><category>Hopper</category>
+        </item>
         <item>
             <title>Kairos：分离式 LLM Serving 里的负载感知 Prefill Deflection</title>
             <link>https://knight46.github.io/blog.html?slug=Load%20Aware%20Prefill%20Deflection</link>
