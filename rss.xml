@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 13 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 17 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>UVM 显存超订阅训练：把统一内存做成可控的分层内存系统</title>
+            <link>https://knight46.github.io/blog.html?slug=UVM%20Oversubscription%20DL%20Training</link>
+            <guid>https://knight46.github.io/blog.html?slug=UVM%20Oversubscription%20DL%20Training</guid>
+            <pubDate>Fri, 17 Jul 2026 00:00:00 GMT</pubDate>
+            <description>阅读 EuroMLSys 2025 UVM 深度学习训练分析、NVIDIA CUDA Unified Memory/HMM 文档和 Shared Virtual Memory 研究后的一篇工程笔记，讨论 GPU 显存超订阅为什么会慢，以及如何用工作集拆分、prefetch、checkpoint/offload 和 profiling 把它做成可控训练策略。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>GPU Memory</category><category>Unified Memory</category><category>Deep Learning Training</category><category>HPC</category><category>Performance</category>
+        </item>
         <item>
             <title>FlashMLA 与 MLA 解码：把长上下文推理的带宽账算清楚</title>
             <link>https://knight46.github.io/blog.html?slug=FlashMLA%20MLA%20Decoding</link>

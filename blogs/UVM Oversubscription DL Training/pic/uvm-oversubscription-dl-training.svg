@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title desc">
+  <title id="title">UVM oversubscription training pipeline</title>
+  <desc id="desc">A GPU deep learning training system using Unified Memory, host memory, GPU memory, prefetch, page migration, and profiling feedback.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+    <linearGradient id="gpuGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ecfeff"/>
+      <stop offset="100%" stop-color="#dbeafe"/>
+    </linearGradient>
+    <linearGradient id="hostGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <style>
+      .bg { fill: #ffffff; }
+      .panel { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 18; }
+      .host { fill: url(#hostGrad); stroke: #64748b; stroke-width: 2; rx: 16; }
+      .gpu { fill: url(#gpuGrad); stroke: #2563eb; stroke-width: 2; rx: 16; }
+      .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; rx: 12; }
+      .hot { fill: #eff6ff; stroke: #3b82f6; stroke-width: 1.5; rx: 10; }
+      .warn { fill: #fff7ed; stroke: #f97316; stroke-width: 1.5; rx: 10; }
+      .good { fill: #f0fdf4; stroke: #16a34a; stroke-width: 1.5; rx: 10; }
+      .title { fill: #0f172a; font-family: Arial, sans-serif; font-size: 28px; font-weight: 700; }
+      .h2 { fill: #1e293b; font-family: Arial, sans-serif; font-size: 20px; font-weight: 700; }
+      .txt { fill: #334155; font-family: Arial, sans-serif; font-size: 15px; }
+      .small { fill: #475569; font-family: Arial, sans-serif; font-size: 13px; }
+      .arrow { stroke: #2563eb; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .muted { stroke: #94a3b8; stroke-width: 1.7; fill: none; stroke-dasharray: 6 6; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1120" height="620"/>
+  <text x="48" y="56" class="title">GPU 显存超订阅训练：把 UVM 当作受控内存层，而不是免费扩容</text>
+
+  <rect x="42" y="92" width="1036" height="442" class="panel"/>
+
+  <rect x="76" y="132" width="280" height="342" class="host"/>
+  <text x="104" y="170" class="h2">Host DRAM / System Memory</text>
+  <rect x="102" y="198" width="226" height="58" class="box"/>
+  <text x="120" y="224" class="txt">cold optimizer state</text>
+  <text x="120" y="245" class="small">Adam moments / checkpoints</text>
+  <rect x="102" y="276" width="226" height="58" class="box"/>
+  <text x="120" y="302" class="txt">inactive activations</text>
+  <text x="120" y="323" class="small">saved tensors after forward</text>
+  <rect x="102" y="354" width="226" height="58" class="box"/>
+  <text x="120" y="380" class="txt">prefetch staging window</text>
+  <text x="120" y="401" class="small">next layer / next microbatch</text>
+
+  <rect x="420" y="132" width="292" height="342" class="gpu"/>
+  <text x="450" y="170" class="h2">GPU HBM Working Set</text>
+  <rect x="452" y="198" width="228" height="58" class="hot"/>
+  <text x="470" y="224" class="txt">current layer tensors</text>
+  <text x="470" y="245" class="small">weights / activations / grads</text>
+  <rect x="452" y="276" width="228" height="58" class="hot"/>
+  <text x="470" y="302" class="txt">compute kernels</text>
+  <text x="470" y="323" class="small">GEMM, attention, backward</text>
+  <rect x="452" y="354" width="228" height="58" class="warn"/>
+  <text x="470" y="380" class="txt">page fault service path</text>
+  <text x="470" y="401" class="small">migration, replay, eviction</text>
+
+  <rect x="776" y="132" width="250" height="342" class="host"/>
+  <text x="804" y="170" class="h2">Runtime Control Plane</text>
+  <rect x="806" y="198" width="190" height="58" class="good"/>
+  <text x="824" y="224" class="txt">memory trace</text>
+  <text x="824" y="245" class="small">peak, reuse, fault rate</text>
+  <rect x="806" y="276" width="190" height="58" class="good"/>
+  <text x="824" y="302" class="txt">explicit prefetch</text>
+  <text x="824" y="323" class="small">cudaMemPrefetchAsync</text>
+  <rect x="806" y="354" width="190" height="58" class="good"/>
+  <text x="824" y="380" class="txt">training policy</text>
+  <text x="824" y="401" class="small">checkpoint / offload / UVM</text>
+
+  <path d="M328 383 C372 383 388 383 444 383" class="arrow"/>
+  <text x="350" y="366" class="small">demand migration</text>
+  <path d="M452 223 C396 223 382 223 336 223" class="arrow"/>
+  <text x="342" y="206" class="small">evict cold pages</text>
+  <path d="M680 304 C724 304 748 304 798 304" class="arrow"/>
+  <text x="698" y="286" class="small">fault + timeline feedback</text>
+  <path d="M806 304 C744 242 720 226 688 226" class="arrow"/>
+  <text x="728" y="214" class="small">prefetch hot pages</text>
+  <path d="M902 414 C902 508 220 508 220 422" class="muted"/>
+  <text x="424" y="510" class="small">profile-guided placement: keep hot working set in HBM, move cold tensors out</text>
+
+  <rect x="112" y="548" width="896" height="42" class="box"/>
+  <text x="138" y="574" class="txt">工程目标：减少 GPU page fault 暴露在关键路径上的时间，而不是简单把 batch/model 塞进“看似更大”的统一地址空间。</text>
+</svg>
