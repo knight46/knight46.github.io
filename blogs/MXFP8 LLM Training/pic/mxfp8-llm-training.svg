@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title desc">
+  <title id="title">MXFP8 LLM training framework</title>
+  <desc id="desc">A framework diagram showing BF16 reference training, MXFP8 quantization, Tensor Core GEMM, distributed communication, checkpointing, and stability monitoring.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .panel { fill: #ffffff; stroke: #c9d2df; stroke-width: 1.4; rx: 8; }
+      .stage { fill: #edf6ff; stroke: #4f83c4; stroke-width: 1.5; rx: 7; }
+      .stage2 { fill: #f0fbf5; stroke: #3c9b65; stroke-width: 1.5; rx: 7; }
+      .stage3 { fill: #fff5e8; stroke: #d08a2d; stroke-width: 1.5; rx: 7; }
+      .stage4 { fill: #f5f0ff; stroke: #7b61c8; stroke-width: 1.5; rx: 7; }
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: 700; fill: #1f2937; }
+      .text { font-family: Arial, Helvetica, sans-serif; font-size: 15px; fill: #334155; }
+      .small { font-family: Arial, Helvetica, sans-serif; font-size: 13px; fill: #475569; }
+      .mono { font-family: "SFMono-Regular", Consolas, monospace; font-size: 13px; fill: #334155; }
+      .arrow { stroke: #64748b; stroke-width: 2.2; fill: none; marker-end: url(#arrowhead); }
+      .dash { stroke: #94a3b8; stroke-width: 1.8; stroke-dasharray: 7 6; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M 0 0 L 10 4 L 0 8 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1120" height="620"/>
+  <text class="label" x="44" y="52">MXFP8 LLM Training System</text>
+  <text class="text" x="44" y="80">Low precision is a full training-stack contract: format, scaling, kernels, communication, checkpointing, and stability gates.</text>
+
+  <rect class="panel" x="36" y="112" width="1048" height="456"/>
+
+  <rect class="stage" x="74" y="158" width="190" height="108"/>
+  <text class="label" x="96" y="193">BF16 Reference</text>
+  <text class="small" x="96" y="220">fixed data mix</text>
+  <text class="small" x="96" y="241">LR schedule / seeds</text>
+
+  <rect class="stage2" x="326" y="136" width="222" height="152"/>
+  <text class="label" x="354" y="171">MXFP8 Policy</text>
+  <text class="small" x="354" y="198">32-element microscale</text>
+  <text class="small" x="354" y="220">E4M3 for W / A / dA</text>
+  <text class="small" x="354" y="242">row + column copies</text>
+  <text class="mono" x="354" y="266">scale = UE8M0 power-of-two</text>
+
+  <rect class="stage3" x="626" y="136" width="214" height="152"/>
+  <text class="label" x="655" y="171">Tensor Core Path</text>
+  <text class="small" x="655" y="198">QKV / Proj GEMM</text>
+  <text class="small" x="655" y="220">MLP gate / up / down</text>
+  <text class="small" x="655" y="242">FPROP / DGRAD / WGRAD</text>
+  <text class="mono" x="655" y="266">accumulate in high precision</text>
+
+  <rect class="stage4" x="902" y="158" width="142" height="108"/>
+  <text class="label" x="928" y="193">Loss Gate</text>
+  <text class="small" x="928" y="220">BF16 islands</text>
+  <text class="small" x="928" y="241">fallback policy</text>
+
+  <path class="arrow" d="M 264 212 C 292 212 298 212 326 212"/>
+  <path class="arrow" d="M 548 212 C 584 212 590 212 626 212"/>
+  <path class="arrow" d="M 840 212 C 870 212 872 212 902 212"/>
+
+  <rect class="stage2" x="146" y="364" width="208" height="116"/>
+  <text class="label" x="176" y="399">Distributed Train</text>
+  <text class="small" x="176" y="426">TP / PP / DP collectives</text>
+  <text class="small" x="176" y="448">FP8 payload boundaries</text>
+
+  <rect class="stage" x="456" y="350" width="210" height="144"/>
+  <text class="label" x="494" y="385">Checkpoint</text>
+  <text class="small" x="494" y="412">master weights</text>
+  <text class="small" x="494" y="434">scale buffers</text>
+  <text class="small" x="494" y="456">restart continuity</text>
+
+  <rect class="stage3" x="768" y="350" width="224" height="144"/>
+  <text class="label" x="805" y="385">Stability Monitor</text>
+  <text class="small" x="805" y="412">amax / saturation</text>
+  <text class="small" x="805" y="434">gradient norm / outliers</text>
+  <text class="small" x="805" y="456">long-horizon validation</text>
+
+  <path class="dash" d="M 733 288 C 733 326 715 366 666 408"/>
+  <path class="arrow" d="M 354 422 C 392 422 418 422 456 422"/>
+  <path class="arrow" d="M 666 422 C 704 422 730 422 768 422"/>
+  <path class="dash" d="M 880 350 C 886 312 895 284 924 250"/>
+
+  <rect x="74" y="518" width="970" height="1.5" fill="#d5dde8"/>
+  <text class="small" x="92" y="548">Engineering rule: do not benchmark FP8 only by early loss. Verify profiler path, distributed boundaries, checkpoint restart, and delayed divergence.</text>
+</svg>

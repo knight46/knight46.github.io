@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 17 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 20 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>MXFP8 训练 LLM：从低精度算力到稳定预训练配方</title>
+            <link>https://knight46.github.io/blog.html?slug=MXFP8%20LLM%20Training</link>
+            <guid>https://knight46.github.io/blog.html?slug=MXFP8%20LLM%20Training</guid>
+            <pubDate>Mon, 20 Jul 2026 00:00:00 GMT</pubDate>
+            <description>阅读 2024-2026 年 FP8/MXFP8 训练论文和工程资料后的一篇系统笔记，讨论 LLM 预训练为什么需要 microscaling、哪些张量能进 FP8、如何处理 outlier 和长期稳定性，以及在 GPU 训练栈中落地的验证流程。</description>
+            <category>HPC</category><category>HPC</category><category>GPU</category><category>FP8</category><category>MXFP8</category><category>LLM Training</category><category>Deep Learning Systems</category>
+        </item>
         <item>
             <title>UVM 显存超订阅训练：把统一内存做成可控的分层内存系统</title>
             <link>https://knight46.github.io/blog.html?slug=UVM%20Oversubscription%20DL%20Training</link>
