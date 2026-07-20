@@ -15,6 +15,14 @@
             <category>HPC</category><category>HPC</category><category>GPU</category><category>FP8</category><category>MXFP8</category><category>LLM Training</category><category>Deep Learning Systems</category>
         </item>
         <item>
+            <title>ParallelKittens：把多 GPU 通信写进 CUDA Kernel</title>
+            <link>https://knight46.github.io/blog.html?slug=ParallelKittens%20Multi%20GPU%20Kernels</link>
+            <guid>https://knight46.github.io/blog.html?slug=ParallelKittens%20Multi%20GPU%20Kernels</guid>
+            <pubDate>Mon, 20 Jul 2026 00:00:00 GMT</pubDate>
+            <description>读 ParallelKittens 与 ThunderKittens 多 GPU kernel 系列后的一篇系统笔记：为什么标准通信库不总适合细粒度 AI kernel，PK 如何用 peer memory、NVLink/NVSwitch 与 tile 级流水线把通信和计算放到同一个 CUDA kernel 里。</description>
+            <category>AI Systems</category><category>CUDA</category><category>Multi-GPU</category><category>AI Systems</category><category>NVLink</category><category>Kernel Optimization</category>
+        </item>
+        <item>
             <title>UVM 显存超订阅训练：把统一内存做成可控的分层内存系统</title>
             <link>https://knight46.github.io/blog.html?slug=UVM%20Oversubscription%20DL%20Training</link>
             <guid>https://knight46.github.io/blog.html?slug=UVM%20Oversubscription%20DL%20Training</guid>
