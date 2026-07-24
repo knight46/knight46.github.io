@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">CUDA Tile C++ programming stack</title>
+  <desc id="desc">A framework diagram showing C++ tile kernels lowered through CUDA Tile IR to compiler/runtime mapping over tensor cores, TMA, shared memory, and threads.</desc>
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#e8f4ff"/>
+      <stop offset="1" stop-color="#d9f7e8"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#6aa9ff"/>
+      <stop offset="1" stop-color="#5ed39b"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#34495e"/>
+    </marker>
+    <style>
+      .box{fill:#fff;stroke:#2c3e50;stroke-width:2;rx:16;ry:16}
+      .soft{fill:url(#g1);stroke:#2c3e50;stroke-width:2;rx:16;ry:16}
+      .chip{fill:#f8fbff;stroke:#557;stroke-width:1.5;rx:10;ry:10}
+      .title{font:700 22px system-ui,-apple-system,Segoe UI,sans-serif;fill:#1f2d3d}
+      .text{font:15px system-ui,-apple-system,Segoe UI,sans-serif;fill:#263238}
+      .small{font:13px system-ui,-apple-system,Segoe UI,sans-serif;fill:#3f5364}
+      .label{font:700 15px system-ui,-apple-system,Segoe UI,sans-serif;fill:#1f2d3d}
+      .arrow{stroke:#34495e;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="520" fill="#fbfdff"/>
+  <text x="480" y="42" text-anchor="middle" class="title">CUDA Tile C++：从 tile 级算法到硬件映射</text>
+
+  <rect x="55" y="88" width="230" height="128" class="soft"/>
+  <text x="170" y="120" text-anchor="middle" class="label">C++ Tile Kernel</text>
+  <text x="78" y="152" class="text">• tensor_span 描述数组形状</text>
+  <text x="78" y="178" class="text">• partition_view 切成 tile</text>
+  <text x="78" y="204" class="text">• __tile_global__ 声明入口</text>
+
+  <rect x="365" y="88" width="230" height="128" class="box"/>
+  <text x="480" y="120" text-anchor="middle" class="label">CUDA Tile IR</text>
+  <text x="388" y="152" class="text">• tile 操作的虚拟 ISA</text>
+  <text x="388" y="178" class="text">• 独立于具体 Tensor Core</text>
+  <text x="388" y="204" class="text">• 给 DSL / 编译器后端使用</text>
+
+  <rect x="675" y="88" width="230" height="128" class="soft"/>
+  <text x="790" y="120" text-anchor="middle" class="label">Compiler + Runtime</text>
+  <text x="700" y="152" class="text">• 决定 block 内并行度</text>
+  <text x="700" y="178" class="text">• 安排异步搬运与同步</text>
+  <text x="700" y="204" class="text">• 适配 Ampere/Hopper/Blackwell</text>
+
+  <path d="M292 152 H356" class="arrow"/>
+  <path d="M602 152 H666" class="arrow"/>
+
+  <rect x="120" y="286" width="720" height="168" class="box"/>
+  <text x="480" y="318" text-anchor="middle" class="label">硬件执行层：编译器把 tile 映射到具体资源</text>
+
+  <rect x="152" y="348" width="150" height="70" class="chip"/>
+  <text x="227" y="378" text-anchor="middle" class="label">Threads / Warps</text>
+  <text x="227" y="401" text-anchor="middle" class="small">SIMT 仍然存在</text>
+
+  <rect x="322" y="348" width="150" height="70" class="chip"/>
+  <text x="397" y="378" text-anchor="middle" class="label">Shared Memory</text>
+  <text x="397" y="401" text-anchor="middle" class="small">局部 tile staging</text>
+
+  <rect x="492" y="348" width="150" height="70" class="chip"/>
+  <text x="567" y="378" text-anchor="middle" class="label">TMA / Copy</text>
+  <text x="567" y="401" text-anchor="middle" class="small">异步数据移动</text>
+
+  <rect x="662" y="348" width="150" height="70" class="chip"/>
+  <text x="737" y="378" text-anchor="middle" class="label">Tensor Cores</text>
+  <text x="737" y="401" text-anchor="middle" class="small">矩阵 tile 计算</text>
+
+  <path d="M480 222 V276" class="arrow"/>
+  <rect x="76" y="245" width="205" height="34" fill="url(#g2)" opacity="0.18" rx="17"/>
+  <text x="178" y="268" text-anchor="middle" class="small">开发者描述“做什么”</text>
+  <rect x="679" y="245" width="205" height="34" fill="url(#g2)" opacity="0.18" rx="17"/>
+  <text x="782" y="268" text-anchor="middle" class="small">系统决定“怎么映射”</text>
+
+  <text x="480" y="486" text-anchor="middle" class="small">核心取舍：更高抽象与可移植性，换来对底层线程级控制的部分让渡。</text>
+</svg>

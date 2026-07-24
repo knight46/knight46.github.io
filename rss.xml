@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 20 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 24 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA Tile C++：把 Tensor Core Kernel 提升到 tile 级抽象</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20Tile%20Cpp%20Kernels</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20Tile%20Cpp%20Kernels</guid>
+            <pubDate>Fri, 24 Jul 2026 00:00:00 GMT</pubDate>
+            <description>阅读 CUDA 13.1/13.3 官方资料后的一篇系统笔记，解释 CUDA Tile C++ 为什么出现、它如何用 tile kernel 与 Tile IR 抽象 Tensor Core/TMA/shared memory 细节，以及这种模型适合哪些 GPU kernel 开发场景。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>GPU</category><category>Tile Programming</category><category>Tensor Core</category><category>Compiler</category><category>HPC</category>
+        </item>
         <item>
             <title>MXFP8 训练 LLM：从低精度算力到稳定预训练配方</title>
             <link>https://knight46.github.io/blog.html?slug=MXFP8%20LLM%20Training</link>
