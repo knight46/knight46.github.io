@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 24 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 27 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>Tensor Core SpMM：把不规则稀疏矩阵乘法送进矩阵引擎</title>
+            <link>https://knight46.github.io/blog.html?slug=Tensor%20Core%20SpMM</link>
+            <guid>https://knight46.github.io/blog.html?slug=Tensor%20Core%20SpMM</guid>
+            <pubDate>Mon, 27 Jul 2026 00:00:00 GMT</pubDate>
+            <description>阅读 Acc-SpMM、cuTeSpMM 和 NVIDIA cuSPARSE 资料后的一篇系统笔记，解释 SpMM 为什么难以直接吃满 Tensor Core，以及重排序、压缩格式、流水线和稀疏感知负载均衡如何把通用稀疏矩阵映射到高吞吐 GPU 矩阵引擎。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>Tensor Core</category><category>SpMM</category><category>Sparse Matrix</category><category>HPC</category><category>Deep Learning</category>
+        </item>
         <item>
             <title>CUDA Tile C++：把 Tensor Core Kernel 提升到 tile 级抽象</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20Tile%20Cpp%20Kernels</link>

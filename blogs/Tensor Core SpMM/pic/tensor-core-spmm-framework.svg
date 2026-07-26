@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">Tensor Core SpMM framework</title>
+  <desc id="desc">Pipeline from sparse matrix analysis to Tensor Core and scalar CUDA paths for sparse dense matrix multiplication.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b4754"/>
+    </marker>
+    <style>
+      .bg { fill: #f6f8fb; }
+      .panel { fill: #ffffff; stroke: #c8d2df; stroke-width: 1.4; rx: 8; }
+      .panel-blue { fill: #edf5ff; stroke: #80aee4; stroke-width: 1.4; rx: 8; }
+      .panel-green { fill: #ecf7f0; stroke: #74b38a; stroke-width: 1.4; rx: 8; }
+      .panel-amber { fill: #fff5e7; stroke: #d7a95f; stroke-width: 1.4; rx: 8; }
+      .panel-red { fill: #fff0f0; stroke: #d78989; stroke-width: 1.4; rx: 8; }
+      .title { font: 700 24px Arial, sans-serif; fill: #18212c; }
+      .label { font: 700 17px Arial, sans-serif; fill: #1d2733; }
+      .text { font: 14px Arial, sans-serif; fill: #3b4754; }
+      .small { font: 12px Arial, sans-serif; fill: #5f6c7a; }
+      .arrow { stroke: #3b4754; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #748292; stroke-width: 1.7; fill: none; stroke-dasharray: 6 5; marker-end: url(#arrow); }
+      .cell { fill: #ffffff; stroke: #97a6b6; stroke-width: 1; }
+      .nz { fill: #2f7dd1; }
+      .tc { fill: #2f9b68; }
+      .cuda { fill: #c98028; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="960" height="520"/>
+  <text class="title" x="40" y="48">Tensor Core SpMM execution pipeline</text>
+  <text class="text" x="40" y="74">Turn irregular sparse structure into tile work that matrix engines can consume efficiently.</text>
+
+  <rect class="panel" x="38" y="108" width="160" height="250"/>
+  <text class="label" x="62" y="138">Sparse A</text>
+  <text class="small" x="62" y="160">CSR / BCSR / graph rows</text>
+  <g transform="translate(65 185)">
+    <rect class="cell" x="0" y="0" width="22" height="22"/>
+    <rect class="cell" x="22" y="0" width="22" height="22"/>
+    <rect class="cell" x="44" y="0" width="22" height="22"/>
+    <rect class="cell" x="66" y="0" width="22" height="22"/>
+    <rect class="cell" x="0" y="22" width="22" height="22"/>
+    <rect class="cell" x="22" y="22" width="22" height="22"/>
+    <rect class="cell" x="44" y="22" width="22" height="22"/>
+    <rect class="cell" x="66" y="22" width="22" height="22"/>
+    <rect class="cell" x="0" y="44" width="22" height="22"/>
+    <rect class="cell" x="22" y="44" width="22" height="22"/>
+    <rect class="cell" x="44" y="44" width="22" height="22"/>
+    <rect class="cell" x="66" y="44" width="22" height="22"/>
+    <rect class="cell" x="0" y="66" width="22" height="22"/>
+    <rect class="cell" x="22" y="66" width="22" height="22"/>
+    <rect class="cell" x="44" y="66" width="22" height="22"/>
+    <rect class="cell" x="66" y="66" width="22" height="22"/>
+    <rect class="nz" x="0" y="0" width="22" height="22"/>
+    <rect class="nz" x="44" y="0" width="22" height="22"/>
+    <rect class="nz" x="22" y="22" width="22" height="22"/>
+    <rect class="nz" x="66" y="22" width="22" height="22"/>
+    <rect class="nz" x="0" y="44" width="22" height="22"/>
+    <rect class="nz" x="22" y="44" width="22" height="22"/>
+    <rect class="nz" x="66" y="66" width="22" height="22"/>
+  </g>
+  <text class="small" x="62" y="304">Irregular rows</text>
+  <text class="small" x="62" y="324">Indirect B loads</text>
+
+  <rect class="panel-blue" x="250" y="108" width="170" height="250"/>
+  <text class="label" x="278" y="138">Structure analysis</text>
+  <text class="text" x="278" y="168">Block density</text>
+  <text class="text" x="278" y="194">Column locality</text>
+  <text class="text" x="278" y="220">Row length skew</text>
+  <text class="text" x="278" y="246">TCU synergy score</text>
+  <rect class="panel" x="278" y="279" width="114" height="40"/>
+  <text class="small" x="294" y="303">Route decision</text>
+
+  <rect class="panel-green" x="472" y="92" width="188" height="172"/>
+  <text class="label" x="502" y="122">Tensor Core path</text>
+  <text class="text" x="502" y="151">Reorder by affinity</text>
+  <text class="text" x="502" y="177">Compressed tile format</text>
+  <text class="text" x="502" y="203">Shared-memory pipeline</text>
+  <text class="text" x="502" y="229">MMA accumulation</text>
+
+  <rect class="panel-amber" x="472" y="308" width="188" height="142"/>
+  <text class="label" x="504" y="338">Scalar fallback</text>
+  <text class="text" x="504" y="367">Very sparse tiles</text>
+  <text class="text" x="504" y="393">Low reuse regions</text>
+  <text class="text" x="504" y="419">CUDA core reduction</text>
+
+  <rect class="panel-red" x="718" y="108" width="192" height="250"/>
+  <text class="label" x="752" y="138">Output C</text>
+  <text class="text" x="752" y="168">Balanced CTA work</text>
+  <text class="text" x="752" y="194">Partial reduction</text>
+  <text class="text" x="752" y="220">Coalesced stores</text>
+  <g transform="translate(766 254)">
+    <rect class="cell" x="0" y="0" width="26" height="26"/>
+    <rect class="cell" x="26" y="0" width="26" height="26"/>
+    <rect class="cell" x="52" y="0" width="26" height="26"/>
+    <rect class="cell" x="0" y="26" width="26" height="26"/>
+    <rect class="cell" x="26" y="26" width="26" height="26"/>
+    <rect class="cell" x="52" y="26" width="26" height="26"/>
+    <rect class="cell" x="0" y="52" width="26" height="26"/>
+    <rect class="cell" x="26" y="52" width="26" height="26"/>
+    <rect class="cell" x="52" y="52" width="26" height="26"/>
+    <rect class="tc" x="0" y="0" width="78" height="52" opacity="0.35"/>
+    <rect class="cuda" x="0" y="52" width="78" height="26" opacity="0.45"/>
+  </g>
+
+  <path class="arrow" d="M 198 232 L 246 232"/>
+  <path class="arrow" d="M 420 206 C 445 178 448 178 468 178"/>
+  <path class="arrow" d="M 420 260 C 446 334 448 365 468 380"/>
+  <path class="arrow" d="M 660 178 C 684 178 692 200 714 214"/>
+  <path class="arrow" d="M 660 380 C 686 380 692 326 714 288"/>
+  <path class="dash" d="M 565 264 L 565 304"/>
+
+  <rect class="panel" x="250" y="392" width="170" height="58"/>
+  <text class="small" x="278" y="416">Preprocessing is useful</text>
+  <text class="small" x="278" y="436">when structure is reused.</text>
+
+  <text class="small" x="40" y="486">Key idea: spend metadata and scheduling work only where local sparsity can be converted into useful MMA tiles.</text>
+</svg>
