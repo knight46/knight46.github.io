@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title desc">
+  <title id="title">FlashInfer LLM inference kernel stack</title>
+  <desc id="desc">A conceptual architecture diagram showing serving engines, FlashInfer APIs, plan and run stages, four operator families, and CUDA GPU execution.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#14b8a6"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.28"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L8,3 z" fill="#93c5fd"/>
+    </marker>
+    <style>
+      .title{font:700 30px ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;fill:#f8fafc}
+      .subtitle{font:500 15px ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;fill:#cbd5e1}
+      .boxTitle{font:700 18px ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;fill:#f8fafc}
+      .boxText{font:500 13px ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;fill:#dbeafe}
+      .small{font:500 12px ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;fill:#cbd5e1}
+      .chip{font:700 12px ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;fill:#052e2b}
+      .panel{fill:#1e293b;stroke:#334155;stroke-width:1.2;rx:22;filter:url(#shadow)}
+      .inner{fill:#0f172a;stroke:#475569;stroke-width:1;rx:16}
+      .accent{fill:url(#green);rx:15}
+      .arrow{stroke:#93c5fd;stroke-width:2.4;fill:none;marker-end:url(#arrow)}
+      .dash{stroke:#64748b;stroke-width:1.6;stroke-dasharray:7 7;fill:none}
+    </style>
+  </defs>
+  <rect width="1120" height="620" fill="url(#bg)"/>
+  <text x="54" y="58" class="title">FlashInfer：把 LLM Serving 的动态性压进可组合 GPU Kernel 栈</text>
+  <text x="56" y="88" class="subtitle">核心思想：plan 阶段吸收请求形状和 KV 布局差异，run 阶段以 CUDAGraph-safe kernel 快速执行。</text>
+
+  <rect x="54" y="125" width="230" height="132" class="panel"/>
+  <text x="82" y="163" class="boxTitle">Serving Engines</text>
+  <text x="82" y="195" class="boxText">vLLM / SGLang / MLC</text>
+  <text x="82" y="220" class="boxText">自研推理引擎</text>
+  <rect x="80" y="280" width="180" height="44" class="accent"/>
+  <text x="103" y="308" class="chip">PyTorch / DLPack API</text>
+
+  <rect x="348" y="118" width="332" height="206" class="panel"/>
+  <text x="382" y="154" class="boxTitle">FlashInfer Interface</text>
+  <rect x="381" y="179" width="120" height="92" class="inner"/>
+  <text x="414" y="211" class="boxTitle">plan()</text>
+  <text x="397" y="236" class="boxText">inspect shapes</text>
+  <text x="397" y="257" class="boxText">select / tune kernels</text>
+  <rect x="526" y="179" width="120" height="92" class="inner"/>
+  <text x="561" y="211" class="boxTitle">run()</text>
+  <text x="542" y="236" class="boxText">reuse metadata</text>
+  <text x="542" y="257" class="boxText">launch kernels</text>
+  <text x="382" y="303" class="small">把动态请求转换成可复用的执行计划，减少每 token 调度开销。</text>
+
+  <rect x="748" y="105" width="318" height="246" class="panel"/>
+  <text x="781" y="141" class="boxTitle">Operator Families</text>
+  <rect x="780" y="165" width="116" height="58" class="inner"/>
+  <text x="804" y="199" class="boxText">Attention</text>
+  <rect x="920" y="165" width="116" height="58" class="inner"/>
+  <text x="955" y="199" class="boxText">GEMM</text>
+  <rect x="780" y="244" width="116" height="58" class="inner"/>
+  <text x="797" y="278" class="boxText">Communication</text>
+  <rect x="920" y="244" width="116" height="58" class="inner"/>
+  <text x="951" y="278" class="boxText">Sampling</text>
+  <text x="781" y="330" class="small">统一处理 KV cache、MoE/LoRA、小 collective 与 logits 采样。</text>
+
+  <rect x="92" y="405" width="930" height="132" class="panel"/>
+  <text x="126" y="444" class="boxTitle">CUDA GPU Execution Path</text>
+  <text x="126" y="476" class="boxText">Block-sparse / composable KV layout</text>
+  <text x="424" y="476" class="boxText">JIT-specialized attention templates</text>
+  <text x="745" y="476" class="boxText">CUDA Graph-safe scheduling</text>
+  <path d="M126 502 H982" class="dash"/>
+  <text x="126" y="525" class="small">目标：让新模型、新 KV 布局和新硬件路径快速落到高性能 kernel，而不是等待整套 serving 系统重写。</text>
+
+  <path d="M284 190 C310 190 318 221 348 221" class="arrow"/>
+  <path d="M680 221 C710 221 718 226 748 226" class="arrow"/>
+  <path d="M907 351 C907 383 808 394 808 405" class="arrow"/>
+  <path d="M514 324 C514 364 514 382 514 405" class="arrow"/>
+  <path d="M170 324 C170 368 228 390 228 405" class="arrow"/>
+</svg>

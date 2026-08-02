@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 27 Jul 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 02 Aug 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>FlashInfer：把 LLM Serving 的动态性压进可组合 GPU Kernel 栈</title>
+            <link>https://knight46.github.io/blog.html?slug=FlashInfer%20Inference%20Kernel%20Stack</link>
+            <guid>https://knight46.github.io/blog.html?slug=FlashInfer%20Inference%20Kernel%20Stack</guid>
+            <pubDate>Sun, 02 Aug 2026 00:00:00 GMT</pubDate>
+            <description>读 FlashInfer 论文和 NVIDIA 官方介绍后的一篇系统笔记，重点解释它如何用统一 KV 表示、JIT attention template、plan/run 接口和 CUDAGraph-safe 调度，把复杂 LLM 推理请求落到高性能 GPU kernel。</description>
+            <category>AI Systems</category><category>AI Systems</category><category>LLM Serving</category><category>CUDA</category><category>FlashInfer</category><category>GPU Kernel</category>
+        </item>
         <item>
             <title>Tensor Core SpMM：把不规则稀疏矩阵乘法送进矩阵引擎</title>
             <link>https://knight46.github.io/blog.html?slug=Tensor%20Core%20SpMM</link>
