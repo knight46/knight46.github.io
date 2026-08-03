@@ -1,5 +1,5 @@
 window.CONTENT_MANIFEST = {
-    "generatedAt": "2026-08-03T16:28:46.087Z",
+    "generatedAt": "2026-08-03T16:38:20.480Z",
     "blogs": [
         {
             "slug": "FlashInfer Inference Kernel Stack",
