@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Sun, 02 Aug 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 10 Aug 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>100K GPU 训练容错：从全局重启到副本级异步恢复</title>
+            <link>https://knight46.github.io/blog.html?slug=Fault%20Tolerant%20LLM%20Training</link>
+            <guid>https://knight46.github.io/blog.html?slug=Fault%20Tolerant%20LLM%20Training</guid>
+            <pubDate>Mon, 10 Aug 2026 00:00:00 GMT</pubDate>
+            <description>阅读 FT-HSDP、ByteRobust、TierCheck 和 MegaScale 后的一篇系统笔记，解释十万 GPU 级 LLM 训练为什么不能再依赖全局同步重启，以及如何用副本级容错、快速诊断和分层 checkpoint 把故障恢复塞进训练流水线。</description>
+            <category>AI Systems</category><category>HPC</category><category>GPU</category><category>Distributed Training</category><category>Fault Tolerance</category><category>LLM Systems</category>
+        </item>
         <item>
             <title>FlashInfer：把 LLM Serving 的动态性压进可组合 GPU Kernel 栈</title>
             <link>https://knight46.github.io/blog.html?slug=FlashInfer%20Inference%20Kernel%20Stack</link>
