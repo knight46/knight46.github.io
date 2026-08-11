@@ -14,7 +14,11 @@ CUDA 编程长期以来的核心优势是“足够贴近硬件”。开发者能
 
 这篇文章讨论一个问题：**CUDA Tile C++ 想解决什么，它具体怎么把 tile 级算法映射到 GPU，又会给高性能 kernel 开发带来哪些取舍？**
 
-![CUDA Tile C++ 框架图](./pic/cuda-tile-cpp-framework.svg)
+![CUDA Tile C++ programming model framework](./pic/cuda-tile-cpp-framework.png)
+
+*图源：本站自绘示意图，综合 NVIDIA CUDA Tile 官方技术博客、CUDA Tile 文档和 CUDA C++ Programming Guide 整理。*
+
+CUDA Tile 相关官方资料更偏 API 和发布说明，直接复用单张截图不如把抽象层级画清楚。这里重点看 tile abstraction 如何把算法表达、编译器分析、Tensor Core 映射和自动调优串起来：它不是替代 CUDA kernel，而是把一部分硬件细节提升到更可组合的层级。
 
 ## 1. 要解决的问题：SIMT 很强，但 Tensor Core 时代的样板代码太多
 

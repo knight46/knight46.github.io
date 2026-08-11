@@ -14,7 +14,11 @@ Prefill/Decode 分离就是这个趋势里的代表。Prefill 负责把输入 pr
 
 但这也引入一个很实际的问题：以前 KV cache 是 GPU 内部状态；分离之后，它变成了要跨节点、跨网络、甚至跨 CPU/SSD/远端 KV 池移动的显式负载。2026 年 5 月提交、已被 SIGCOMM 2026 接收的 KVServe 论文正是在处理这个问题：**当 KV cache 变成通信负载时，压缩不能再是固定开关，而应该随 workload、有效带宽、SLO 和质量预算动态选择。**
 
-![KVServe 框架图](./pic/kvserve-framework.svg)
+![KVServe architecture overview](./pic/source-kvserve-architecture.png)
+
+*图源：KVServe 论文 Figure 6（arXiv:2605.13734），用于说明服务感知 KV cache 压缩架构。*
+
+这张原图把 KVServe 的三件事摆在一起：压缩策略空间、离线 profiling 和在线 controller。后文会从“KV 传输为什么贵”讲到“为什么压缩不能是固定开关”，最终落到服务状态、带宽、质量预算和 SLO 共同决定 profile 选择。
 
 ## 要解决的问题：KV cache 成了分离式推理的通信账单
 

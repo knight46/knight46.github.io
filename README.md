@@ -67,6 +67,12 @@ node --check script.js
 node --check scripts/build-content.mjs
 ```
 
+## Article Image Policy
+
+Technical posts should use traceable, relevant figures before generated images. For paper-reading posts, prefer framework, architecture, workflow, or key-result figures from the original paper, arXiv HTML/PDF, official project page, or official repository. For non-paper technical posts, prefer official documentation, official technical blogs, project documentation, or clearly attributable technical articles.
+
+If no suitable external figure is available, create a clean original explanatory diagram and mark it as a site-made figure. Every figure should be explained in context, and articles should move from motivation to mechanism, system implications, limitations, and engineering takeaways.
+
 ## Tech Stack
 
 - HTML

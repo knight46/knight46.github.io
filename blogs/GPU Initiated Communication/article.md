@@ -17,7 +17,11 @@ tags: High Performance Compute, GPU, Communication Overlap, Distributed Systems
 
 2026 年 4 月提交的 GICC 论文正是在解决这个问题：让 GPU kernel 在 fast path 上直接触发 NIC 级别的通信与协调，把一部分原本由 host 驱动的动作下沉到 GPU 侧。
 
-![GICC 框架图](./pic/gicc-framework.svg)
+![GICC runtime overview](./pic/source-gicc-overview.png)
+
+*图源：GICC 论文 Figure 1（arXiv:2604.22126），用于说明 GPU 与 NIC 在 fast path 上的协作方式。*
+
+这张图把 GICC 的系统边界讲得很直接：GPU 在 kernel 内触发协调，NIC 负责数据移动，host 退到资源回收和慢路径。后文所有关于 overlap、Slingshot/CXI、InfiniBand 和 completion 的讨论，都可以理解成围绕这条 fast path 继续细化。
 
 ## 要解决的问题：GPU 算得很快，但通信控制还不够贴近计算
 

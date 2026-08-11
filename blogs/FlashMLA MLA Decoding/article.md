@@ -14,7 +14,11 @@ DeepSeek 系列模型把这个问题推到了系统前台。DeepSeek-V2/V3/R1 �
 
 这篇文章整理 2025-2026 年几项相关工作：DeepSeek 的 FlashMLA，面向 H20 的 FlashMLA-ETAP，FlashInfer 的可定制 attention engine，以及 SnapMLA 的 FP8 长上下文 MLA decoding。核心问题是：**当 MLA 把 KV cache 变小后，GPU 系统还要怎么组织内存访问、Tensor Core 形状和量化流水线，才能真正把 decode 跑快？**
 
-![FlashMLA MLA decoding framework](./pic/flashmla-mla-decoding.svg)
+![DeepSeek-V3 MLA and MoE architecture](./pic/source-deepseek-v3-architecture.png)
+
+*图源：DeepSeek-V3 Technical Report Figure 2（arXiv:2412.19437），用于说明 MLA 与 DeepSeekMoE 在模型结构中的位置。*
+
+FlashMLA 这类 kernel 不能脱离 MLA 模型结构理解。原图先给出 MLA 如何降低 KV cache，再看后面的 paged latent KV、Tensor Core tile、online softmax 和 FP8 量化，就能区分“结构上省显存”和“系统上跑得快”是两层不同问题。
 
 ## 1. 要解决的问题：MLA 省 KV，但 decode 仍然可能不快
 

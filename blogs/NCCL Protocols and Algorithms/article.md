@@ -12,7 +12,11 @@ tags: HPC, GPU Communication, NCCL, Distributed Training, Collective Communicati
 
 2026 年 3 月更新的论文 **Demystifying NCCL: An In-depth Analysis of GPU Communication Protocols and Algorithms** 很适合作为入口。它没有把 NCCL 当成一个黑盒 API，而是从通信 channel、Simple/LL/LL128 协议、跨节点数据搬运、ring/tree 算法和模拟工具 ATLAHS 的角度，拆解 NCCL 如何把一次 collective 变成一条可执行的 GPU 通信时间线。
 
-![NCCL 通信执行框架](./pic/nccl-protocols-and-algorithms.svg)
+![NCCL channel partitioning strategy](./pic/source-nccl-partitioning.png)
+
+*图源：Demystifying NCCL 论文 Figure 3（arXiv:2507.04786），用于说明 NCCL 在 channel 和 loop iteration 上的数据切分方式。*
+
+这张图比抽象的 ring/tree 更适合作为 NCCL 内部机制入口：真实 collective 会先被拆成 channel、chunk、slice 和 loop，再映射到协议与传输路径。后文再讨论 Simple/LL/LL128、Ring/Tree 和 transport 时，就能避免把 NCCL 理解成单一算法。
 
 ## 要解决的问题：collective API 很简单，通信路径并不简单
 

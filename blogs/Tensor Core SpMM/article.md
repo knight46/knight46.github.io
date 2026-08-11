@@ -14,7 +14,11 @@ tags: CUDA, Tensor Core, SpMM, Sparse Matrix, HPC, Deep Learning
 
 2025 年的 Acc-SpMM 和 cuTeSpMM 都在回答这个问题。它们的共同方向不是简单地“把稀疏块补零成 dense tile”，而是先判断哪些稀疏结构适合 Tensor Core，再通过数据重排、紧凑格式、tile 级流水线和负载均衡，让矩阵引擎真正吃到足够有效的乘加。
 
-![Tensor Core SpMM 框架图](./pic/tensor-core-spmm-framework.svg)
+![Acc-SpMM overview](./pic/source-acc-spmm-overview.png)
+
+*图源：Acc-SpMM 论文 Figure 1（arXiv:2501.09251），用于说明把通用 SpMM 映射到 Tensor Core 的整体流程。*
+
+这张原图能很好地说明为什么 SpMM 难以直接吃满 Tensor Core：稀疏结构必须先经过重排、格式转换和 tile 化，才能把不规则访存变成矩阵引擎可消费的计算形态。后文会围绕这个主线，把 data affinity、BitTCF、pipeline 和 cuTeSpMM 放在一起看。
 
 ## 1. 要解决的问题：Tensor Core 很快，但 SpMM 不规整
 

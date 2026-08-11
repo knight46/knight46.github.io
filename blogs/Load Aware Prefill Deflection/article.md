@@ -14,7 +14,11 @@ LLM serving 的经典拆法是把一次请求分成两个阶段：**prefill** �
 
 这篇论文提出的 Kairos 可以理解成一个负载感知调度器：当 prefill pool 堵住、decode pool 仍有 TBT 余量时，它把一部分请求的 prefill 阶段“借道”到 decode 节点上，用 chunked prefill 插入已有 decode batch 之间执行。这样既利用了 decode 侧未用完的计算资源，又因为 KV cache 直接生成在 decode 节点本地，避免了跨节点 KV 传输。
 
-![Kairos 负载感知 prefill deflection 框架图](./pic/load-aware-prefill-deflection.svg)
+![Kairos architecture for load-aware prefill deflection](./pic/source-kairos-architecture.png)
+
+*图源：Kairos 论文 Figure 3（arXiv:2607.02043），用于说明负载感知 prefill deflection 架构。*
+
+这张架构图的重点是 deflection 决策不在单个 worker 内完成，而是和 router、prefill/decode 队列、KV transfer 与 SLO 状态一起判断。理解它之后，后文的核心问题就很清楚：什么时候把 prefill 留在本地更好，什么时候应该转移到更空闲的 prefill 池。
 
 ## 要解决的问题：分离式架构也会制造新的不均衡
 

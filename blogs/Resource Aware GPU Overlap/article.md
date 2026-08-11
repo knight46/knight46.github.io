@@ -20,7 +20,11 @@ tags: HPC, GPU, CUDA, Distributed Training, Communication, Performance
 
 核心观点很简单：**好的 overlap 不是让计算 kernel 占满 GPU 后祈祷通信自己挤进去，而是主动给通信保留可推进的资源。**
 
-![资源感知 GPU overlap 框架图](./pic/resource-aware-gpu-overlap.svg)
+![Proposed overlapping execution for multi-GPU workload](./pic/source-overlap-execution.png)
+
+*图源：Resource-aware Computation-Communication Overlap 论文（arXiv:2606.09200）中的 proposed overlapping 示意图。*
+
+这张图很小，但它抓住了 overlap 问题的本质：把通信塞进计算空隙并不自动成功，关键是通信 kernel 和计算 kernel 共享 SM、带宽、寄存器等资源。后文会从“时间线能否重叠”深入到“资源是否真的互不争抢”。
 
 ## 1. 问题：为什么“异步通信”不等于“有效重叠”
 
