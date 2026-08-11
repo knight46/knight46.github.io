@@ -14,11 +14,11 @@ tags: CUDA, GPU Memory, Unified Memory, Deep Learning Training, HPC, Performance
 
 这篇文章讨论一个工程问题：**当模型工作集略大于 GPU 显存时，怎么把 UVM 从“会跑但很慢”的兜底机制，变成一个可观测、可调度、可验证的分层内存策略？**
 
-![UVM 显存超订阅训练：把统一内存做成可控的分层内存系统 自绘框架图](./pic/uvm-oversubscription-dl-training.png)
+![UVM oversubscription as a tiered memory system](./pic/uvm-oversubscription-dl-training.png)
 
-*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
+*图源：本站自绘示意图，综合 EuroMLSys 2025 UVM oversubscription 论文、NVIDIA Unified Memory 文档和 HMM 资料整理。*
 
-这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
+UVM 超订阅没有一张足够权威且适合直接复用的总览图，所以这里保留自绘解释图。图里的重点是 page fault、prefetch、migration、eviction 和训练 step 时间线之间的关系：UVM 不是“显存不够就自动好了”，而是一个需要被调度和观测的分层内存系统。
 
 ## 1. 要解决的问题：显存不够不只是容量问题
 

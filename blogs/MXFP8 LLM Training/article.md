@@ -12,11 +12,11 @@ tags: HPC, GPU, FP8, MXFP8, LLM Training, Deep Learning Systems
 
 难点在于，FP8 不是“把 dtype 改成 float8”这么简单。它更像一个带缩放因子的量化系统：scale 的粒度、scale 何时更新、E4M3/E5M2 怎么选择、哪些张量保留高精度、outlier 如何被抑制，都会影响训练是否稳定。近两年的工作说明，低精度训练真正的工程问题是：**如何把 FP8 的硬件吞吐转化成长期预训练可复现的系统配方。**
 
-![MXFP8 训练 LLM：从低精度算力到稳定预训练配方 自绘框架图](./pic/mxfp8-llm-training.png)
+![MXFP8 transformer training workflow](./pic/source-mxfp8-training-workflow.png)
 
-*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
+*图源：Recipes for Pre-training LLMs with MXFP8 论文 Figure 4（arXiv:2506.08027），用于说明 MXFP8 在 Transformer block 与训练三阶段中的使用方式。*
 
-这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
+这张图比单独解释 FP8 格式更适合文章主线，因为训练稳定性取决于 FPROP、DGRAD、WGRAD 以及不同张量的缩放策略如何配合。后文讨论 recipe、scale、精度回退和 Blackwell Tensor Core 时，重点都是把低精度算力变成可长期预训练的系统配方。
 
 ## 1. 问题：FP8 算得快，但训练稳定性更难
 

@@ -136,6 +136,11 @@ function rewriteRelativeMarkdownPaths(markdown, folderPath) {
     });
 }
 
+function extractFirstMarkdownImage(markdown) {
+    const match = markdown.match(/!\[[^\]]*\]\(([^)]+)\)/);
+    return match?.[1] || "";
+}
+
 async function readBlog(folderName) {
     const folderPath = path.join(rootDir, "blogs", folderName);
     const entries = await fs.readdir(folderPath, { withFileTypes: true });
@@ -151,13 +156,13 @@ async function readBlog(folderName) {
     const { attributes, body } = parseFrontMatter(rawMarkdown);
     const content = rewriteRelativeMarkdownPaths(body, folderPath);
 
-    let coverImage = "";
+    let coverImage = extractFirstMarkdownImage(content);
     if (picDir) {
         const picEntries = await fs.readdir(path.join(folderPath, picDir.name), { withFileTypes: true });
         const imageEntry = picEntries.find(
             (entry) => entry.isFile() && IMAGE_EXTENSIONS.has(path.extname(entry.name).toLowerCase())
         );
-        if (imageEntry) {
+        if (!coverImage && imageEntry) {
             coverImage = toUrlPath(path.join(folderPath, picDir.name, imageEntry.name));
         }
     }

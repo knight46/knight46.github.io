@@ -18,11 +18,11 @@ router -> token dispatch -> expert FFN -> token combine -> next layer
 
 这篇文章整理几项近期工作：DeepEP、MegaScale-Infer、TokenWeave 和 NCCL EP。它们切入点不同，但都在回答同一个工程问题：**如何让 MoE/LLM 推理中的通信不要把 GPU 时间线切碎。**
 
-![MoE 推理的 Expert Parallel 通信：从 DeepEP 到 NCCL EP 自绘框架图](./pic/moe-expert-parallel-communication.png)
+![NCCL EP architecture for expert parallel communication](./pic/source-nccl-ep-architecture.png)
 
-*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
+*图源：NCCL EP 论文 Figure 1（arXiv:2603.13606），用于说明 expert parallel communication API 与 low-latency/high-throughput kernel 的关系。*
 
-这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
+这张原图把 DeepEP、Hybrid-EP 和 NCCL EP 的关系放到同一个通信层里。MoE 推理的关键不是只有 all-to-all 一种模式，而是 dispatch、expert FFN、combine、低延迟小消息和高吞吐大消息之间如何切换。
 
 ## 1. 问题：MoE 把 FFN 变稀疏，也把通信变成主路径
 

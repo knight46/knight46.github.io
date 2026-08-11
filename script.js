@@ -737,9 +737,13 @@ function renderBlogDetail() {
     markdownTarget.innerHTML = renderMarkdown(article.markdown);
 
     if (article.coverImage) {
-        cover.hidden = false;
-        coverImage.src = article.coverImage;
-        coverImage.alt = article.title;
+        const firstMarkdownImage = article.markdown.match(/!\[[^\]]*\]\(([^)]+)\)/)?.[1] || "";
+        const duplicatesFirstImage = decodeURIComponent(firstMarkdownImage) === decodeURIComponent(article.coverImage);
+        cover.hidden = duplicatesFirstImage;
+        if (!duplicatesFirstImage) {
+            coverImage.src = article.coverImage;
+            coverImage.alt = article.title;
+        }
     }
 }
 

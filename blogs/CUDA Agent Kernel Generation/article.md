@@ -12,11 +12,11 @@ tags: CUDA, GPU, AI Systems, Kernel Generation, Reinforcement Learning, KernelBe
 
 这也是最近 LLM 写 CUDA 方向很有意思的地方。它不是简单地问“模型会不会写一段能编译的 CUDA 代码”，而是在问：**能不能把 CUDA 优化变成一个可训练、可验证、可迭代的系统任务**？2026 年 2 月提交的 CUDA Agent 论文给了一个很清晰的答案：不要只让模型一次性补全 kernel，而是把它放进带编译、测试、profile 和奖励信号的环境里，用大规模 agentic reinforcement learning 训练它的内在 CUDA 优化能力。
 
-![CUDA Agent：让模型学会写高性能 CUDA Kernel 自绘框架图](./pic/cuda-agent-pipeline.png)
+![CUDA Agent agent loop overview](./pic/source-cuda-agent-agent-loop.png)
 
-*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
+*图源：CUDA Agent 论文 Figure 2（arXiv:2602.24286），用于说明模型生成 CUDA kernel 时的 agent loop。*
 
-这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
+这张原图比单纯画“模型到代码”的箭头更有信息量：它把问题生成、代码编辑、编译执行、profiling 反馈和下一轮修正放在同一个闭环里。读这类 CUDA agent 工作时，关键不是“LLM 会不会写 kernel”，而是看系统能不能把编译错误、运行错误和性能信号稳定地反馈给策略模型。
 
 ## 要解决的问题：代码能跑，不等于 kernel 真快
 
