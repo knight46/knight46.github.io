@@ -14,11 +14,11 @@ tags: HPC, GPU, Distributed Training, Fault Tolerance, LLM Systems
 
 2026 年的 FT-HSDP 论文把这个问题说得很直接：在 O(100K) GPU 训练场景下，生产估计大约每 18 分钟发生一次故障；如果同步恢复一次要停 10 分钟，有效训练时间只剩约 44%。它提出的方向是：不要把整个训练作业当成一个不可分割的容错单元，而是把 Hybrid-Shared Data Parallelism 里的 data-parallel replica 变成容错单元，让健康副本继续训练，失败副本局部恢复并追赶。
 
-![FT-HSDP architecture](./pic/source-ft-hsdp-architecture.png)
+![100K GPU 训练容错：从全局重启到副本级异步恢复 自绘框架图](./pic/fault-tolerant-llm-training.png)
 
-*图源：FT-HSDP 论文 Figure 3（arXiv:2602.00277），用于说明副本级容错训练架构。*
+*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
 
-这张原图最值得看的地方是容错边界：故障不再默认扩大成整个训练作业重启，而是被限制在 HSDP replica 内。后文讨论 FTAR、non-blocking catch-up 和 checkpoint 时，都围绕同一个问题展开：怎样让健康 replica 尽可能继续贡献有效训练时间。
+这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
 
 ## 要解决的问题：同步训练把一个局部故障放大成全局停机
 

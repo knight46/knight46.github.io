@@ -21,11 +21,11 @@ tags: HPC, GPU, Communication, Collective, Runtime, Distributed Training
 
 它们解决的问题不完全相同，但共同点很明显：**不要只看算子本身，要把计算、通信、调度和资源生命周期放到同一条时间线上优化。**
 
-![Hierarchical all-gather implementation for GPU clusters](./pic/source-hierarchical-allgather.png)
+![2025-2026 GPU 超算通信优化：从 Collective Library 到 GPU-Driven Runtime 自绘框架图](./pic/gpu-communication-timeline.png)
 
-*图源：The Big Send-off 论文 Figure 5（arXiv:2504.18658），用于说明 GPU 集群 collective 的分层 all-gather 实现。*
+*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
 
-这张图适合作为 2025-2026 GPU 超算通信趋势的入口：collective 优化已经不只是选择 ring 或 tree，而是把节点内、节点间、GPU kernel、MPI/RCCL/NCCL 路径和消息大小分布一起组织。文章后面再引入 GICC、large-message all-to-all 和 sparse kernel，是沿着同一条通信时间线展开。
+这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
 
 ## 1. 问题：GPU 很快，但系统时间线不够紧
 

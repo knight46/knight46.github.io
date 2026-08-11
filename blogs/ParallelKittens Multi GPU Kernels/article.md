@@ -12,11 +12,11 @@ tags: CUDA, Multi-GPU, AI Systems, NVLink, Kernel Optimization
 
 Hazy Research 在 2025 年末发布的 ParallelKittens（PK）论文和博客，正好切中这个矛盾：如果通信已经成为 AI kernel 的一部分，为什么还要把它完全交给通用通信库，在 kernel 边界外再做一次调度？PK 的答案是：把多 GPU 通信抽象成 CUDA kernel 内可组合的 tile 级原语，让开发者在同一个 kernel 模板里安排 load、compute、send/reduce 和 finish。
 
-![ParallelKittens multi-GPU kernel principles](./pic/source-parallelkittens-principles.png)
+![ParallelKittens：把多 GPU 通信写进 CUDA Kernel 自绘框架图](./pic/parallelkittens-framework.png)
 
-*图源：ParallelKittens 论文 Figure 1（arXiv:2511.13940），用于说明多 GPU AI kernel 的内存层级与编程原语。*
+*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
 
-这张原图的信息密度很高，适合直接作为文章主图：ParallelKittens 不是又一层普通封装，而是试图把多 GPU kernel 里的通信、memory hierarchy、scheduling 和 primitive 统一到一套更可写的接口里。读后文时，可以一直问：哪些复杂性被原语封装了，哪些复杂性仍然需要程序员理解。
+这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
 
 ## 要解决的问题：NCCL 很强，但不是所有通信都像“大块搬运”
 

@@ -14,11 +14,11 @@ LLM 推理系统这两年出现了一个很有意思的变化：瓶颈不再只�
 
 FlashInfer 试图解决的正是这个问题：它不是再发明一个单点算子，而是把 LLM serving 中最常见的 GPU 热路径抽象成一套**可组合、可定制、对 serving 引擎友好**的 kernel stack。论文《FlashInfer: Efficient and Customizable Attention Engine for LLM Inference Serving》已被 MLSys 2025 接收；NVIDIA 也在官方博客中说明，正在把高性能 LLM inference kernels 通过 FlashInfer 释放给 vLLM、SGLang 和自研引擎使用。
 
-![FlashInfer system design overview](./pic/source-flashinfer-design.png)
+![FlashInfer：把 LLM Serving 的动态性压进可组合 GPU Kernel 栈 自绘框架图](./pic/flashinfer-stack.png)
 
-*图源：FlashInfer 论文 Figure 1（arXiv:2501.01005），用于说明 FlashInfer 的 JIT、planning 和 runtime scheduling 设计。*
+*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
 
-这张原图适合放在文章开头，因为它同时展示了 compile-time specialization 和 runtime planning 两条线。FlashInfer 的重点不是单个 attention kernel，而是把 attention variant、task metadata 和 KV-cache layout 组织成 serving 引擎能调用、能复用、也能适配 CUDA Graph 的 kernel 栈。
+这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
 
 ## 要解决的问题：推理请求太动态，kernel 又必须足够静态
 

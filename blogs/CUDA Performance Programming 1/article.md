@@ -12,11 +12,11 @@ CUDA 优化很容易被讲成一组零散技巧：少写 `if`、少用变量、�
 
 这篇是 CUDA 高性能编程系列的第一篇，先从四个基础但很常见的问题开始：分支发散、寄存器压力、PTX/SASS 编译目标，以及 NVIDIA GPU 的 P-state。
 
-![CUDA performance basics framework](./pic/cuda-performance-basics.png)
+![CUDA 高性能编程（1）：从分支发散、寄存器到编译目标 自绘框架图](./pic/cuda-performance-basics.png)
 
-*图源：本站自绘示意图，基于 NVIDIA CUDA Programming Guide、Best Practices Guide、NVCC 与 Nsight Compute 文档整理。*
+*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
 
-这张图不是论文框架图，而是学习路线图：从 warp 控制流到寄存器和 local memory，再到 PTX/SASS 与性能观测。基础 CUDA 优化最容易碎片化，先把这些概念放到同一张执行模型图里，后面的代码例子才不会变成零散技巧。
+这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
 
 ## 1. if-else 为什么可能让 warp 变慢
 

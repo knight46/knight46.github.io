@@ -12,11 +12,11 @@ tags: AI Systems, LLM Inference, KV Cache, CXL, Sparse Attention
 
 最近看到的 SAC（Sparse Attention on CXL）很适合作为这个问题的切入口。它关注的是一个比“KV cache 很大”更具体的矛盾：**稀疏注意力模型每一步只访问少量 top-k KV 条目，但很多 disaggregated KV cache 系统仍然会把完整 prefix KV 先搬回本地。** 对 dense attention 来说，这种全量预取是合理的；对 sparse attention 来说，它会同时制造传输瓶颈和本地内存浪费。
 
-![SAC system workflow with CXL disaggregated memory](./pic/source-sac-workflow.png)
+![SAC：用 CXL 重新设计稀疏注意力的 KV Cache 自绘框架图](./pic/cxl-sparse-kv.png)
 
-*图源：SAC 论文 Figure 6（arXiv:2606.19746），用于说明 CXL 稀疏 KV cache 系统工作流。*
+*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
 
-这张图的核心是把“KV cache 在哪里”和“每一步读多少 KV”分开看。SAC 不再把完整 prefix KV 预取到本地，而是让稀疏注意力按 top-k 需求访问 CXL 池；因此后文的重点会从 attention kernel 本身，逐步转向远端内存语义、访问粒度和状态管理。
+这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
 
 ## 要解决的问题：稀疏注意力改变了 KV cache 的访问形态
 

@@ -14,11 +14,11 @@ CUDA Graph 的价值正在这里变得越来越明显。它把一段由 kernel�
 
 但近两年的系统工作也说明，CUDA Graph 不是简单地把 stream 录一遍就结束。LLM serving 有动态 batch、动态 sequence length、MoE 路由、并行度切换、通信状态、GPU 内存地址稳定性和冷启动要求。真正困难的地方不只是“怎么捕获 graph”，而是 **如何让 graph 在动态服务系统里可复用、可重构、可调度，并且不会把系统锁死在一个静态形状上。**
 
-![Foundry workflow for CUDA Graph context materialization](./pic/source-foundry-workflow.png)
+![CUDA Graph 与 LLM Serving：从启动开销到动态图执行 自绘框架图](./pic/cuda-graph-llm-serving.png)
 
-*图源：Foundry 论文 Figure 4（arXiv:2604.06664），用于说明 CUDA Graph 上下文物化的工作流。*
+*图源：本站自绘重构图，参考文末论文、官方文档或项目资料绘制，用于突出文章主线和关键机制。*
 
-这张图把 CUDA Graph 在 serving 冷启动里的位置讲清楚了：拓扑、参数和执行上下文并不是同一件事。文章后面讨论动态图、bucket、graph replay 和 cold start 时，都可以回到这张图看哪些状态能预先准备，哪些状态必须等真实请求到来后再填充。
+这张图不是直接搬运论文截图，而是按本文讲解顺序重新整理的阅读图：先给出系统边界，再标出核心数据流、控制路径和性能瓶颈。后文会围绕这些节点逐层展开，从问题动机进入实现机制，再讨论工程取舍和适用场景。
 
 ## 1. 问题：GPU kernel 很快，提交和边界却不一定快
 
