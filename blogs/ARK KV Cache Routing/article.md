@@ -16,7 +16,19 @@ Prefill/decode disaggregation 改变了这个边界。Prefill 节点负责吞吐
 
 ARK 这篇工作抓住的就是这层问题：当多个大 KV transfer 在数据中心网络里同时发生时，GPU worker 空闲并不代表路径空闲；两个看似独立的请求如果被路由到共享链路上，可能会互相拉长 flow completion time，进而伤害首 token 延迟。它的思路不是继续只优化 attention kernel 或 KV 压缩，而是把 KV cache transfer 当成一等公民来做路径选择、预留和碰撞规避。
 
-![ARK KV cache routing framework](./pic/ark-kv-cache-routing.svg)
+**(a) 两层 spine-leaf 网络拓扑**
+
+![ARK 使用的两层 spine-leaf 网络拓扑](./pic/ark-figure-1a.png)
+
+**(b) ARK 路径预留控制器**
+
+![ARK 路径预留控制器的选路、预留、竞争检测与释放流程](./pic/ark-figure-1b.png)
+
+**(c) 分离的控制平面与 KV flow 数据平面**
+
+![ARK 通过主机间广播预留，并通过不重叠路径传输 KV flow](./pic/ark-figure-1c.png)
+
+> **图源与许可：** Mohammad Saeed 等，*ARK: Avoiding Routing Collisions for KV Cache Transfer in Disaggregated LLM Inference*，Figure 1。图片截取自[作者公开 PDF](https://saeed.github.io/files/arc_niac26.pdf)，依据 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 许可使用。原图依次展示网络拓扑、ARK 路径预留控制器，以及分离的控制平面与 KV flow 数据平面。
 
 ## 背景：分离式推理让 KV cache 变成网络负载
 
