@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 31 Aug 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 08 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CudaMPC：把实时模型预测控制压进一个持久化 CUDA Kernel</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20MPC%20GPU%20Native%20Control</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20MPC%20GPU%20Native%20Control</guid>
+            <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+            <description>阅读 CudaMPC 论文后的一篇 GPU 科学计算笔记：为什么把优化器写成 PyTorch 算子序列仍会被 kernel launch 与 VRAM 流量拖慢，以及如何用时间域并行 ADMM、共享内存常驻和邻居原子同步实现 GPU-native MPC。</description>
+            <category>Scientific Computing</category><category>CUDA</category><category>GPU</category><category>MPC</category><category>ADMM</category><category>Scientific Computing</category><category>Robotics</category><category>Kernel Fusion</category>
+        </item>
         <item>
             <title>ARK：让分离式 LLM Serving 的 KV Cache 传输避开网络碰撞</title>
             <link>https://knight46.github.io/blog.html?slug=ARK%20KV%20Cache%20Routing</link>
