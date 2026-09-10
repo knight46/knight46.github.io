@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Tue, 08 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 11 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA Thread Block Clusters：跨 SM 协作与 Distributed Shared Memory</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20Thread%20Block%20Clusters</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20Thread%20Block%20Clusters</guid>
+            <pubDate>Fri, 11 Sep 2026 00:00:00 GMT</pubDate>
+            <description>从执行保证、DSM 地址与同步语义出发，分析 Hopper Thread Block Clusters 的性能和资源模型，并给出 histogram 改造、launch 检查、基准设计与工程实践清单。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>Thread Block Clusters</category><category>Distributed Shared Memory</category><category>Hopper</category><category>GPU</category><category>HPC</category><category>Performance</category>
+        </item>
         <item>
             <title>CudaMPC：把实时模型预测控制压进一个持久化 CUDA Kernel</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20MPC%20GPU%20Native%20Control</link>

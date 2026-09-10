@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1240" viewBox="0 0 720 620" role="img" aria-labelledby="title desc">
+  <title id="title">普通 CUDA blocks 与 Thread Block Cluster 协作路径对比</title>
+  <desc id="desc">左侧普通 blocks 通过 global memory 交换，右侧同一 GPC 内 blocks 通过 Distributed Shared Memory、远端原子操作和 cluster barrier 协作。</desc>
+  <metadata>Original site illustration based on NVIDIA CUDA Programming Guide and Hopper Tuning Guide semantics. No third-party artwork reused.</metadata>
+  <defs>
+    <marker id="arrow-cyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#F59E0B"/>
+    </marker>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#020617" flood-opacity="0.42"/>
+    </filter>
+  </defs>
+
+  <rect width="720" height="620" rx="24" fill="#0B1220"/>
+  <text x="36" y="48" fill="#F8FAFC" font-family="DejaVu Sans, Inter, sans-serif" font-size="26" font-weight="700">Cross-block Cooperation: Global vs DSM</text>
+  <text x="36" y="75" fill="#94A3B8" font-family="DejaVu Sans, Inter, sans-serif" font-size="18">Co-resident in one GPC; blocks may run on different SMs</text>
+
+  <g filter="url(#shadow)">
+    <rect x="28" y="98" width="318" height="376" rx="20" fill="#111C2E" stroke="#334155"/>
+    <rect x="374" y="98" width="318" height="376" rx="20" fill="#111C2E" stroke="#34D399" stroke-width="2"/>
+  </g>
+
+  <text x="48" y="132" fill="#F8FAFC" font-family="DejaVu Sans, Inter, sans-serif" font-size="22" font-weight="700">Standard Blocks</text>
+  <text x="48" y="158" fill="#94A3B8" font-family="DejaVu Sans, Inter, sans-serif" font-size="17">Independent; no cross-block SMEM</text>
+
+  <g font-family="DejaVu Sans, Inter, sans-serif" text-anchor="middle">
+    <g>
+      <rect x="48" y="183" width="86" height="92" rx="13" fill="#17263B" stroke="#38BDF8"/>
+      <text x="91" y="216" fill="#F8FAFC" font-size="19" font-weight="700">Block A</text>
+      <rect x="59" y="230" width="64" height="29" rx="8" fill="#0B1220"/>
+      <text x="91" y="251" fill="#38BDF8" font-size="17">SMEM</text>
+    </g>
+    <g>
+      <rect x="144" y="183" width="86" height="92" rx="13" fill="#17263B" stroke="#38BDF8"/>
+      <text x="187" y="216" fill="#F8FAFC" font-size="19" font-weight="700">Block B</text>
+      <rect x="155" y="230" width="64" height="29" rx="8" fill="#0B1220"/>
+      <text x="187" y="251" fill="#38BDF8" font-size="17">SMEM</text>
+    </g>
+    <g>
+      <rect x="240" y="183" width="86" height="92" rx="13" fill="#17263B" stroke="#38BDF8"/>
+      <text x="283" y="216" fill="#F8FAFC" font-size="19" font-weight="700">Block C</text>
+      <rect x="251" y="230" width="64" height="29" rx="8" fill="#0B1220"/>
+      <text x="283" y="251" fill="#38BDF8" font-size="17">SMEM</text>
+    </g>
+  </g>
+
+  <path d="M91 276 V327" fill="none" stroke="#F59E0B" stroke-width="3" marker-end="url(#arrow-orange)"/>
+  <path d="M187 276 V327" fill="none" stroke="#F59E0B" stroke-width="3" marker-end="url(#arrow-orange)"/>
+  <path d="M283 276 V327" fill="none" stroke="#F59E0B" stroke-width="3" marker-end="url(#arrow-orange)"/>
+  <rect x="48" y="338" width="278" height="76" rx="14" fill="#3A2608" stroke="#F59E0B"/>
+  <text x="187" y="369" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Inter, sans-serif" font-size="21" font-weight="700">L2 / Global Memory</text>
+  <text x="187" y="396" text-anchor="middle" fill="#F59E0B" font-family="DejaVu Sans, Inter, sans-serif" font-size="17">Intermediates + global atomics</text>
+  <text x="187" y="446" text-anchor="middle" fill="#94A3B8" font-family="DejaVu Sans, Inter, sans-serif" font-size="17">Cross-block via global memory</text>
+
+  <text x="394" y="132" fill="#F8FAFC" font-family="DejaVu Sans, Inter, sans-serif" font-size="22" font-weight="700">Thread Block Cluster</text>
+  <text x="394" y="158" fill="#34D399" font-family="DejaVu Sans, Inter, sans-serif" font-size="17">Co-scheduled within one GPC</text>
+
+  <g font-family="DejaVu Sans, Inter, sans-serif" text-anchor="middle">
+    <g>
+      <rect x="394" y="183" width="86" height="92" rx="13" fill="#17263B" stroke="#34D399"/>
+      <text x="437" y="211" fill="#F8FAFC" font-size="18" font-weight="700">Rank 0</text>
+      <text x="437" y="232" fill="#94A3B8" font-size="16">SM 0</text>
+      <rect x="405" y="240" width="64" height="25" rx="7" fill="#0B1220"/>
+      <text x="437" y="258" fill="#38BDF8" font-size="15">SMEM</text>
+    </g>
+    <g>
+      <rect x="490" y="183" width="86" height="92" rx="13" fill="#17263B" stroke="#34D399"/>
+      <text x="533" y="211" fill="#F8FAFC" font-size="18" font-weight="700">Rank 1</text>
+      <text x="533" y="232" fill="#94A3B8" font-size="16">SM 1</text>
+      <rect x="501" y="240" width="64" height="25" rx="7" fill="#0B1220"/>
+      <text x="533" y="258" fill="#38BDF8" font-size="15">SMEM</text>
+    </g>
+    <g>
+      <rect x="586" y="183" width="86" height="92" rx="13" fill="#17263B" stroke="#34D399"/>
+      <text x="629" y="211" fill="#F8FAFC" font-size="18" font-weight="700">Rank 2</text>
+      <text x="629" y="232" fill="#94A3B8" font-size="16">SM 2</text>
+      <rect x="597" y="240" width="64" height="25" rx="7" fill="#0B1220"/>
+      <text x="629" y="258" fill="#38BDF8" font-size="15">SMEM</text>
+    </g>
+  </g>
+
+  <path d="M437 276 V312" fill="none" stroke="#38BDF8" stroke-width="3"/>
+  <path d="M533 276 V312" fill="none" stroke="#38BDF8" stroke-width="3"/>
+  <path d="M629 276 V312" fill="none" stroke="#38BDF8" stroke-width="3"/>
+  <path d="M413 312 H653" fill="none" stroke="#38BDF8" stroke-width="5" stroke-linecap="round"/>
+  <path d="M442 312 C474 286, 497 286, 528 312" fill="none" stroke="#F59E0B" stroke-width="3" marker-end="url(#arrow-orange)"/>
+  <path d="M538 312 C570 338, 593 338, 624 312" fill="none" stroke="#F59E0B" stroke-width="3" marker-end="url(#arrow-orange)"/>
+
+  <rect x="394" y="338" width="278" height="48" rx="12" fill="#0D332B" stroke="#34D399"/>
+  <text x="533" y="369" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Inter, sans-serif" font-size="20" font-weight="700">Remote DSM + atomics</text>
+
+  <rect x="431" y="402" width="204" height="42" rx="21" fill="#3A2608" stroke="#F59E0B"/>
+  <text x="533" y="430" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Inter, sans-serif" font-size="19" font-weight="700">cluster.sync()</text>
+  <text x="533" y="462" text-anchor="middle" fill="#94A3B8" font-family="DejaVu Sans, Inter, sans-serif" font-size="16">Sync before access and exit</text>
+
+  <rect x="28" y="498" width="664" height="94" rx="18" fill="#111C2E" stroke="#334155"/>
+  <line x1="247" y1="513" x2="247" y2="577" stroke="#334155"/>
+  <line x1="470" y1="513" x2="470" y2="577" stroke="#334155"/>
+
+  <text x="137" y="530" text-anchor="middle" fill="#38BDF8" font-family="DejaVu Sans, Inter, sans-serif" font-size="19" font-weight="700">Local Shared</text>
+  <text x="137" y="556" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Inter, sans-serif" font-size="17">One block</text>
+  <text x="137" y="578" text-anchor="middle" fill="#94A3B8" font-family="DejaVu Sans, Inter, sans-serif" font-size="15">Lowest latency</text>
+
+  <text x="359" y="530" text-anchor="middle" fill="#34D399" font-family="DejaVu Sans, Inter, sans-serif" font-size="19" font-weight="700">Remote DSM</text>
+  <text x="359" y="556" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Inter, sans-serif" font-size="17">Cluster scope</text>
+  <text x="359" y="578" text-anchor="middle" fill="#94A3B8" font-family="DejaVu Sans, Inter, sans-serif" font-size="15">Capacity ~ C x SMEM</text>
+
+  <text x="581" y="530" text-anchor="middle" fill="#F59E0B" font-family="DejaVu Sans, Inter, sans-serif" font-size="19" font-weight="700">Global Memory</text>
+  <text x="581" y="556" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Inter, sans-serif" font-size="17">Grid-visible</text>
+  <text x="581" y="578" text-anchor="middle" fill="#94A3B8" font-family="DejaVu Sans, Inter, sans-serif" font-size="15">L2 and DRAM path</text>
+</svg>
