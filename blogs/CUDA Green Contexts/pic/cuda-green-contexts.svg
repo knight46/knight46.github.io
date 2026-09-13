@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1960" viewBox="0 0 720 980" role="img" aria-labelledby="title desc">
+  <title id="title">CUDA Green Contexts: queueing and spatial SM partitioning</title>
+  <desc id="desc">A mobile-readable comparison of shared-SM queueing, Green Context SM and work queue provisioning, and isolation boundaries.</desc>
+  <metadata>Original site illustration based on NVIDIA CUDA Programming Guide Green Context scheduling and Runtime API resource semantics. No third-party artwork reused.</metadata>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <rect width="720" height="980" rx="24" fill="#0B1220"/>
+  <text x="32" y="44" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="27" font-weight="700">CUDA Green Contexts</text>
+  <text x="32" y="72" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="17">Reserve SM space for latency-sensitive work</text>
+
+  <!-- Section 1: timeline connectors before workload nodes. -->
+  <line x1="164" y1="164" x2="660" y2="164" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="164" y1="268" x2="660" y2="268" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M468 143 V213" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="5 5"/>
+  <path d="M468 247 V317" fill="none" stroke="#34D399" stroke-width="2" stroke-dasharray="5 5"/>
+  <rect x="24" y="96" width="672" height="246" rx="18" fill="#111C2E" stroke="#334155"/>
+  <text x="44" y="128" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700">1  Why priority can still wait</text>
+
+  <text x="44" y="158" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">Shared SMs</text>
+  <rect x="164" y="145" width="304" height="38" rx="8" fill="#2563EB"/>
+  <text x="316" y="170" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="700">Bulk A fills every SM</text>
+  <rect x="468" y="145" width="132" height="38" rx="8" fill="#F59E0B"/>
+  <text x="534" y="170" text-anchor="middle" fill="#0B1220" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="700">Critical B</text>
+  <text x="474" y="208" fill="#FBBF24" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">waits for A blocks</text>
+
+  <text x="44" y="262" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">Reserved SMs</text>
+  <rect x="164" y="249" width="436" height="38" rx="8" fill="#2563EB"/>
+  <text x="382" y="274" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="700">Bulk A uses fewer SMs, so it runs longer</text>
+  <rect x="468" y="295" width="160" height="32" rx="8" fill="#F59E0B"/>
+  <text x="548" y="317" text-anchor="middle" fill="#0B1220" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" font-weight="700">B starts promptly</text>
+
+  <!-- Section 2: API and resource-flow connectors before nodes. -->
+  <path d="M151 414 H184" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M320 414 H353" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M489 414 H522" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M279 466 C279 492 210 492 210 515" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M441 466 C441 492 510 492 510 515" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="24" y="362" width="672" height="352" rx="18" fill="#111C2E" stroke="#34D399" stroke-width="1.5"/>
+  <text x="44" y="394" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700">2  Provision resources when creating a context</text>
+
+  <rect x="44" y="400" width="107" height="29" rx="7" fill="#1E293B" stroke="#64748B"/>
+  <text x="97" y="420" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans Mono, monospace" font-size="13">Get SMs</text>
+  <rect x="184" y="400" width="136" height="29" rx="7" fill="#1E293B" stroke="#64748B"/>
+  <text x="252" y="420" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans Mono, monospace" font-size="13">Split groups</text>
+  <rect x="353" y="400" width="136" height="29" rx="7" fill="#1E293B" stroke="#64748B"/>
+  <text x="421" y="420" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans Mono, monospace" font-size="13">Make desc</text>
+  <rect x="522" y="400" width="154" height="29" rx="7" fill="#0D332B" stroke="#34D399"/>
+  <text x="599" y="420" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans Mono, monospace" font-size="13">Create GC stream</text>
+
+  <text x="44" y="462" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">Query minimum size and alignment; never hard-code across GPUs.</text>
+
+  <rect x="50" y="515" width="320" height="128" rx="13" fill="#132849" stroke="#2563EB" stroke-width="2"/>
+  <text x="210" y="544" text-anchor="middle" fill="#60A5FA" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" font-weight="700">Bulk Green Context</text>
+  <g fill="#2563EB">
+    <rect x="78" y="559" width="50" height="30" rx="6"/><rect x="138" y="559" width="50" height="30" rx="6"/>
+    <rect x="198" y="559" width="50" height="30" rx="6"/><rect x="258" y="559" width="50" height="30" rx="6"/>
+    <rect x="318" y="559" width="24" height="30" rx="6"/>
+  </g>
+  <text x="210" y="619" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">Specific SM group · e.g. 80%</text>
+
+  <rect x="388" y="515" width="282" height="128" rx="13" fill="#3A2608" stroke="#F59E0B" stroke-width="2"/>
+  <text x="529" y="544" text-anchor="middle" fill="#FBBF24" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" font-weight="700">Critical Green Context</text>
+  <rect x="460" y="559" width="58" height="30" rx="6" fill="#F59E0B"/>
+  <rect x="540" y="559" width="58" height="30" rx="6" fill="#F59E0B"/>
+  <text x="529" y="619" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">Different SM group · e.g. 20%</text>
+
+  <rect x="50" y="658" width="620" height="38" rx="9" fill="#0D332B" stroke="#34D399"/>
+  <text x="360" y="682" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">Balanced WQ + concurrency hint can reduce false dependencies</text>
+
+  <!-- Section 3 contains no crossing connectors. -->
+  <rect x="24" y="734" width="672" height="218" rx="18" fill="#111C2E" stroke="#334155"/>
+  <text x="44" y="766" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700">3  Choose the right isolation boundary</text>
+
+  <rect x="44" y="782" width="632" height="42" rx="9" fill="#1E293B"/>
+  <text x="62" y="808" fill="#60A5FA" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="700">Priority</text>
+  <text x="176" y="808" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="16">Scheduling hint; no fixed SM reservation</text>
+
+  <rect x="44" y="832" width="632" height="42" rx="9" fill="#0D332B"/>
+  <text x="62" y="858" fill="#34D399" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="700">Green GC</text>
+  <text x="176" y="858" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="16">In-process SM and WQ provisioning</text>
+
+  <rect x="44" y="882" width="632" height="42" rx="9" fill="#3A2608"/>
+  <text x="62" y="908" fill="#FBBF24" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="700">MPS / MIG</text>
+  <text x="176" y="908" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="16">Multi-process or instance-level isolation</text>
+
+  <text x="44" y="942" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="14">Green Context still shares L2, DRAM bandwidth, copy engines and power.</text>
+</svg>

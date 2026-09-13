@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 11 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 14 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA Green Contexts：用 SM 空间分区隔离延迟敏感任务</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20Green%20Contexts</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20Green%20Contexts</guid>
+            <pubDate>Mon, 14 Sep 2026 00:00:00 GMT</pubDate>
+            <description>从 stream priority 的非抢占边界出发，拆解 CUDA 13.1 Green Context 的 SM 与 work queue 分区机制、Runtime API 工程流程、性能模型，以及与 MPS、MIG、CUDA Graph 的选择边界。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>Green Contexts</category><category>GPU Partitioning</category><category>QoS</category><category>Latency</category><category>MPS</category><category>MIG</category><category>Nsight Systems</category>
+        </item>
         <item>
             <title>CUDA Thread Block Clusters：跨 SM 协作与 Distributed Shared Memory</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20Thread%20Block%20Clusters</link>
