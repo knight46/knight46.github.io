@@ -404,6 +404,34 @@ function setupReveal() {
     items.forEach((item) => observer.observe(item));
 }
 
+function setupSurfaceGlow() {
+    if (prefersReducedMotion || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        return;
+    }
+
+    const surfaces = document.querySelectorAll(".glass-panel, .blog-card, .album-card, .contact-card");
+    surfaces.forEach((surface) => {
+        let frame = 0;
+        let pointerX = 0;
+        let pointerY = 0;
+
+        surface.addEventListener("pointermove", (event) => {
+            const rect = surface.getBoundingClientRect();
+            pointerX = event.clientX - rect.left;
+            pointerY = event.clientY - rect.top;
+            if (frame) {
+                return;
+            }
+
+            frame = window.requestAnimationFrame(() => {
+                surface.style.setProperty("--glow-x", `${pointerX}px`);
+                surface.style.setProperty("--glow-y", `${pointerY}px`);
+                frame = 0;
+            });
+        }, { passive: true });
+    });
+}
+
 function createBlogCard(item) {
     return `
         <a class="blog-card" href="blog.html?slug=${encodeURIComponent(item.slug)}">
@@ -761,3 +789,4 @@ if (pageType === "blog-detail") {
 }
 
 setupImageFullscreen();
+setupSurfaceGlow();
