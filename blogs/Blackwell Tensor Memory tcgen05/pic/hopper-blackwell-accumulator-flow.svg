@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" role="img" aria-labelledby="title desc">
+  <title id="title">GEMM accumulator flow: Hopper versus Blackwell</title>
+  <desc id="desc">Hopper WGMMA keeps accumulators in registers. Blackwell tcgen05 keeps them in Tensor Memory before the epilogue loads them into registers.</desc>
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#58b8ff"/></marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#62d6a9"/></marker>
+    <style>
+      .bg{fill:#07111f}.panel{fill:#0d1b2b;stroke:#29445e;stroke-width:2}.panel-bw{fill:#102338;stroke:#4d83ad;stroke-width:2}
+      .node{fill:#14283d;stroke:#5d7891;stroke-width:2}.compute{fill:#342b1c;stroke:#f0bf5c;stroke-width:2}
+      .register{fill:#33243f;stroke:#c9a6ff;stroke-width:2}.tmem{fill:#12372f;stroke:#62d6a9;stroke-width:3}
+      .edge{fill:none;stroke:#58b8ff;stroke-width:4;marker-end:url(#arrow-blue)}.edge-green{fill:none;stroke:#62d6a9;stroke-width:4;marker-end:url(#arrow-green)}
+      .title{fill:#f1f7ff;font:700 32px Arial,sans-serif}.subtitle{fill:#b7c8d9;font:20px Arial,sans-serif}
+      .head{fill:#78c8ff;font:700 28px Arial,sans-serif}.label{fill:#f2f7fb;font:700 24px Arial,sans-serif}
+      .small{fill:#c3d2e0;font:20px Arial,sans-serif}.accent{fill:#70e2b7;font:700 22px Arial,sans-serif}.foot{fill:#aabed0;font:20px Arial,sans-serif}
+    </style>
+  </defs>
+  <rect class="bg" width="1000" height="650"/>
+  <text x="45" y="55" class="title">GEMM accumulator flow: Hopper vs. Blackwell</text>
+  <text x="45" y="87" class="subtitle">The key difference is where the long-lived C/D tile resides.</text>
+  <rect x="35" y="120" width="445" height="420" rx="22" class="panel"/>
+  <rect x="520" y="120" width="445" height="420" rx="22" class="panel-bw"/>
+  <!-- Connectors are drawn before nodes. -->
+  <path d="M145 240H225" class="edge"/><path d="M345 240H425V350H370" class="edge"/>
+  <path d="M250 390H145" class="edge"/><path d="M630 240H700" class="edge"/>
+  <path d="M145 420H165V451H180" class="edge"/>
+  <path d="M820 240H900V350H845" class="edge-green"/><path d="M725 390H630" class="edge-green"/>
+  <path d="M630 430V458" class="edge"/>
+  <path d="M730 487H755" class="edge"/>
+  <text x="65" y="165" class="head">Hopper / WGMMA</text>
+  <text x="65" y="196" class="small">warpgroup issue; C/D in registers</text>
+  <rect x="65" y="215" width="80" height="58" rx="12" class="node"/><text x="82" y="251" class="label">GMEM</text>
+  <rect x="225" y="215" width="120" height="58" rx="12" class="node"/><text x="236" y="251" class="label">TMA/SMEM</text>
+  <rect x="250" y="325" width="120" height="66" rx="12" class="compute"/><text x="271" y="367" class="label">WGMMA</text>
+  <rect x="65" y="350" width="80" height="88" rx="12" class="register"/>
+  <text x="77" y="385" class="label">REG</text><text x="73" y="414" class="small">accum.</text>
+  <rect x="180" y="420" width="190" height="62" rx="12" class="node"/><text x="194" y="458" class="label">Epilogue → GMEM</text>
+  <text x="65" y="515" class="small">Cost: a long register live range</text>
+  <text x="550" y="165" class="head">Blackwell / tcgen05</text>
+  <text x="550" y="196" class="small">one-thread issue; accumulator in TMEM</text>
+  <rect x="550" y="215" width="80" height="58" rx="12" class="node"/><text x="567" y="251" class="label">GMEM</text>
+  <rect x="700" y="215" width="120" height="58" rx="12" class="node"/><text x="711" y="251" class="label">TMA/SMEM</text>
+  <rect x="725" y="325" width="120" height="66" rx="12" class="compute"/>
+  <text x="739" y="355" class="label">tcgen05</text><text x="757" y="381" class="small">MMA</text>
+  <rect x="550" y="350" width="80" height="88" rx="12" class="tmem"/>
+  <text x="557" y="385" class="label">TMEM</text><text x="560" y="414" class="small">accum.</text>
+  <rect x="550" y="458" width="180" height="58" rx="12" class="register"/><text x="576" y="495" class="label">ld → REG</text>
+  <rect x="755" y="445" width="170" height="71" rx="12" class="node"/>
+  <text x="778" y="475" class="label">Epilogue</text><text x="778" y="502" class="small">fuse + store</text>
+  <text x="45" y="590" class="accent">TMEM isolates accumulators and frees registers.</text>
+  <text x="45" y="622" class="foot">Blue: data · Yellow: compute · Purple: REG · Green: TMEM</text>
+</svg>

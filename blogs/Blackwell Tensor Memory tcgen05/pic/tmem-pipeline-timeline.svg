@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" role="img" aria-labelledby="title desc">
+  <title id="title">Blackwell TMEM GEMM pipeline lifecycle</title>
+  <desc id="desc">Left-to-right timeline of TMEM allocation, TMA buffering, tcgen05 MMA issue and commit, mbarrier wait, TMEM load, epilogue, and deallocation.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67c7ff"/></marker>
+    <style>
+      .bg{fill:#07111f}.lane{fill:#0d1b2b;stroke:#29445e;stroke-width:2}.lane-alt{fill:#102338;stroke:#315a72;stroke-width:2}
+      .step{fill:#17324a;stroke:#67c7ff;stroke-width:2}.compute{fill:#382d1b;stroke:#f0bf5c;stroke-width:2}
+      .sync{fill:#312642;stroke:#c5a0ff;stroke-width:2}.storage{fill:#12372f;stroke:#62d6a9;stroke-width:2}
+      .life{fill:#0f2c26;stroke:#62d6a9;stroke-width:3}.edge{fill:none;stroke:#67c7ff;stroke-width:3;marker-end:url(#arrow)}
+      .wait{fill:none;stroke:#c5a0ff;stroke-width:3;stroke-dasharray:8 7;marker-end:url(#arrow)}
+      .tick{stroke:#36536c;stroke-width:1;stroke-dasharray:5 7}.title{fill:#f1f7ff;font:700 32px Arial,sans-serif}
+      .subtitle{fill:#b7c8d9;font:20px Arial,sans-serif}.lane-label{fill:#78c8ff;font:700 24px Arial,sans-serif}
+      .label{fill:#f2f7fb;font:700 21px Arial,sans-serif}.small{fill:#c3d2e0;font:18px Arial,sans-serif}
+      .time{fill:#9eb5c8;font:18px Arial,sans-serif}.note{fill:#77e0b6;font:700 21px Arial,sans-serif}
+    </style>
+  </defs>
+  <rect class="bg" width="1000" height="700"/>
+  <text x="42" y="52" class="title">TMEM lifecycle and producer / consumer pipeline</text>
+  <text x="42" y="84" class="subtitle">Time flows left to right. Explicit barriers separate issue from completion.</text>
+  <rect x="40" y="120" width="920" height="130" rx="18" class="lane"/>
+  <rect x="40" y="265" width="920" height="130" rx="18" class="lane-alt"/>
+  <rect x="40" y="410" width="920" height="130" rx="18" class="lane"/>
+  <line x1="240" y1="105" x2="240" y2="555" class="tick"/><line x1="430" y1="105" x2="430" y2="555" class="tick"/>
+  <line x1="620" y1="105" x2="620" y2="555" class="tick"/><line x1="810" y1="105" x2="810" y2="555" class="tick"/>
+  <!-- Connectors are drawn before nodes. -->
+  <path d="M212 205H275" class="edge"/><path d="M405 205H470" class="edge"/><path d="M590 205H655" class="edge"/>
+  <path d="M585 342H650" class="wait"/><path d="M420 487H470" class="edge"/><path d="M590 487H650" class="edge"/>
+  <path d="M790 487H850" class="edge"/><path d="M355 235V315" class="edge"/><path d="M540 235V315" class="edge"/>
+  <path d="M720 370V445" class="wait"/>
+  <text x="62" y="153" class="lane-label">Producer</text><text x="62" y="181" class="small">move + issue</text>
+  <rect x="115" y="180" width="97" height="55" rx="10" class="storage"/><text x="132" y="215" class="label">alloc</text>
+  <rect x="275" y="170" width="130" height="65" rx="10" class="step"/>
+  <text x="299" y="198" class="label">TMA load</text><text x="299" y="222" class="small">A/B → SMEM</text>
+  <rect x="470" y="170" width="120" height="65" rx="10" class="compute"/>
+  <text x="490" y="198" class="label">mma issue</text><text x="490" y="222" class="small">one thread</text>
+  <rect x="655" y="170" width="135" height="65" rx="10" class="sync"/>
+  <text x="674" y="198" class="label">commit</text><text x="674" y="222" class="small">signal barrier</text>
+  <text x="62" y="298" class="lane-label">Tensor Core</text><text x="62" y="326" class="small">async compute</text>
+  <rect x="300" y="315" width="285" height="55" rx="10" class="compute"/><text x="345" y="350" class="label">SMEM → MMA pipeline</text>
+  <rect x="650" y="300" width="185" height="70" rx="10" class="life"/>
+  <text x="669" y="329" class="label">TMEM accumulator</text><text x="681" y="355" class="small">persists across K tiles</text>
+  <text x="62" y="443" class="lane-label">Consumer</text><text x="62" y="471" class="small">epilogue + reclaim</text>
+  <rect x="295" y="460" width="125" height="55" rx="10" class="sync"/><text x="310" y="494" class="label">barrier wait</text>
+  <rect x="470" y="445" width="120" height="70" rx="10" class="storage"/>
+  <text x="484" y="474" class="label">tcgen05.ld</text><text x="490" y="500" class="small">TMEM → REG</text>
+  <rect x="650" y="445" width="140" height="70" rx="10" class="step"/>
+  <text x="674" y="474" class="label">epilogue</text><text x="674" y="500" class="small">fuse + store</text>
+  <rect x="850" y="460" width="85" height="55" rx="10" class="storage"/><text x="855" y="494" class="label">dealloc</text>
+  <path d="M150 590H895" class="edge"/><text x="62" y="598" class="time">time</text>
+  <text x="115" y="637" class="note">Deallocate only after all readers finish; CTA pairs share one protocol.</text>
+  <text x="115" y="668" class="small">Blue: transport    Yellow: compute    Purple: completion/wait    Green: TMEM lifetime</text>
+</svg>
