@@ -2,8 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://knight46.github.io/</loc>
-        <lastmod>2026-09-18</lastmod>
+        <lastmod>2026-09-20</lastmod>
         <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://knight46.github.io/blog.html?slug=CUDA%20MPS%20v3%20GPU%20Sharing</loc>
+        <lastmod>2026-09-21</lastmod>
+        <priority>0.8</priority>
     </url>
     <url>
         <loc>https://knight46.github.io/blog.html?slug=Blackwell%20Tensor%20Memory%20tcgen05</loc>

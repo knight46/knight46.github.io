@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="2320" viewBox="0 0 720 1160" role="img" aria-labelledby="title desc">
+  <title id="title">CUDA MPS v3 resource hierarchy and submission paths</title>
+  <desc id="desc">The control daemon manages named servers. Servers own device boundaries, namespaces group clients, and clients submit GPU work directly rather than through the server.</desc>
+  <metadata>Original site illustration based on NVIDIA MPS Architecture, MPS v3 Interface, Namespaces, and Configuration File documentation. No third-party artwork reused.</metadata>
+  <defs>
+    <marker id="arrow-control" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94A3B8"/></marker>
+    <marker id="arrow-data" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L9,4.5 L0,9 Z" fill="#34D399"/></marker>
+  </defs>
+  <rect width="720" height="1160" rx="24" fill="#0B1220"/>
+  <text x="32" y="48" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="28" font-weight="700">MPS v3 resource hierarchy</text>
+  <text x="32" y="80" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="19">Control plane configures policy; clients submit work directly</text>
+  <path d="M360 180 V220 H190 V252" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <path d="M360 180 V220 H530 V252" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <path d="M190 390 V432 H115 V468" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <path d="M190 390 V432 H300 V468" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <path d="M530 390 V432 H530 V468" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <path d="M115 602 V642 H88 V680" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <path d="M115 602 V642 H213 V680" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <path d="M300 602 V642 H338 V680" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <path d="M530 602 V642 H505 V680" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <path d="M530 602 V642 H635 V680" fill="none" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <rect x="42" y="106" width="636" height="94" rx="18" fill="#1E293B" stroke="#64748B" stroke-width="2"/>
+  <text x="66" y="143" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" font-weight="700">MPS control daemon · protocol 3</text>
+  <text x="66" y="174" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="20">TOML apply · module/verb CLI · lifecycle management</text>
+  <rect x="30" y="252" width="320" height="138" rx="18" fill="#132849" stroke="#60A5FA" stroke-width="3"/>
+  <text x="54" y="290" fill="#60A5FA" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" font-weight="700">Named server: shared</text>
+  <text x="54" y="324" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="20">allowed devices: GPU-0</text>
+  <text x="54" y="356" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="19">SM partition or locality domain</text>
+  <rect x="370" y="252" width="320" height="138" rx="18" fill="#132849" stroke="#60A5FA" stroke-width="3"/>
+  <text x="394" y="290" fill="#60A5FA" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" font-weight="700">Named server: batch</text>
+  <text x="394" y="324" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="20">allowed devices: GPU-1</text>
+  <text x="394" y="356" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="19">independent process and sockets</text>
+  <rect x="30" y="468" width="170" height="134" rx="16" fill="#0D332B" stroke="#34D399" stroke-width="3"/>
+  <text x="50" y="506" fill="#34D399" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" font-weight="700">inference</text>
+  <text x="50" y="540" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="18">threads · priority</text>
+  <text x="50" y="570" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="18">pinned-memory</text>
+  <rect x="215" y="468" width="170" height="134" rx="16" fill="#0D332B" stroke="#34D399" stroke-width="3"/>
+  <text x="235" y="506" fill="#34D399" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" font-weight="700">training</text>
+  <text x="235" y="540" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="18">threads · priority</text>
+  <text x="235" y="570" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="18">pinned-memory</text>
+  <rect x="445" y="468" width="170" height="134" rx="16" fill="#0D332B" stroke="#34D399" stroke-width="3"/>
+  <text x="465" y="506" fill="#34D399" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" font-weight="700">default</text>
+  <text x="465" y="540" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="18">implicit namespace</text>
+  <text x="465" y="570" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="18">server defaults</text>
+  <g fill="#3A2608" stroke="#F59E0B" stroke-width="2">
+    <rect x="34" y="680" width="108" height="106" rx="14"/><rect x="159" y="680" width="108" height="106" rx="14"/><rect x="284" y="680" width="108" height="106" rx="14"/><rect x="451" y="680" width="108" height="106" rx="14"/><rect x="581" y="680" width="108" height="106" rx="14"/>
+  </g>
+  <g fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" text-anchor="middle">
+    <text x="88" y="720" font-size="21" font-weight="700">client A</text><text x="88" y="752" font-size="17">socket route</text>
+    <text x="213" y="720" font-size="21" font-weight="700">client B</text><text x="213" y="752" font-size="17">socket route</text>
+    <text x="338" y="720" font-size="21" font-weight="700">client C</text><text x="338" y="752" font-size="17">socket route</text>
+    <text x="505" y="720" font-size="21" font-weight="700">client D</text><text x="505" y="752" font-size="17">default route</text>
+    <text x="635" y="720" font-size="21" font-weight="700">client E</text><text x="635" y="752" font-size="17">default route</text>
+  </g>
+  <rect x="24" y="822" width="672" height="278" rx="20" fill="#111C2E" stroke="#334155" stroke-width="2"/>
+  <path d="M88 786 V930 H226" fill="none" stroke="#34D399" stroke-width="4" marker-end="url(#arrow-data)"/>
+  <path d="M213 786 V902 H226" fill="none" stroke="#34D399" stroke-width="4" marker-end="url(#arrow-data)"/>
+  <path d="M338 786 V874 H226" fill="none" stroke="#34D399" stroke-width="4" marker-end="url(#arrow-data)"/>
+  <path d="M505 786 V874 H494" fill="none" stroke="#34D399" stroke-width="4" marker-end="url(#arrow-data)"/>
+  <path d="M635 786 V930 H494" fill="none" stroke="#34D399" stroke-width="4" marker-end="url(#arrow-data)"/>
+  <rect x="226" y="876" width="268" height="90" rx="16" fill="#16233A" stroke="#34D399" stroke-width="3"/>
+  <text x="360" y="914" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="25" font-weight="700">GPU execution engines</text>
+  <text x="360" y="946" text-anchor="middle" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="19">work queues · SMs · memory</text>
+  <rect x="48" y="994" width="624" height="76" rx="13" fill="#281A09" stroke="#F59E0B"/>
+  <text x="68" y="1025" fill="#FBBF24" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700">Boundary note</text>
+  <text x="68" y="1054" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="18">Namespaces group policy; they are not MIG-like hardware isolation.</text>
+  <line x1="46" y1="1126" x2="94" y2="1126" stroke="#94A3B8" stroke-width="3" marker-end="url(#arrow-control)"/>
+  <text x="110" y="1133" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="18">control / routing</text>
+  <line x1="310" y1="1126" x2="358" y2="1126" stroke="#34D399" stroke-width="4" marker-end="url(#arrow-data)"/>
+  <text x="374" y="1133" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="18">direct GPU submission</text>
+</svg>

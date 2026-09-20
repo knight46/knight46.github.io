@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 18 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 21 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA MPS v3：把共享 GPU 变成可声明的多租户资源层</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20MPS%20v3%20GPU%20Sharing</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20MPS%20v3%20GPU%20Sharing</guid>
+            <pubDate>Mon, 21 Sep 2026 00:00:00 GMT</pubDate>
+            <description>从 named server、namespace、静态 SM 分区与 locality domain，到 CUDA 13.4 的 cgroup v2 device-memory partitioning，系统拆解 MPS v3 如何把多进程并发升级为可声明、可审计的 GPU 资源控制面。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>MPS</category><category>MPS v3</category><category>GPU Sharing</category><category>QoS</category><category>Memory Partitioning</category><category>cgroup</category><category>MLOPart</category>
+        </item>
         <item>
             <title>Blackwell TMEM 与 tcgen05：第五代 Tensor Core 如何重写 GEMM 数据流</title>
             <link>https://knight46.github.io/blog.html?slug=Blackwell%20Tensor%20Memory%20tcgen05</link>
