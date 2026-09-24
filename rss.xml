@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 21 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 25 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA TMA：用描述符、mbarrier 与 Swizzle 重构 Hopper 数据搬运</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20TMA%20Async%20Tensor%20Copies</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20TMA%20Async%20Tensor%20Copies</guid>
+            <pubDate>Fri, 25 Sep 2026 00:00:00 GMT</pubDate>
+            <description>从 CUtensorMap、异步代理与 mbarrier 的正确性协议出发，系统讲解 Hopper TMA 的多维搬运、双缓冲、shared-memory swizzle、warp specialization、multicast，以及可落地的性能建模与验证流程。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>Hopper</category><category>TMA</category><category>Async Copy</category><category>mbarrier</category><category>Shared Memory</category><category>CUTLASS</category><category>CuTe</category>
+        </item>
         <item>
             <title>CUDA MPS v3：把共享 GPU 变成可声明的多租户资源层</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20MPS%20v3%20GPU%20Sharing</link>

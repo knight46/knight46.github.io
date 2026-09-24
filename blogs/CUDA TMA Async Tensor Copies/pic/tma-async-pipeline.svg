@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="920" viewBox="0 0 720 920" role="img" aria-labelledby="title desc">
+  <title id="title">TMA 描述符驱动的异步双缓冲流水线</title>
+  <desc id="desc">Host 编码 CUtensorMap，producer warp 发起 TMA，数据进入共享内存双缓冲，mbarrier 确认事务完成后 consumer warps 计算，并以 phase 控制缓冲复用。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 28px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#172033}.subtitle{font:400 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#566174}
+      .node{stroke:#64748b;stroke-width:2}.input{fill:#dbeafe}.process{fill:#e0e7ff}.storage{fill:#ccfbf1}.sync{fill:#fef3c7}.compute{fill:#dcfce7}
+      .label{font:700 21px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#172033}.body{font:400 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#344054}.small{font:600 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#566174}
+      .edge{fill:none;stroke:#64748b;stroke-width:2.5;marker-end:url(#arrow)}.signal{fill:none;stroke:#d97706;stroke-width:2.5;stroke-dasharray:8 6;marker-end:url(#arrow)}
+      .phase{fill:none;stroke:#7c3aed;stroke-width:2.5;stroke-dasharray:8 6;marker-end:url(#arrow)}.stage{stroke:#0f766e;stroke-width:2}
+      @media (prefers-color-scheme:dark){.bg{fill:#0f172a}.title,.label{fill:#f8fafc}.subtitle,.body,.small{fill:#cbd5e1}.node{stroke:#94a3b8}.input{fill:#1e3a5f}.process{fill:#312e81}.storage{fill:#134e4a}.sync{fill:#713f12}.compute{fill:#14532d}.edge{stroke:#94a3b8}.stage{stroke:#5eead4}}
+    </style>
+  </defs>
+  <rect class="bg" width="720" height="920"/>
+
+  <text class="title" x="40" y="45">TMA async double-buffer pipeline</text>
+  <text class="subtitle" x="40" y="73">Descriptor addresses · mbarrier completion · phase reuse</text>
+
+  <!-- Connectors are drawn before nodes so they remain behind boxes. -->
+  <path class="edge" d="M360 192 V223 H525 V248"/>
+  <path class="edge" d="M300 305 H406"/>
+  <path class="edge" d="M525 362 V397 H200 V430"/>
+  <path class="edge" d="M525 362 V397 H520 V430"/>
+  <path class="edge" d="M200 542 V585"/>
+  <path class="edge" d="M520 542 V585"/>
+  <path class="edge" d="M360 675 V715"/>
+  <path class="edge" d="M360 793 V825"/>
+  <path class="signal" d="M170 362 V555 H260 V585"/>
+  <path class="phase" d="M148 754 H92 V305 H116"/>
+
+  <rect class="node input" x="70" y="96" width="580" height="96" rx="16"/>
+  <text class="label" x="360" y="130" text-anchor="middle">Host: encode and cache CUtensorMap</text>
+  <text class="body" x="360" y="160" text-anchor="middle">base · dimensions/strides · box · swizzle · OOB policy</text>
+
+  <rect class="node process" x="60" y="248" width="240" height="114" rx="16"/>
+  <text class="label" x="180" y="285" text-anchor="middle">Producer warp</text>
+  <text class="body" x="180" y="316" text-anchor="middle">wait for empty stage</text>
+  <text class="body" x="180" y="341" text-anchor="middle">set expected bytes</text>
+
+  <rect class="node process" x="406" y="248" width="254" height="114" rx="16"/>
+  <text class="label" x="533" y="285" text-anchor="middle">TMA engine</text>
+  <text class="body" x="533" y="316" text-anchor="middle">descriptor + coordinates</text>
+  <text class="body" x="533" y="341" text-anchor="middle">async GMEM → SMEM</text>
+
+  <rect class="node storage stage" x="60" y="430" width="280" height="112" rx="16"/>
+  <text class="label" x="200" y="468" text-anchor="middle">SMEM Buffer A</text>
+  <text class="body" x="200" y="500" text-anchor="middle">stage 0 · phase p</text>
+  <text class="small" x="200" y="525" text-anchor="middle">load now · reuse later</text>
+
+  <rect class="node storage stage" x="380" y="430" width="280" height="112" rx="16"/>
+  <text class="label" x="520" y="468" text-anchor="middle">SMEM Buffer B</text>
+  <text class="body" x="520" y="500" text-anchor="middle">stage 1 · phase p ⊕ 1</text>
+  <text class="small" x="520" y="525" text-anchor="middle">compute now · prefetch next</text>
+
+  <rect class="node sync" x="120" y="585" width="480" height="90" rx="16"/>
+  <text class="label" x="360" y="621" text-anchor="middle">mbarrier: arrivals + transaction bytes</text>
+  <text class="body" x="360" y="651" text-anchor="middle">TMA completion decrements the byte count</text>
+
+  <rect class="node process" x="120" y="715" width="480" height="78" rx="16"/>
+  <text class="label" x="360" y="749" text-anchor="middle">Consumer warps / warpgroup</text>
+  <text class="body" x="360" y="777" text-anchor="middle">wait for full phase, then read the stage</text>
+
+  <rect class="node compute" x="120" y="825" width="480" height="64" rx="16"/>
+  <text class="label" x="360" y="864" text-anchor="middle">WGMMA / CUDA Core → arrive empty</text>
+
+  <text class="small" x="315" y="294">issue tile</text>
+  <text class="small" x="105" y="568">expect_tx</text>
+  <text class="small" x="43" y="522" transform="rotate(-90 43 522)">phase flip and reuse</text>
+</svg>

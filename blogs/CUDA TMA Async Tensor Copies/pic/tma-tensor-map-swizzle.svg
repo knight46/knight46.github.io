@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="960" viewBox="0 0 720 960" role="img" aria-labelledby="title desc">
+  <title id="title">Tensor map 坐标到 shared-memory swizzle 的映射</title>
+  <desc id="desc">CUtensorMap 用 dimensions、strides、box coordinates 定位 global-memory tile；TMA 将 tile 写入 shared memory。线性布局可能形成 bank 热点，128 字节 swizzle 重新分散并行访问，但消费者必须使用匹配布局。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 28px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#172033}.subtitle{font:400 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#566174}
+      .node{stroke:#64748b;stroke-width:2}.input{fill:#dbeafe}.process{fill:#e0e7ff}.storage{fill:#ccfbf1}.linear{fill:#fee2e2}.swizzled{fill:#dcfce7}
+      .label{font:700 21px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#172033}.body{font:400 17px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#344054}.small{font:600 15px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#566174}
+      .edge{fill:none;stroke:#64748b;stroke-width:2.5;marker-end:url(#arrow)}.tile{fill:#fbbf24;fill-opacity:.45;stroke:#d97706;stroke-width:3}.cell{stroke:#64748b;stroke-width:1}
+      .hot{fill:#fca5a5}.b0{fill:#93c5fd}.b1{fill:#5eead4}.b2{fill:#c4b5fd}.b3{fill:#fde68a}
+      @media (prefers-color-scheme:dark){.bg{fill:#0f172a}.title,.label{fill:#f8fafc}.subtitle,.body,.small{fill:#cbd5e1}.node,.cell{stroke:#94a3b8}.input{fill:#1e3a5f}.process{fill:#312e81}.storage{fill:#134e4a}.linear{fill:#7f1d1d}.swizzled{fill:#14532d}.hot{fill:#b91c1c}.b0{fill:#1d4ed8}.b1{fill:#0f766e}.b2{fill:#6d28d9}.b3{fill:#a16207}}
+    </style>
+  </defs>
+  <rect class="bg" width="720" height="960"/>
+
+  <text class="title" x="40" y="45">Tensor map → TMA tile → SMEM layout</text>
+  <text class="subtitle" x="40" y="73">Coordinates select the tile; swizzle remaps its shared-memory landing</text>
+
+  <!-- Connectors are drawn before nodes. -->
+  <path class="edge" d="M360 278 V327"/>
+  <path class="edge" d="M360 471 V520 H190 V563"/>
+  <path class="edge" d="M360 520 H530 V563"/>
+
+  <rect class="node input" x="40" y="98" width="640" height="180" rx="16"/>
+  <text class="label" x="68" y="134">Global tensor + CUtensorMap</text>
+  <text class="body" x="68" y="169">dimensions / strides</text>
+  <text class="body" x="68" y="198">box dimensions</text>
+  <text class="body" x="68" y="227">tile coordinates (x, y)</text>
+  <text class="small" x="68" y="254">Verify API dimension order and alignment</text>
+
+  <g transform="translate(430 128)">
+    <rect class="cell b0" x="0" y="0" width="46" height="34"/><rect class="cell b1" x="46" y="0" width="46" height="34"/><rect class="cell b2" x="92" y="0" width="46" height="34"/><rect class="cell b3" x="138" y="0" width="46" height="34"/>
+    <rect class="cell b1" x="0" y="34" width="46" height="34"/><rect class="cell b2" x="46" y="34" width="46" height="34"/><rect class="cell b3" x="92" y="34" width="46" height="34"/><rect class="cell b0" x="138" y="34" width="46" height="34"/>
+    <rect class="cell b2" x="0" y="68" width="46" height="34"/><rect class="cell b3" x="46" y="68" width="46" height="34"/><rect class="cell b0" x="92" y="68" width="46" height="34"/><rect class="cell b1" x="138" y="68" width="46" height="34"/>
+    <rect class="tile" x="44" y="32" width="96" height="72" rx="4"/>
+    <text class="small" x="92" y="124" text-anchor="middle">selected 2D box</text>
+  </g>
+
+  <rect class="node process" x="80" y="327" width="560" height="144" rx="16"/>
+  <text class="label" x="360" y="365" text-anchor="middle">TMA maps coordinates to a tile transaction</text>
+  <text class="body" x="360" y="399" text-anchor="middle">Hardware generates multidimensional addresses</text>
+  <text class="body" x="360" y="430" text-anchor="middle">The box lands at an aligned shared-memory target</text>
+  <text class="small" x="360" y="456" text-anchor="middle">Swizzle does not alter the tensor's logical coordinates</text>
+
+  <rect class="node linear" x="40" y="563" width="300" height="314" rx="16"/>
+  <text class="label" x="190" y="600" text-anchor="middle">Linear SMEM layout</text>
+  <text class="body" x="190" y="629" text-anchor="middle">Possible bank hotspot</text>
+  <g transform="translate(86 665)">
+    <rect class="cell hot" x="0" y="0" width="52" height="36"/><rect class="cell b1" x="52" y="0" width="52" height="36"/><rect class="cell b2" x="104" y="0" width="52" height="36"/><rect class="cell b3" x="156" y="0" width="52" height="36"/>
+    <rect class="cell hot" x="0" y="36" width="52" height="36"/><rect class="cell b1" x="52" y="36" width="52" height="36"/><rect class="cell b2" x="104" y="36" width="52" height="36"/><rect class="cell b3" x="156" y="36" width="52" height="36"/>
+    <rect class="cell hot" x="0" y="72" width="52" height="36"/><rect class="cell b1" x="52" y="72" width="52" height="36"/><rect class="cell b2" x="104" y="72" width="52" height="36"/><rect class="cell b3" x="156" y="72" width="52" height="36"/>
+    <rect class="cell hot" x="0" y="108" width="52" height="36"/><rect class="cell b1" x="52" y="108" width="52" height="36"/><rect class="cell b2" x="104" y="108" width="52" height="36"/><rect class="cell b3" x="156" y="108" width="52" height="36"/>
+  </g>
+  <text class="small" x="190" y="827" text-anchor="middle">Same color = conflict risk</text>
+  <text class="small" x="190" y="852" text-anchor="middle">Depends on the consumer load</text>
+
+  <rect class="node swizzled" x="380" y="563" width="300" height="314" rx="16"/>
+  <text class="label" x="530" y="600" text-anchor="middle">128B Swizzle</text>
+  <text class="body" x="530" y="629" text-anchor="middle">Rows permute the bank mapping</text>
+  <g transform="translate(426 665)">
+    <rect class="cell b0" x="0" y="0" width="52" height="36"/><rect class="cell b1" x="52" y="0" width="52" height="36"/><rect class="cell b2" x="104" y="0" width="52" height="36"/><rect class="cell b3" x="156" y="0" width="52" height="36"/>
+    <rect class="cell b1" x="0" y="36" width="52" height="36"/><rect class="cell b2" x="52" y="36" width="52" height="36"/><rect class="cell b3" x="104" y="36" width="52" height="36"/><rect class="cell b0" x="156" y="36" width="52" height="36"/>
+    <rect class="cell b2" x="0" y="72" width="52" height="36"/><rect class="cell b3" x="52" y="72" width="52" height="36"/><rect class="cell b0" x="104" y="72" width="52" height="36"/><rect class="cell b1" x="156" y="72" width="52" height="36"/>
+    <rect class="cell b3" x="0" y="108" width="52" height="36"/><rect class="cell b0" x="52" y="108" width="52" height="36"/><rect class="cell b1" x="104" y="108" width="52" height="36"/><rect class="cell b2" x="156" y="108" width="52" height="36"/>
+  </g>
+  <text class="small" x="530" y="827" text-anchor="middle">Colors rotate across rows</text>
+  <text class="small" x="530" y="852" text-anchor="middle">Consumer layout must match</text>
+
+  <rect class="node storage" x="70" y="900" width="580" height="42" rx="12"/>
+  <text class="body" x="360" y="927" text-anchor="middle">Swizzle ≠ global coalescing · verify values and bank metrics</text>
+</svg>
