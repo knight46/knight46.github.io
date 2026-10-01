@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1050" viewBox="0 0 960 1050" role="img" aria-labelledby="title desc">
+  <title id="title">传统 CPU-centric LLM serving 与 Blink CPU-free steady state 对照</title>
+  <desc id="desc">上半部分展示传统请求经过 NIC、host CPU 调度器与 GPU 的逐 token 往返；下半部分展示 Blink 由 SmartNIC 通过 RDMA 访问 GPU ring buffer，并由 persistent scheduler 在 GPU 内推进控制循环。host CPU 只参与初始化和慢路径。</desc>
+  <defs>
+    <marker id="arrow-data" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-control" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#fb923c"/>
+    </marker>
+    <marker id="arrow-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      text { font-family: "Noto Sans CJK SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif; }
+      .bg { fill: #0b1220; }
+      .panel { fill: #111c2f; stroke: #334155; stroke-width: 2; }
+      .node { fill: #17243a; stroke: #64748b; stroke-width: 2; }
+      .data-node { fill: #0c3146; stroke: #38bdf8; stroke-width: 2; }
+      .control-node { fill: #402516; stroke: #fb923c; stroke-width: 2; }
+      .compute-node { fill: #20275a; stroke: #818cf8; stroke-width: 2; }
+      .storage-node { fill: #103a34; stroke: #2dd4bf; stroke-width: 2; }
+      .muted-node { fill: #1e293b; stroke: #64748b; stroke-width: 2; stroke-dasharray: 8 6; }
+      .title { fill: #f8fafc; font-size: 32px; font-weight: 700; }
+      .subtitle { fill: #cbd5e1; font-size: 19px; }
+      .section { fill: #f8fafc; font-size: 27px; font-weight: 700; }
+      .label { fill: #f8fafc; font-size: 22px; font-weight: 650; }
+      .body { fill: #dbeafe; font-size: 18px; }
+      .small { fill: #cbd5e1; font-size: 17px; }
+      .risk { fill: #fecaca; font-size: 18px; font-weight: 650; }
+      .data-edge { fill: none; stroke: #38bdf8; stroke-width: 5; marker-end: url(#arrow-data); }
+      .control-edge { fill: none; stroke: #fb923c; stroke-width: 5; marker-end: url(#arrow-control); }
+      .control-loop { fill: none; stroke: #fb923c; stroke-width: 5; stroke-dasharray: 10 8; marker-end: url(#arrow-control); }
+      .muted-edge { fill: none; stroke: #94a3b8; stroke-width: 4; stroke-dasharray: 9 7; marker-end: url(#arrow-muted); }
+    </style>
+  </defs>
+  <rect class="bg" width="960" height="1050" rx="24"/>
+  <text class="title" x="48" y="62">LLM Serving：数据面与控制面放在哪里？</text>
+  <text class="subtitle" x="48" y="94">蓝色＝请求/Token 数据　橙色＝调度控制　灰色虚线＝初始化与慢路径</text>
+  <rect class="panel" x="34" y="124" width="892" height="392" rx="22"/>
+  <text class="section" x="62" y="166">传统 CPU-centric：每个 decode step 回到 host</text>
+  <path class="data-edge" d="M188 249 H268"/>
+  <path class="data-edge" d="M466 249 H550"/>
+  <path class="control-edge" d="M466 384 H550"/>
+  <path class="control-loop" d="M726 384 C848 384 858 470 700 470 H394 C316 470 304 425 304 398"/>
+  <rect class="data-node" x="62" y="210" width="126" height="78" rx="14"/>
+  <text class="label" x="125" y="243" text-anchor="middle">Client</text>
+  <text class="small" x="125" y="269" text-anchor="middle">HTTP / SSE</text>
+  <rect class="data-node" x="268" y="202" width="198" height="94" rx="14"/>
+  <text class="label" x="367" y="237" text-anchor="middle">NIC + Host I/O</text>
+  <text class="small" x="367" y="266" text-anchor="middle">协议栈 · 拷贝 · API</text>
+  <rect class="control-node" x="266" y="326" width="202" height="116" rx="14"/>
+  <text class="label" x="367" y="361" text-anchor="middle">Host CPU</text>
+  <text class="body" x="367" y="392" text-anchor="middle">Batch / KV metadata</text>
+  <text class="small" x="367" y="419" text-anchor="middle">选择并 launch 下一轮</text>
+  <rect class="compute-node" x="550" y="202" width="338" height="240" rx="18"/>
+  <text class="label" x="719" y="239" text-anchor="middle">GPU</text>
+  <rect class="node" x="584" y="267" width="270" height="62" rx="12"/>
+  <text class="body" x="719" y="305" text-anchor="middle">CUDA Graph / Model Kernels</text>
+  <rect class="storage-node" x="584" y="350" width="270" height="62" rx="12"/>
+  <text class="body" x="719" y="388" text-anchor="middle">Paged KV Cache + Token State</text>
+  <text class="risk" x="62" y="488">风险：host jitter 超过重叠窗口后，逐 token 累积为 GPU 空洞与尾延迟</text>
+  <rect class="panel" x="34" y="542" width="892" height="466" rx="22"/>
+  <text class="section" x="62" y="586">Blink steady state：DPU 管网络，GPU 管逐 token 控制</text>
+  <path class="data-edge" d="M186 708 H244"/>
+  <path class="data-edge" d="M436 708 H548"/>
+  <path class="control-edge" d="M698 794 V840"/>
+  <path class="control-edge" d="M698 900 V924"/>
+  <path class="muted-edge" d="M346 642 C430 642 452 654 518 672"/>
+  <rect class="data-node" x="62" y="669" width="124" height="78" rx="14"/>
+  <text class="label" x="124" y="702" text-anchor="middle">Client</text>
+  <text class="small" x="124" y="728" text-anchor="middle">HTTP / SSE</text>
+  <rect class="data-node" x="244" y="641" width="192" height="134" rx="14"/>
+  <text class="label" x="340" y="677" text-anchor="middle">SmartNIC / DPU</text>
+  <text class="body" x="340" y="711" text-anchor="middle">解析 · Tokenize</text>
+  <text class="body" x="340" y="740" text-anchor="middle">Admission · Backpressure</text>
+  <rect class="muted-node" x="62" y="805" width="374" height="124" rx="14"/>
+  <text class="label" x="249" y="843" text-anchor="middle">Host CPU：不在稳态关键路径</text>
+  <text class="body" x="249" y="878" text-anchor="middle">模型加载 · Graph Capture · 部署</text>
+  <text class="small" x="249" y="907" text-anchor="middle">异常恢复 / 升级 / 观测慢路径</text>
+  <rect class="compute-node" x="508" y="632" width="380" height="342" rx="18"/>
+  <text class="label" x="698" y="670" text-anchor="middle">GPU</text>
+  <rect class="storage-node" x="548" y="693" width="300" height="101" rx="13"/>
+  <text class="label" x="698" y="731" text-anchor="middle">GPU-resident Ring Buffer</text>
+  <text class="small" x="698" y="761" text-anchor="middle">one-sided RDMA · Slot State</text>
+  <rect class="control-node" x="548" y="840" width="300" height="60" rx="12"/>
+  <text class="body" x="698" y="877" text-anchor="middle">Persistent Scheduler</text>
+  <rect class="node" x="548" y="924" width="140" height="50" rx="11"/>
+  <text class="small" x="618" y="955" text-anchor="middle">Prefill / Decode</text>
+  <rect class="storage-node" x="708" y="924" width="140" height="50" rx="11"/>
+  <text class="small" x="778" y="955" text-anchor="middle">Paged KV</text>
+  <text class="body" x="62" y="982">稳态不经过 host DRAM；控制状态靠近 KV 与执行现场。</text>
+</svg>

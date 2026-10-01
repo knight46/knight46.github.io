@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 25 Sep 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 02 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>Blink：把 LLM Serving 的控制面搬进 GPU 与 SmartNIC</title>
+            <link>https://knight46.github.io/blog.html?slug=Blink%20CPU%20Free%20LLM%20Inference</link>
+            <guid>https://knight46.github.io/blog.html?slug=Blink%20CPU%20Free%20LLM%20Inference</guid>
+            <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+            <description>从 Blink 论文出发，拆解一种 CPU-free steady-state LLM serving 架构：SmartNIC 处理请求与 RDMA 数据面，GPU 常驻调度器接管 continuous batching、CUDA Graph 与 Paged KV-cache 控制，并分析它的性能边界与工程代价。</description>
+            <category>AI Systems</category><category>LLM Serving</category><category>GPU Systems</category><category>SmartNIC</category><category>Persistent Kernel</category><category>GPUDirect RDMA</category><category>KV Cache</category>
+        </item>
         <item>
             <title>CUDA TMA：用描述符、mbarrier 与 Swizzle 重构 Hopper 数据搬运</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20TMA%20Async%20Tensor%20Copies</link>
