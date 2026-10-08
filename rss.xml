@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 02 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 09 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>FlashAttention-4：当 Tensor Core 变快后，Attention 为什么要重写流水线</title>
+            <link>https://knight46.github.io/blog.html?slug=FlashAttention%204%20Blackwell</link>
+            <guid>https://knight46.github.io/blog.html?slug=FlashAttention%204%20Blackwell</guid>
+            <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+            <description>从 Blackwell 的非对称硬件扩展出发，拆解 FlashAttention-4 如何用全异步 MMA、TMEM、软件指数近似、条件重缩放和 2-CTA 协作重排前后向流水线，并给出性能解读与工程检查清单。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>Blackwell</category><category>FlashAttention-4</category><category>Attention</category><category>TMEM</category><category>tcgen05</category><category>CuTe DSL</category><category>Deep Learning Systems</category>
+        </item>
         <item>
             <title>Blink：把 LLM Serving 的控制面搬进 GPU 与 SmartNIC</title>
             <link>https://knight46.github.io/blog.html?slug=Blink%20CPU%20Free%20LLM%20Inference</link>

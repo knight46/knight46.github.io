@@ -6,6 +6,11 @@
         <priority>1.0</priority>
     </url>
     <url>
+        <loc>https://knight46.github.io/blog.html?slug=FlashAttention%204%20Blackwell</loc>
+        <lastmod>2026-10-09</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://knight46.github.io/blog.html?slug=Blink%20CPU%20Free%20LLM%20Inference</loc>
         <lastmod>2026-10-02</lastmod>
         <priority>0.8</priority>
