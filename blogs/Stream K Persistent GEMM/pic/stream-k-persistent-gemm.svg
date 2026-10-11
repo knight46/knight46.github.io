@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="2520" viewBox="0 0 720 1260" role="img" aria-labelledby="title desc">
+  <title id="title">Data-parallel waves, persistent GEMM, and Stream-K</title>
+  <desc id="desc">A mobile-readable three-stage comparison showing wave quantization, persistent workers pulling whole output tiles, and Stream-K balancing K iterations with partial-tile fix-up.</desc>
+  <metadata>Original site illustration based on the Stream-K paper, CUTLASS 3.x GEMM documentation, and the Colfax Research persistent kernels tutorial. No third-party artwork reused.</metadata>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#94A3B8"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <rect width="720" height="1260" rx="24" fill="#0B1220"/>
+  <text x="32" y="46" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="27" font-weight="700">Stream-K &amp; Persistent GEMM</text>
+  <text x="32" y="75" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="17">Grid-level work decomposition, from tiles to K iterations</text>
+
+  <!-- Section 1 connectors are behind all blocks. -->
+  <line x1="146" y1="168" x2="658" y2="168" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="146" y1="257" x2="658" y2="257" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="24" y="100" width="672" height="294" rx="18" fill="#111C2E" stroke="#334155"/>
+  <text x="44" y="134" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700">1  Data parallel: whole output tiles</text>
+  <text x="44" y="162" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">6 resident workers · 7 tiles (schematic)</text>
+
+  <text x="44" y="207" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="16">Wave 1</text>
+  <g>
+    <rect x="146" y="184" width="72" height="45" rx="8" fill="#2563EB"/>
+    <rect x="224" y="184" width="72" height="45" rx="8" fill="#0F9D87"/>
+    <rect x="302" y="184" width="72" height="45" rx="8" fill="#7C3AED"/>
+    <rect x="380" y="184" width="72" height="45" rx="8" fill="#2563EB"/>
+    <rect x="458" y="184" width="72" height="45" rx="8" fill="#0F9D87"/>
+    <rect x="536" y="184" width="72" height="45" rx="8" fill="#7C3AED"/>
+  </g>
+  <g fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">
+    <text x="182" y="212">T0</text><text x="260" y="212">T1</text><text x="338" y="212">T2</text>
+    <text x="416" y="212">T3</text><text x="494" y="212">T4</text><text x="572" y="212">T5</text>
+  </g>
+
+  <text x="44" y="297" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="16">Wave 2</text>
+  <rect x="146" y="273" width="72" height="45" rx="8" fill="#2563EB"/>
+  <text x="182" y="301" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" font-weight="700">T6</text>
+  <rect x="224" y="273" width="384" height="45" rx="8" fill="#3A2608" stroke="#F59E0B" stroke-dasharray="6 5"/>
+  <text x="416" y="301" text-anchor="middle" fill="#FBBF24" font-family="DejaVu Sans, Arial, sans-serif" font-size="15" font-weight="700">5 workers idle until T6 completes</text>
+
+  <rect x="44" y="338" width="632" height="38" rx="9" fill="#3A2608"/>
+  <text x="360" y="363" text-anchor="middle" fill="#FBBF24" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="700">Wave quantization: fast CTA ≠ high full-GPU utilization</text>
+
+  <!-- Section 2 connectors first. -->
+  <path d="M156 500 H206" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M156 565 H206" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M156 630 H206" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M156 695 H206" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="24" y="414" width="672" height="356" rx="18" fill="#111C2E" stroke="#334155"/>
+  <text x="44" y="448" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700">2  Persistent GEMM: CTAs become workers</text>
+  <text x="44" y="476" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">A fixed worker pool repeatedly asks the tile scheduler for work.</text>
+
+  <rect x="44" y="486" width="112" height="228" rx="13" fill="#1E293B" stroke="#64748B"/>
+  <text x="100" y="518" text-anchor="middle" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="17" font-weight="700">Scheduler</text>
+  <text x="100" y="550" text-anchor="middle" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="14">next tile</text>
+  <text x="100" y="582" text-anchor="middle" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="14">next tile</text>
+  <text x="100" y="614" text-anchor="middle" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="14">next tile</text>
+  <text x="100" y="646" text-anchor="middle" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="14">next tile</text>
+  <text x="100" y="690" text-anchor="middle" fill="#60A5FA" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" font-weight="700">grid-level</text>
+
+  <g fill="#132849" stroke="#2563EB" stroke-width="1.5">
+    <rect x="206" y="482" width="450" height="52" rx="10"/>
+    <rect x="206" y="547" width="450" height="52" rx="10"/>
+    <rect x="206" y="612" width="450" height="52" rx="10"/>
+    <rect x="206" y="677" width="450" height="52" rx="10"/>
+  </g>
+  <g fill="#60A5FA" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="700">
+    <text x="224" y="514">W0</text><text x="224" y="579">W1</text>
+    <text x="224" y="644">W2</text><text x="224" y="709">W3</text>
+  </g>
+  <g font-family="DejaVu Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">
+    <rect x="276" y="491" width="84" height="34" rx="7" fill="#2563EB"/><text x="318" y="514" fill="#F8FAFC">T0</text>
+    <rect x="372" y="491" width="84" height="34" rx="7" fill="#0F9D87"/><text x="414" y="514" fill="#F8FAFC">T4</text>
+    <rect x="276" y="556" width="84" height="34" rx="7" fill="#0F9D87"/><text x="318" y="579" fill="#F8FAFC">T1</text>
+    <rect x="372" y="556" width="84" height="34" rx="7" fill="#7C3AED"/><text x="414" y="579" fill="#F8FAFC">T5</text>
+    <rect x="276" y="621" width="84" height="34" rx="7" fill="#7C3AED"/><text x="318" y="644" fill="#F8FAFC">T2</text>
+    <rect x="372" y="621" width="84" height="34" rx="7" fill="#2563EB"/><text x="414" y="644" fill="#F8FAFC">T6</text>
+    <rect x="276" y="686" width="84" height="34" rx="7" fill="#2563EB"/><text x="318" y="709" fill="#F8FAFC">T3</text>
+  </g>
+  <text x="474" y="579" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="14">whole-tile work</text>
+  <text x="474" y="600" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="14">can still be uneven</text>
+  <text x="474" y="709" fill="#FBBF24" font-family="DejaVu Sans, Arial, sans-serif" font-size="14">W3 finishes early</text>
+
+  <!-- Section 3 connectors first. -->
+  <path d="M108 921 V948" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M273 921 V948" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M438 921 V948" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M603 921 V948" fill="none" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M270 1070 C270 1105 360 1105 360 1132" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrowOrange)"/>
+  <path d="M450 1070 C450 1105 360 1105 360 1132" fill="none" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrowOrange)"/>
+
+  <rect x="24" y="790" width="672" height="438" rx="18" fill="#111C2E" stroke="#34D399" stroke-width="1.5"/>
+  <text x="44" y="824" fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="20" font-weight="700">3  Stream-K: balance K iterations</text>
+  <text x="44" y="852" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">Flatten tile mainloops, then divide the stream across workers.</text>
+
+  <text x="44" y="882" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="15">Linear K-iteration stream</text>
+  <rect x="44" y="892" width="160" height="29" rx="6" fill="#2563EB"/>
+  <rect x="204" y="892" width="160" height="29" rx="6" fill="#0F9D87"/>
+  <rect x="364" y="892" width="160" height="29" rx="6" fill="#7C3AED"/>
+  <rect x="524" y="892" width="152" height="29" rx="6" fill="#2563EB"/>
+  <g fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">
+    <text x="124" y="912">Tile A · all K</text>
+    <text x="284" y="912">Tile B · all K</text>
+    <text x="444" y="912">Tile C · all K</text>
+    <text x="600" y="912">Tile D · all K</text>
+  </g>
+
+  <g fill="#0D332B" stroke="#34D399" stroke-width="1.5">
+    <rect x="44" y="948" width="128" height="122" rx="11"/>
+    <rect x="209" y="948" width="128" height="122" rx="11"/>
+    <rect x="374" y="948" width="128" height="122" rx="11"/>
+    <rect x="539" y="948" width="128" height="122" rx="11"/>
+  </g>
+  <g fill="#34D399" font-family="DejaVu Sans, Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle">
+    <text x="108" y="977">W0</text><text x="273" y="977">W1</text>
+    <text x="438" y="977">W2</text><text x="603" y="977">W3</text>
+  </g>
+  <g fill="#F8FAFC" font-family="DejaVu Sans, Arial, sans-serif" font-size="14" text-anchor="middle">
+    <text x="108" y="1007">≈ equal work</text><text x="108" y="1031">A + part B</text>
+    <text x="273" y="1007">≈ equal work</text><text x="273" y="1031">part B + C</text>
+    <text x="438" y="1007">≈ equal work</text><text x="438" y="1031">part C + D</text>
+    <text x="603" y="1007">≈ equal work</text><text x="603" y="1031">rest of D</text>
+  </g>
+  <rect x="245" y="1043" width="56" height="18" rx="5" fill="#F59E0B"/>
+  <rect x="410" y="1043" width="56" height="18" rx="5" fill="#F59E0B"/>
+  <text x="273" y="1057" text-anchor="middle" fill="#0B1220" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" font-weight="700">partial</text>
+  <text x="438" y="1057" text-anchor="middle" fill="#0B1220" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" font-weight="700">partial</text>
+
+  <rect x="196" y="1132" width="328" height="48" rx="10" fill="#3A2608" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="360" y="1162" text-anchor="middle" fill="#FBBF24" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" font-weight="700">Fix-up: reduce partial accumulators once</text>
+
+  <text x="44" y="1207" fill="#CBD5E1" font-family="DejaVu Sans, Arial, sans-serif" font-size="14">Trade-off: less tail idle time ↔ scheduling, workspace, sync and reduction.</text>
+
+  <g font-family="DejaVu Sans, Arial, sans-serif" font-size="13">
+    <rect x="32" y="1237" width="14" height="14" rx="3" fill="#2563EB"/>
+    <text x="54" y="1249" fill="#CBD5E1">output tile / K range</text>
+    <rect x="236" y="1237" width="14" height="14" rx="3" fill="#0D332B" stroke="#34D399"/>
+    <text x="258" y="1249" fill="#CBD5E1">persistent worker</text>
+    <rect x="448" y="1237" width="14" height="14" rx="3" fill="#F59E0B"/>
+    <text x="470" y="1249" fill="#CBD5E1">partial / fix-up</text>
+  </g>
+</svg>

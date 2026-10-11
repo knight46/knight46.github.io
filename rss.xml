@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 09 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 12 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>Stream-K 与持久化 GEMM：从 Wave Quantization 到工作中心调度</title>
+            <link>https://knight46.github.io/blog.html?slug=Stream%20K%20Persistent%20GEMM</link>
+            <guid>https://knight46.github.io/blog.html?slug=Stream%20K%20Persistent%20GEMM</guid>
+            <pubDate>Mon, 12 Oct 2026 00:00:00 GMT</pubDate>
+            <description>从整卡利用率出发，解释传统 data-parallel GEMM 的 wave quantization、持久化 worker、Stream-K 的 K-iteration 分解与 partial-tile fix-up，并给出 CUTLASS 落地、资源模型和可复现 benchmark 方法。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>GEMM</category><category>CUTLASS</category><category>Stream-K</category><category>Persistent Kernels</category><category>GPU Scheduling</category>
+        </item>
         <item>
             <title>FlashAttention-4：当 Tensor Core 变快后，Attention 为什么要重写流水线</title>
             <link>https://knight46.github.io/blog.html?slug=FlashAttention%204%20Blackwell</link>
