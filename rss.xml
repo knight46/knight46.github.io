@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 12 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 16 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA Programmatic Dependent Launch：让有依赖的相邻 Kernel 安全重叠</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20Programmatic%20Dependent%20Launch</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20Programmatic%20Dependent%20Launch</guid>
+            <pubDate>Fri, 16 Oct 2026 00:00:00 GMT</pubDate>
+            <description>拆解 CUDA Programmatic Dependent Launch 的 trigger/synchronize 双阶段协议、扩展 launch 与 CUDA Graph 表达，并用资源模型和 CUTLASS 权重预取案例说明何时能真正回收相邻 kernel 之间的等待窗口。</description>
+            <category>HPC</category><category>CUDA</category><category>GPU</category><category>Hopper</category><category>Blackwell</category><category>Kernel Launch</category><category>CUTLASS</category><category>Performance</category>
+        </item>
         <item>
             <title>Stream-K 与持久化 GEMM：从 Wave Quantization 到工作中心调度</title>
             <link>https://knight46.github.io/blog.html?slug=Stream%20K%20Persistent%20GEMM</link>

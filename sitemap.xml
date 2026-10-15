@@ -2,8 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://knight46.github.io/</loc>
-        <lastmod>2026-10-11</lastmod>
+        <lastmod>2026-10-15</lastmod>
         <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://knight46.github.io/blog.html?slug=CUDA%20Programmatic%20Dependent%20Launch</loc>
+        <lastmod>2026-10-16</lastmod>
+        <priority>0.8</priority>
     </url>
     <url>
         <loc>https://knight46.github.io/blog.html?slug=Stream%20K%20Persistent%20GEMM</loc>
