@@ -2,11 +2,11 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 const pageType = document.body.dataset.page || "home";
 const manifest = window.CONTENT_MANIFEST || { blogs: [], album: [] };
 const SITE_URL = "https://knight46.github.io";
-const SITE_ASSET_VERSION = "20260809004749";
+const SITE_ASSET_VERSION = "20261018050544";
 const RESUME_PACKET = {
     path: `src/documents/resume-packet.bin?v=${SITE_ASSET_VERSION}`,
-    salt: "/I6khNk0PXUO5WV+TXvGkw==",
-    iv: "cib1rMtOr8DaL7zh",
+    salt: "Ok0RgEDtDOhjYyGbH6HKXg==",
+    iv: "I6cezrX1S/OeGJ7/",
     iterations: 310000,
     filename: "AzathothLXL-detailed-resume.pdf"
 };
