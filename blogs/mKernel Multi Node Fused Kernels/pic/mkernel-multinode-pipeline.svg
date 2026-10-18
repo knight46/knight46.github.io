@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1320" viewBox="0 0 1200 1320" role="img" aria-labelledby="title desc">
+  <title id="title">mKernel 多节点融合 kernel 架构与 tile 级流水线</title>
+  <desc id="desc">三部分示意图：双节点 NVLink 与 RDMA rail 拓扑、persistent kernel 的 CTA 角色和控制路径、tile n 与 tile n+1 的重叠时间线。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111c"/>
+      <stop offset="1" stop-color="#101a2a"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#17283a"/>
+      <stop offset="1" stop-color="#101d2b"/>
+    </linearGradient>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000814" flood-opacity="0.38"/>
+    </filter>
+    <marker id="arrow-cyan" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#67e8f9"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#f6ad55"/>
+    </marker>
+    <style>
+      .title { font: 700 42px "Noto Sans SC","PingFang SC",sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 26px "Noto Sans SC","PingFang SC",sans-serif; fill: #a8bdd0; }
+      .panel-title { font: 700 32px "Noto Sans SC","PingFang SC",sans-serif; fill: #f8fafc; }
+      .label { font: 650 27px "Noto Sans SC","PingFang SC",sans-serif; fill: #eef6ff; }
+      .small { font: 500 23px "Noto Sans SC","PingFang SC",sans-serif; fill: #b8c8d8; }
+      .tiny { font: 600 21px "Noto Sans SC","PingFang SC",sans-serif; fill: #d7e5f3; }
+      .node { fill: url(#panel); stroke: #48657e; stroke-width: 2; }
+      .gpu { fill: #183e55; stroke: #67e8f9; stroke-width: 2; }
+      .role-compute { fill: #184c58; stroke: #5eead4; stroke-width: 2; }
+      .role-local { fill: #223f70; stroke: #93c5fd; stroke-width: 2; }
+      .role-send { fill: #60401f; stroke: #f6ad55; stroke-width: 2; }
+      .role-recv { fill: #4d2f5e; stroke: #d8b4fe; stroke-width: 2; }
+      .data { fill: none; stroke: #67e8f9; stroke-width: 8; marker-end: url(#arrow-cyan); }
+      .control { fill: none; stroke: #f6ad55; stroke-width: 5; stroke-dasharray: 13 10; marker-end: url(#arrow-orange); }
+      .local-link { fill: none; stroke: #93c5fd; stroke-width: 5; }
+      .divider { stroke: #34506a; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="1320" rx="28" fill="url(#bg)"/>
+  <text x="600" y="64" text-anchor="middle" class="title">mKernel：计算、NVLink 与 RDMA 的同核流水</text>
+  <text x="600" y="103" text-anchor="middle" class="subtitle">实线：payload 数据路径　虚线：命令 / 控制路径</text>
+
+  <g filter="url(#shadow)">
+    <rect x="44" y="138" width="1112" height="346" rx="24" class="node"/>
+    <text x="76" y="184" class="panel-title">① 分层拓扑：节点内先聚合，跨节点只走 rail peer</text>
+
+    <rect x="75" y="214" width="430" height="220" rx="18" fill="#0b1724" stroke="#3b5973" stroke-width="2"/>
+    <text x="290" y="252" text-anchor="middle" class="label">节点 0 · NVSwitch 域</text>
+    <rect x="104" y="282" width="112" height="72" rx="14" class="gpu"/>
+    <rect x="235" y="282" width="112" height="72" rx="14" class="gpu"/>
+    <rect x="366" y="282" width="112" height="72" rx="14" class="gpu"/>
+    <text x="160" y="326" text-anchor="middle" class="label">GPU 0</text>
+    <text x="291" y="326" text-anchor="middle" class="label">GPU 1</text>
+    <text x="422" y="326" text-anchor="middle" class="label">GPU …</text>
+    <path d="M160 370 H422" class="local-link"/>
+    <text x="291" y="408" text-anchor="middle" class="small">NVLink：归约 / 广播</text>
+
+    <rect x="695" y="214" width="430" height="220" rx="18" fill="#0b1724" stroke="#3b5973" stroke-width="2"/>
+    <text x="910" y="252" text-anchor="middle" class="label">节点 1 · NVSwitch 域</text>
+    <rect x="722" y="282" width="112" height="72" rx="14" class="gpu"/>
+    <rect x="853" y="282" width="112" height="72" rx="14" class="gpu"/>
+    <rect x="984" y="282" width="112" height="72" rx="14" class="gpu"/>
+    <text x="778" y="326" text-anchor="middle" class="label">GPU 0</text>
+    <text x="909" y="326" text-anchor="middle" class="label">GPU 1</text>
+    <text x="1040" y="326" text-anchor="middle" class="label">GPU …</text>
+    <path d="M778 370 H1040" class="local-link"/>
+    <text x="909" y="408" text-anchor="middle" class="small">NVLink：归约 / 广播</text>
+
+    <path d="M216 318 C390 318 408 264 505 264 H695 C708 264 714 286 722 318" class="data"/>
+    <rect x="505" y="225" width="190" height="78" rx="16" fill="#153449" stroke="#67e8f9" stroke-width="2"/>
+    <text x="600" y="257" text-anchor="middle" class="label">RDMA rail</text>
+    <text x="600" y="286" text-anchor="middle" class="tiny">只传必要 chunk</text>
+    <text x="600" y="416" text-anchor="middle" class="small">同 local index 的 GPU 互为 rail peer</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="44" y="516" width="1112" height="354" rx="24" class="node"/>
+    <text x="76" y="562" class="panel-title">② Persistent kernel：CTA 角色专门化 + 控制 / 数据分离</text>
+
+    <rect x="76" y="598" width="600" height="218" rx="18" fill="#0b1724" stroke="#3b5973" stroke-width="2"/>
+    <text x="376" y="634" text-anchor="middle" class="label">GPU 上的 persistent kernel</text>
+    <rect x="102" y="668" width="125" height="96" rx="15" class="role-compute"/>
+    <rect x="243" y="668" width="125" height="96" rx="15" class="role-local"/>
+    <rect x="384" y="668" width="125" height="96" rx="15" class="role-send"/>
+    <rect x="525" y="668" width="125" height="96" rx="15" class="role-recv"/>
+    <text x="164" y="706" text-anchor="middle" class="label">计算</text>
+    <text x="164" y="740" text-anchor="middle" class="small">Tile</text>
+    <text x="305" y="706" text-anchor="middle" class="label">NVLink</text>
+    <text x="305" y="740" text-anchor="middle" class="small">聚合</text>
+    <text x="446" y="706" text-anchor="middle" class="label">RDMA</text>
+    <text x="446" y="740" text-anchor="middle" class="small">发送</text>
+    <text x="587" y="706" text-anchor="middle" class="label">RDMA</text>
+    <text x="587" y="740" text-anchor="middle" class="small">接收</text>
+
+    <rect x="730" y="594" width="184" height="72" rx="15" fill="#4f361d" stroke="#f6ad55" stroke-width="2"/>
+    <rect x="730" y="704" width="184" height="72" rx="15" fill="#4f361d" stroke="#f6ad55" stroke-width="2"/>
+    <rect x="966" y="704" width="150" height="72" rx="15" fill="#163d50" stroke="#67e8f9" stroke-width="2"/>
+    <text x="822" y="625" text-anchor="middle" class="label">命令队列</text>
+    <text x="822" y="652" text-anchor="middle" class="tiny">48 B command</text>
+    <text x="822" y="748" text-anchor="middle" class="label">Host proxy</text>
+    <text x="1041" y="748" text-anchor="middle" class="label">NIC</text>
+
+    <path d="M509 716 C610 716 637 630 730 630" class="control"/>
+    <path d="M822 666 V704" class="control"/>
+    <path d="M914 740 H966" class="control"/>
+    <path d="M368 788 C585 808 895 808 1041 776" class="data"/>
+    <text x="705" y="838" text-anchor="middle" class="small">payload：GPU memory ↔ NIC（不经 CPU 拷贝）</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="44" y="902" width="1112" height="370" rx="24" class="node"/>
+    <text x="76" y="948" class="panel-title">③ Tile 级流水：n 在通信时，n+1 继续计算</text>
+
+    <text x="142" y="1000" text-anchor="middle" class="small">计算</text>
+    <text x="362" y="1000" text-anchor="middle" class="small">本地聚合</text>
+    <text x="582" y="1000" text-anchor="middle" class="small">命令提交</text>
+    <text x="802" y="1000" text-anchor="middle" class="small">跨节点 RDMA</text>
+    <text x="1022" y="1000" text-anchor="middle" class="small">消费者</text>
+    <line x1="252" y1="976" x2="252" y2="1224" class="divider"/>
+    <line x1="472" y1="976" x2="472" y2="1224" class="divider"/>
+    <line x1="692" y1="976" x2="692" y2="1224" class="divider"/>
+    <line x1="912" y1="976" x2="912" y2="1224" class="divider"/>
+
+    <rect x="76" y="1042" width="168" height="62" rx="13" class="role-compute"/>
+    <rect x="278" y="1042" width="168" height="62" rx="13" class="role-local"/>
+    <rect x="498" y="1042" width="168" height="62" rx="13" class="role-send"/>
+    <rect x="718" y="1042" width="168" height="62" rx="13" class="gpu"/>
+    <rect x="938" y="1042" width="168" height="62" rx="13" class="role-recv"/>
+    <text x="160" y="1082" text-anchor="middle" class="label">Tile n</text>
+    <text x="362" y="1082" text-anchor="middle" class="label">聚合 n</text>
+    <text x="582" y="1082" text-anchor="middle" class="label">发布 n</text>
+    <text x="802" y="1082" text-anchor="middle" class="label">传输 n</text>
+    <text x="1022" y="1082" text-anchor="middle" class="label">消费 n</text>
+    <path d="M244 1073 H278 M446 1073 H498 M666 1073 H718 M886 1073 H938" class="data"/>
+
+    <rect x="76" y="1148" width="168" height="62" rx="13" class="role-compute"/>
+    <rect x="278" y="1148" width="168" height="62" rx="13" class="role-local"/>
+    <rect x="498" y="1148" width="168" height="62" rx="13" fill="#16283a" stroke="#49647d" stroke-width="2"/>
+    <rect x="718" y="1148" width="168" height="62" rx="13" fill="#16283a" stroke="#49647d" stroke-width="2"/>
+    <rect x="938" y="1148" width="168" height="62" rx="13" fill="#16283a" stroke="#49647d" stroke-width="2"/>
+    <text x="160" y="1188" text-anchor="middle" class="label">Tile n+1</text>
+    <text x="362" y="1188" text-anchor="middle" class="label">聚合 n+1</text>
+    <text x="582" y="1188" text-anchor="middle" class="tiny">随后发布</text>
+    <text x="802" y="1188" text-anchor="middle" class="tiny">随后传输</text>
+    <text x="1022" y="1188" text-anchor="middle" class="tiny">随后消费</text>
+    <path d="M244 1179 H278" class="data"/>
+    <text x="600" y="1250" text-anchor="middle" class="small">流水吞吐由最慢阶段、fill / drain 与同步开销共同决定</text>
+  </g>
+
+  <text x="600" y="1302" text-anchor="middle" class="tiny">概念依据 mKernel 论文与开源实现 · 原创示意图</text>
+</svg>

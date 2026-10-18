@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 16 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 19 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>mKernel：把多 GPU 融合 Kernel 扩展到多节点 RDMA</title>
+            <link>https://knight46.github.io/blog.html?slug=mKernel%20Multi%20Node%20Fused%20Kernels</link>
+            <guid>https://knight46.github.io/blog.html?slug=mKernel%20Multi%20Node%20Fused%20Kernels</guid>
+            <pubDate>Mon, 19 Oct 2026 00:00:00 GMT</pubDate>
+            <description>拆解 mKernel 如何用 persistent kernel、分层 NVLink/RDMA 数据移动、GPU 命令队列与动态 SM 划分，把计算、节点内通信和跨节点网络压进 tile 级流水线。</description>
+            <category>HPC</category><category>HPC</category><category>Multi-GPU</category><category>Multi-Node</category><category>RDMA</category><category>NVLink</category><category>Persistent Kernel</category><category>Distributed Training</category>
+        </item>
         <item>
             <title>CUDA Programmatic Dependent Launch：让有依赖的相邻 Kernel 安全重叠</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20Programmatic%20Dependent%20Launch</link>

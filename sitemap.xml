@@ -6,6 +6,11 @@
         <priority>1.0</priority>
     </url>
     <url>
+        <loc>https://knight46.github.io/blog.html?slug=mKernel%20Multi%20Node%20Fused%20Kernels</loc>
+        <lastmod>2026-10-19</lastmod>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://knight46.github.io/blog.html?slug=CUDA%20Programmatic%20Dependent%20Launch</loc>
         <lastmod>2026-10-16</lastmod>
         <priority>0.8</priority>
