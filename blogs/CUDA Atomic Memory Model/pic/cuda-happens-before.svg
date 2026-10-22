@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1220" viewBox="0 0 960 1220" role="img" aria-labelledby="title desc">
+  <title id="title">CUDA message passing 的 happens-before 正例与断边反例</title>
+  <desc id="desc">三个纵向面板分别展示 release acquire 正确同步、relaxed 顺序断边和 block scope 跨 block 断边。</desc>
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0 0 L10 5 L0 10z" fill="#475569"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0 0 L10 5 L0 10z" fill="#16a34a"/>
+    </marker>
+    <style>
+      .bg{fill:#f8fafc}.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+      .title{font:700 31px system-ui,sans-serif;fill:#0f172a}
+      .subtitle{font:400 21px system-ui,sans-serif;fill:#475569}
+      .panelTitle{font:700 26px system-ui,sans-serif;fill:#0f172a}
+      .lane{font:700 22px system-ui,sans-serif;fill:#334155}
+      .label{font:700 22px system-ui,sans-serif;fill:#0f172a}
+      .body{font:400 19px system-ui,sans-serif;fill:#334155}
+      .small{font:600 18px system-ui,sans-serif;fill:#475569}
+      .edge{fill:none;stroke:#475569;stroke-width:3;marker-end:url(#arrowGray)}
+      .sync{fill:none;stroke:#16a34a;stroke-width:4;marker-end:url(#arrowGreen)}
+      .broken{fill:none;stroke:#dc2626;stroke-width:4;stroke-dasharray:10 8}
+      .producer{fill:#dbeafe;stroke:#2563eb;stroke-width:2}
+      .consumer{fill:#ccfbf1;stroke:#0f766e;stroke-width:2}
+      .carrier{fill:#dcfce7;stroke:#16a34a;stroke-width:2}
+      .risk{fill:#fee2e2;stroke:#dc2626;stroke-width:2}
+      .note{fill:#fef3c7;stroke:#d97706;stroke-width:2}
+      .divider{stroke:#cbd5e1;stroke-width:2;stroke-dasharray:7 7}
+      .x{font:800 36px system-ui,sans-serif;fill:#dc2626}
+    </style>
+  </defs>
+
+  <rect class="bg" width="960" height="1220"/>
+  <text class="title" x="48" y="58">Message Passing：happens-before 如何连起来</text>
+  <text class="subtitle" x="48" y="91">绿色边成立才可由 ready == 1 推导 payload 已可读</text>
+
+  <!-- Panel 1 -->
+  <rect class="panel" x="36" y="120" width="888" height="330" rx="20"/>
+  <text class="panelTitle" x="64" y="160">✓ 正例：device scope + release / acquire</text>
+  <text class="lane" x="228" y="198" text-anchor="middle">Producer · block 0</text>
+  <text class="lane" x="728" y="198" text-anchor="middle">Consumer · block 1</text>
+  <line class="divider" x1="480" y1="180" x2="480" y2="414"/>
+
+  <!-- connectors behind nodes -->
+  <path class="edge" d="M228 273 V316"/>
+  <path class="sync" d="M408 345 H548"/>
+  <path class="edge" d="M728 374 V407"/>
+
+  <rect class="producer" x="80" y="218" width="296" height="56" rx="12"/>
+  <text class="label" x="228" y="253" text-anchor="middle">payload = 42</text>
+  <rect class="carrier" x="80" y="317" width="328" height="58" rx="12"/>
+  <text class="label" x="244" y="353" text-anchor="middle">ready.store(1, release)</text>
+
+  <rect class="carrier" x="548" y="317" width="328" height="58" rx="12"/>
+  <text class="label" x="712" y="353" text-anchor="middle">ready.load(acquire) == 1</text>
+  <rect class="consumer" x="580" y="407" width="296" height="56" rx="12" transform="translate(0,-22)"/>
+  <text class="label" x="728" y="420" text-anchor="middle">read payload → 42</text>
+  <text class="small" x="480" y="303" text-anchor="middle">synchronizes-with</text>
+
+  <!-- Panel 2 -->
+  <rect class="panel" x="36" y="478" width="888" height="330" rx="20"/>
+  <text class="panelTitle" x="64" y="518">✕ 反例 A：双方都是 relaxed</text>
+  <text class="lane" x="228" y="556" text-anchor="middle">Producer · block 0</text>
+  <text class="lane" x="728" y="556" text-anchor="middle">Consumer · block 1</text>
+  <line class="divider" x1="480" y1="538" x2="480" y2="772"/>
+
+  <!-- connectors behind nodes -->
+  <path class="edge" d="M228 631 V674"/>
+  <path class="broken" d="M408 703 H548"/>
+  <path class="edge" d="M728 732 V765"/>
+
+  <rect class="producer" x="80" y="576" width="296" height="56" rx="12"/>
+  <text class="label" x="228" y="611" text-anchor="middle">payload = 42</text>
+  <rect class="risk" x="80" y="675" width="328" height="58" rx="12"/>
+  <text class="label" x="244" y="711" text-anchor="middle">ready.store(1, relaxed)</text>
+
+  <rect class="risk" x="548" y="675" width="328" height="58" rx="12"/>
+  <text class="label" x="712" y="711" text-anchor="middle">ready.load(relaxed) == 1</text>
+  <rect class="consumer" x="580" y="743" width="296" height="56" rx="12"/>
+  <text class="label" x="728" y="778" text-anchor="middle">read payload → ?</text>
+  <text class="x" x="480" y="714" text-anchor="middle">×</text>
+  <text class="small" x="480" y="660" text-anchor="middle">没有 synchronizes-with</text>
+
+  <!-- Panel 3 -->
+  <rect class="panel" x="36" y="836" width="888" height="330" rx="20"/>
+  <text class="panelTitle" x="64" y="876">✕ 反例 B：release / acquire，但 scope 只到 block</text>
+  <text class="lane" x="228" y="914" text-anchor="middle">Producer · block 0</text>
+  <text class="lane" x="728" y="914" text-anchor="middle">Consumer · block 1</text>
+  <line class="divider" x1="480" y1="896" x2="480" y2="1130"/>
+
+  <!-- connectors behind nodes -->
+  <path class="edge" d="M228 989 V1032"/>
+  <path class="broken" d="M408 1061 H548"/>
+  <path class="edge" d="M728 1090 V1123"/>
+
+  <rect class="producer" x="80" y="934" width="296" height="56" rx="12"/>
+  <text class="label" x="228" y="969" text-anchor="middle">payload = 42</text>
+  <rect class="risk" x="80" y="1033" width="328" height="58" rx="12"/>
+  <text class="label" x="244" y="1069" text-anchor="middle">store(release, block)</text>
+
+  <rect class="risk" x="548" y="1033" width="328" height="58" rx="12"/>
+  <text class="label" x="712" y="1069" text-anchor="middle">load(acquire, block)</text>
+  <rect class="consumer" x="580" y="1101" width="296" height="56" rx="12"/>
+  <text class="label" x="728" y="1136" text-anchor="middle">read payload → ?</text>
+  <text class="x" x="480" y="1072" text-anchor="middle">×</text>
+  <text class="small" x="480" y="1018" text-anchor="middle">scope 不包含对方线程</text>
+
+  <text class="body" x="48" y="1198">判定口诀：读到了谁写的值？order 能否同步？scope 是否覆盖双方？三项缺一不可。</text>
+</svg>

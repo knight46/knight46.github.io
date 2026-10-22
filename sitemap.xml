@@ -2,8 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://knight46.github.io/</loc>
-        <lastmod>2026-10-18</lastmod>
+        <lastmod>2026-10-22</lastmod>
         <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://knight46.github.io/blog.html?slug=CUDA%20Atomic%20Memory%20Model</loc>
+        <lastmod>2026-10-23</lastmod>
+        <priority>0.8</priority>
     </url>
     <url>
         <loc>https://knight46.github.io/blog.html?slug=mKernel%20Multi%20Node%20Fused%20Kernels</loc>
