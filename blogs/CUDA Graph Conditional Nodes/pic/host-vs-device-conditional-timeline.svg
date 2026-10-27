@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Host 驱动与设备侧 Conditional Graph 时间线对比</title>
+  <desc id="desc">上方展示 GPU 到 CPU 同步、主机决策和再次提交造成的间隙；下方展示一次 graph launch 中连续的设备侧工作与条件判断。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 35px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0f172a}
+      .subtitle{font:500 23px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#475569}
+      .lane{font:700 27px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0f172a}
+      .label{font:650 25px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0f172a}
+      .small{font:500 22px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#334155}
+      .note{font:650 27px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#334155}.axis{stroke:#94a3b8;stroke-width:3}.edge{fill:none;stroke:#64748b;stroke-width:3;marker-end:url(#arrow)}
+      .compute{fill:#dbeafe;stroke:#2563eb;stroke-width:2}.sync{fill:#fee2e2;stroke:#dc2626;stroke-width:2}
+      .host{fill:#fef3c7;stroke:#d97706;stroke-width:2}.submit{fill:#ede9fe;stroke:#7c3aed;stroke-width:2}
+      .device{fill:#ccfbf1;stroke:#0f766e;stroke-width:2}.gap{fill:#fee2e2;opacity:.8}
+      .outline{fill:none;stroke:#cbd5e1;stroke-width:2}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="680"/>
+  <text class="title" x="50" y="58">动态决策的两条控制时间线</text>
+  <text class="subtitle" x="50" y="92">同样的 device work，不同的是每次决策是否返回 CPU</text>
+
+  <line class="axis" x1="210" y1="180" x2="1140" y2="180"/>
+  <line class="axis" x1="210" y1="290" x2="1140" y2="290"/>
+  <line class="axis" x1="210" y1="450" x2="1140" y2="450"/>
+  <line class="axis" x1="210" y1="560" x2="1140" y2="560"/>
+  <path class="edge" d="M445 290 V230 H500 V212"/>
+  <path class="edge" d="M650 180 H700"/>
+  <path class="edge" d="M515 560 V500 H585 V482"/>
+  <path class="edge" d="M730 560 H795"/>
+
+  <text class="lane" x="50" y="154">Host-driven</text>
+  <text class="small" x="50" y="185">CPU lane</text>
+  <text class="small" x="50" y="295">GPU lane</text>
+  <rect class="outline" x="210" y="132" width="930" height="195" rx="18"/>
+  <rect class="host" x="500" y="148" width="150" height="64" rx="12"/>
+  <text class="label" x="575" y="176" text-anchor="middle">host 判断</text>
+  <text class="small" x="575" y="199" text-anchor="middle">读取条件</text>
+  <rect class="submit" x="700" y="148" width="150" height="64" rx="12"/>
+  <text class="label" x="775" y="176" text-anchor="middle">再次提交</text>
+  <text class="small" x="775" y="199" text-anchor="middle">kernel / graph</text>
+  <rect class="compute" x="250" y="258" width="195" height="64" rx="12"/>
+  <text class="label" x="348" y="298" text-anchor="middle">GPU work A</text>
+  <rect class="sync" x="445" y="258" width="55" height="64"/>
+  <text class="label" x="473" y="298" text-anchor="middle">同步</text>
+  <rect class="gap" x="500" y="258" width="350" height="64"/>
+  <text class="label" x="675" y="298" text-anchor="middle">GPU 控制气泡</text>
+  <rect class="compute" x="850" y="258" width="245" height="64" rx="12"/>
+  <text class="label" x="973" y="298" text-anchor="middle">GPU work B</text>
+
+  <text class="lane" x="50" y="424">Conditional Graph</text>
+  <text class="small" x="50" y="455">CPU lane</text>
+  <text class="small" x="50" y="565">GPU lane</text>
+  <rect class="outline" x="210" y="402" width="930" height="195" rx="18"/>
+  <rect class="submit" x="250" y="418" width="265" height="64" rx="12"/>
+  <text class="label" x="383" y="446" text-anchor="middle">单次 graph launch</text>
+  <text class="small" x="383" y="469" text-anchor="middle">CPU 可处理其他工作</text>
+  <rect class="compute" x="250" y="528" width="265" height="64" rx="12"/>
+  <text class="label" x="383" y="568" text-anchor="middle">GPU work A</text>
+  <rect class="device" x="515" y="528" width="215" height="64" rx="12"/>
+  <text class="label" x="623" y="555" text-anchor="middle">写 handle + 求值</text>
+  <text class="small" x="623" y="580" text-anchor="middle">device-side control</text>
+  <rect class="compute" x="730" y="528" width="365" height="64" rx="12"/>
+  <text class="label" x="913" y="568" text-anchor="middle">选择并执行预构建 body</text>
+
+  <text class="note" x="50" y="632">节省：T_sync + T_host_decide + T_submit</text>
+  <text class="note" x="50" y="666">仍需支付：condition producer 与 body 执行成本</text>
+</svg>

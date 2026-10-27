@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">CUDA Graph Conditional Node 结构与语义</title>
+  <desc id="desc">设备 kernel 写入条件 handle，conditional node 根据条件选择 IF ELSE、WHILE 或 SWITCH body graph。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 36px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0f172a}
+      .subtitle{font:500 24px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#475569}
+      .head{font:700 27px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0f172a}
+      .label{font:650 28px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0f172a}
+      .small{font:500 23px system-ui,-apple-system,"Segoe UI",sans-serif;fill:#334155}
+      .mono{font:600 22px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#0f172a}
+      .edge{fill:none;stroke:#64748b;stroke-width:4;marker-end:url(#arrow)}
+      .dash{fill:none;stroke:#64748b;stroke-width:3;stroke-dasharray:10 8;marker-end:url(#arrow)}
+      .box{stroke-width:3}.producer{fill:#dbeafe;stroke:#2563eb}.handle{fill:#ccfbf1;stroke:#0f766e}
+      .container{fill:#ede9fe;stroke:#7c3aed}.if{fill:#eff6ff;stroke:#2563eb}
+      .while{fill:#f0fdf4;stroke:#16a34a}.switch{fill:#fff7ed;stroke:#ea580c}
+      .body{fill:#fff;stroke:#94a3b8;stroke-width:2}.badge{font:700 22px system-ui,sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="760"/>
+  <text class="title" x="52" y="58">CUDA Graph Conditional Node：设备侧选择预构建路径</text>
+  <text class="subtitle" x="52" y="92">依赖满足后读取 handle；动态的是路径选择，候选 body 在实例化前已经存在</text>
+
+  <path class="edge" d="M330 177 H430"/>
+  <path class="edge" d="M770 177 H870"/>
+  <path class="edge" d="M600 236 V292 H205 V340"/>
+  <path class="edge" d="M600 292 V340"/>
+  <path class="edge" d="M600 292 H995 V340"/>
+  <path class="dash" d="M628 545 C720 545 720 395 628 395"/>
+
+  <rect class="box producer" x="52" y="122" width="278" height="110" rx="18"/>
+  <text class="head" x="191" y="164" text-anchor="middle">Condition producer</text>
+  <text class="small" x="191" y="200" text-anchor="middle">GPU kernel 计算条件</text>
+
+  <rect class="box handle" x="430" y="122" width="340" height="110" rx="18"/>
+  <text class="head" x="600" y="163" text-anchor="middle">Conditional handle</text>
+  <text class="mono" x="600" y="201" text-anchor="middle">cudaGraphSetConditional(value)</text>
+
+  <rect class="box container" x="870" y="122" width="278" height="110" rx="18"/>
+  <text class="head" x="1009" y="164" text-anchor="middle">Conditional node</text>
+  <text class="small" x="1009" y="200" text-anchor="middle">读取值并选择 body</text>
+
+  <rect class="box if" x="52" y="340" width="306" height="338" rx="20"/>
+  <rect x="72" y="360" width="102" height="34" rx="17" fill="#2563eb"/>
+  <text class="badge" x="123" y="383" text-anchor="middle">IF / ELSE</text>
+  <text class="label" x="205" y="432" text-anchor="middle">value ≠ 0</text>
+  <rect class="body" x="88" y="456" width="234" height="62" rx="12"/>
+  <text class="small" x="205" y="495" text-anchor="middle">body[0]：执行</text>
+  <text class="label" x="205" y="563" text-anchor="middle">value = 0</text>
+  <rect class="body" x="88" y="586" width="234" height="62" rx="12"/>
+  <text class="small" x="205" y="625" text-anchor="middle">body[1]：ELSE</text>
+
+  <rect class="box while" x="447" y="340" width="306" height="338" rx="20"/>
+  <rect x="467" y="360" width="92" height="34" rx="17" fill="#16a34a"/>
+  <text class="badge" x="513" y="383" text-anchor="middle">WHILE</text>
+  <text class="label" x="600" y="432" text-anchor="middle">进入时先求值</text>
+  <rect class="body" x="483" y="466" width="234" height="82" rx="12"/>
+  <text class="small" x="600" y="499" text-anchor="middle">执行 body</text>
+  <text class="small" x="600" y="528" text-anchor="middle">更新 handle</text>
+  <text class="small" x="600" y="600" text-anchor="middle">完成后重新求值</text>
+  <text class="label" x="600" y="641" text-anchor="middle">直到 value = 0</text>
+
+  <rect class="box switch" x="842" y="340" width="306" height="338" rx="20"/>
+  <rect x="862" y="360" width="94" height="34" rx="17" fill="#ea580c"/>
+  <text class="badge" x="909" y="383" text-anchor="middle">SWITCH</text>
+  <text class="label" x="995" y="432" text-anchor="middle">value = k</text>
+  <rect class="body" x="878" y="456" width="234" height="52" rx="12"/>
+  <text class="small" x="995" y="489" text-anchor="middle">k=0 → body[0]</text>
+  <rect class="body" x="878" y="521" width="234" height="52" rx="12"/>
+  <text class="small" x="995" y="554" text-anchor="middle">k=1 → body[1]</text>
+  <rect class="body" x="878" y="586" width="234" height="52" rx="12"/>
+  <text class="small" x="995" y="619" text-anchor="middle">k≥n → 不执行</text>
+
+  <text class="subtitle" x="52" y="724">IF/WHILE：CUDA 12.4；IF/ELSE 与 SWITCH：CUDA 12.8</text>
+</svg>

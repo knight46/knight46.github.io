@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 23 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 26 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA Graph 条件节点：把动态控制流留在 GPU 上</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20Graph%20Conditional%20Nodes</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20Graph%20Conditional%20Nodes</guid>
+            <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+            <description>从 IF/ELSE、WHILE、SWITCH 的精确语义出发，解释 CUDA Graph Conditional Node 如何让 GPU 依据设备侧数据选择预构建路径，并给出构图、正确性、性能建模与基准测试方法。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>CUDA Graphs</category><category>Conditional Nodes</category><category>GPU Control Flow</category><category>HPC</category><category>Performance</category>
+        </item>
         <item>
             <title>CUDA 原子内存模型：Scope、Order 与 Fence 如何组合</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20Atomic%20Memory%20Model</link>
