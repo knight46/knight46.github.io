@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Mon, 26 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 30 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CuTe DSL：用布局代数把 Python 写成硬件级 CUDA Kernel</title>
+            <link>https://knight46.github.io/blog.html?slug=CuTe%20DSL%20Layout%20Algebra</link>
+            <guid>https://knight46.github.io/blog.html?slug=CuTe%20DSL%20Layout%20Algebra</guid>
+            <pubDate>Fri, 30 Oct 2026 00:00:00 GMT</pubDate>
+            <description>从 JIT 执行边界、CuTe layout algebra、TiledCopy/TiledMMA 到双缓冲 GEMM mainloop，解释 CuTe DSL 如何在 Python 元编程体验下保留 CUDA 硬件映射能力，并给出性能建模、验证与选型方法。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>CuTe DSL</category><category>CUTLASS</category><category>Layout Algebra</category><category>Tensor Core</category><category>GPU Kernel</category>
+        </item>
         <item>
             <title>CUDA Graph 条件节点：把动态控制流留在 GPU 上</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20Graph%20Conditional%20Nodes</link>

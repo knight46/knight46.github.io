@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="980" viewBox="0 0 1200 980" role="img" aria-labelledby="title desc">
+<title id="title">CuTe DSL mapping from Python JIT to hardware instructions</title>
+<desc id="desc">Six layers connect Python metaprogramming, logical tensors, layout algebra, thread partitioning, tiled operations, and CUDA instructions.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081426"/><stop offset="1" stop-color="#11294b"/></linearGradient>
+  <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#020817" flood-opacity=".35"/></filter>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#8dd8ff"/></marker>
+  <style>
+    .title{font:700 38px Arial,"Noto Sans SC",sans-serif;fill:#f5fbff}.sub{font:400 22px Arial,"Noto Sans SC",sans-serif;fill:#bcd1e8}.head{font:700 27px Arial,"Noto Sans SC",sans-serif;fill:#fff}.body{font:400 23px Arial,"Noto Sans SC",sans-serif;fill:#e8f2ff}.mono{font:600 22px "DejaVu Sans Mono",monospace;fill:#dff7ff}.bottom{font:700 27px Arial,"Noto Sans SC",sans-serif;fill:#fff}.cap{font:700 21px Arial,"Noto Sans SC",sans-serif;fill:#09203b}.line{stroke:#8dd8ff;stroke-width:4;fill:none;marker-end:url(#arrow)}
+  </style>
+</defs>
+<rect width="1200" height="980" rx="28" fill="url(#bg)"/>
+<text x="600" y="63" text-anchor="middle" class="title">CuTe DSL: From Layouts to Hardware</text>
+<text x="600" y="98" text-anchor="middle" class="sub">Layouts connect data coordinates, thread ownership, copy, and MMA</text>
+
+<g filter="url(#shadow)">
+<rect x="90" y="132" width="1020" height="112" rx="20" fill="#1e5b88" stroke="#65c7ff" stroke-width="2"/>
+<rect x="112" y="153" width="188" height="70" rx="13" fill="#8dd8ff"/><text x="206" y="196" text-anchor="middle" class="cap">Python / JIT</text>
+<text x="332" y="178" class="head">Compile-time metaprogramming + specialization</text><text x="332" y="213" class="body">@cute.jit · @cute.kernel · static / dynamic values · JIT cache</text>
+
+<rect x="90" y="276" width="1020" height="112" rx="20" fill="#165f67" stroke="#5be3d0" stroke-width="2"/>
+<rect x="112" y="297" width="188" height="70" rx="13" fill="#66e2d3"/><text x="206" y="340" text-anchor="middle" class="cap">Logical Tensor</text>
+<text x="332" y="322" class="head">Storage Engine + Layout Metadata</text><text x="332" y="357" class="mono">A[M,K] · B[K,N] · C[M,N]</text>
+
+<rect x="90" y="420" width="1020" height="132" rx="20" fill="#4f3d83" stroke="#b9a0ff" stroke-width="2"/>
+<rect x="112" y="451" width="188" height="70" rx="13" fill="#bba7ff"/><text x="206" y="494" text-anchor="middle" class="cap">Layout Algebra</text>
+<text x="332" y="463" class="head">Coordinates to indices; tensor to tile x local</text><text x="332" y="501" class="body">composition · coalesce · complement · division / product</text><text x="332" y="532" class="mono">Layout = Shape : Stride</text>
+
+<rect x="90" y="584" width="1020" height="112" rx="20" fill="#70402f" stroke="#ffad7d" stroke-width="2"/>
+<rect x="112" y="605" width="188" height="70" rx="13" fill="#ffb083"/><text x="206" y="648" text-anchor="middle" class="cap">Thread / Data</text>
+<text x="332" y="630" class="head">CTA to warp / warpgroup to thread to value</text><text x="332" y="665" class="body">tile + partition derive per-unit fragments</text>
+
+<rect x="90" y="728" width="492" height="112" rx="20" fill="#226044" stroke="#75e6a7" stroke-width="2"/>
+<text x="336" y="773" text-anchor="middle" class="head">TiledCopy</text><text x="336" y="810" text-anchor="middle" class="body">global to shared to register</text>
+<rect x="618" y="728" width="492" height="112" rx="20" fill="#6c4d16" stroke="#ffd36a" stroke-width="2"/>
+<text x="864" y="773" text-anchor="middle" class="head">TiledMMA</text><text x="864" y="810" text-anchor="middle" class="body">operand fragments to accumulator</text>
+
+<rect x="150" y="884" width="900" height="66" rx="18" fill="#ca4771" stroke="#ff98b9" stroke-width="2"/>
+<text x="600" y="927" text-anchor="middle" class="bottom">CUDA Device Code · Async Copy · Tensor Core MMA</text>
+</g>
+
+<path d="M600 244V268" class="line"/><path d="M600 388V412" class="line"/><path d="M600 552V576" class="line"/>
+<path d="M600 696V710Q600 716 590 716H336V720" class="line"/><path d="M600 696V710Q600 716 610 716H864V720" class="line"/>
+<path d="M336 840V858Q336 866 350 866H574V876" class="line"/><path d="M864 840V858Q864 866 850 866H626V876" class="line"/>
+</svg>
