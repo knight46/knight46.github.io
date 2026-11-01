@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 30 Oct 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 02 Nov 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>NVFP4 大模型预训练：4-bit 格式、数值稳定性与 Blackwell 实现</title>
+            <link>https://knight46.github.io/blog.html?slug=NVFP4%20LLM%20Pretraining</link>
+            <guid>https://knight46.github.io/blog.html?slug=NVFP4%20LLM%20Pretraining</guid>
+            <pubDate>Mon, 02 Nov 2026 00:00:00 GMT</pubDate>
+            <description>从 NVFP4 的 E2M1 数据、16 元素微块与两级缩放出发，分析 RHT、二维量化、随机舍入和高精度回退如何支撑长程 LLM 预训练，并给出 Blackwell 与 Transformer Engine 的落地、性能建模和验证清单。</description>
+            <category>深度学习系统</category><category>NVFP4</category><category>FP4</category><category>LLM Training</category><category>Blackwell</category><category>Transformer Engine</category><category>Quantization</category><category>GPU Systems</category>
+        </item>
         <item>
             <title>CuTe DSL：用布局代数把 Python 写成硬件级 CUDA Kernel</title>
             <link>https://knight46.github.io/blog.html?slug=CuTe%20DSL%20Layout%20Algebra</link>

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="940" viewBox="0 0 1000 940" role="img" aria-labelledby="title desc">
+  <title id="title">NVFP4 两级缩放与 MXFP4 对比</title>
+  <desc id="desc">上半部分展示 NVFP4 的 16 个 E2M1 值、E4M3 微块缩放和 FP32 tensor 缩放；下半部分展示 MXFP4 的 32 个 E2M1 值和 E8M0 微块缩放。</desc>
+  <metadata>Original diagram. Sources: arXiv:2509.25149v2 Section 2 and NVIDIA Transformer Engine NVFP4 documentation. License: original site content.</metadata>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .bg{fill:#0b1220}.panel{fill:#111c30;stroke:#334155;stroke-width:2}.nv{fill:#0f2f3c;stroke:#2dd4bf;stroke-width:3}.mx{fill:#18264a;stroke:#60a5fa;stroke-width:3}
+      .cell{fill:#26354d;stroke:#64748b;stroke-width:1.5}.scale-nv{fill:#134e4a;stroke:#5eead4;stroke-width:2}.scale-mx{fill:#1e3a8a;stroke:#93c5fd;stroke-width:2}
+      .global{fill:#3b2d13;stroke:#fbbf24;stroke-width:2}.edge{fill:none;stroke:#94a3b8;stroke-width:4;marker-end:url(#arrow)}
+      .title{fill:#f8fafc;font:700 38px "Noto Sans CJK SC",system-ui,sans-serif}.subtitle{fill:#cbd5e1;font:500 25px "Noto Sans CJK SC",system-ui,sans-serif}
+      .panel-title{fill:#f8fafc;font:700 32px "Noto Sans CJK SC",system-ui,sans-serif}.label{fill:#f8fafc;font:650 26px "Noto Sans CJK SC",system-ui,sans-serif}.small{fill:#cbd5e1;font:500 23px "Noto Sans CJK SC",system-ui,sans-serif}
+      .badge-nv{fill:#99f6e4;font:700 23px "Noto Sans CJK SC",system-ui,sans-serif}.badge-mx{fill:#bfdbfe;font:700 23px "Noto Sans CJK SC",system-ui,sans-serif}.note{fill:#fde68a;font:650 23px "Noto Sans CJK SC",system-ui,sans-serif}
+    </style>
+  </defs>
+  <rect class="bg" width="1000" height="940" rx="28"/>
+  <text class="title" x="50" y="62">FP4 不只计算 4 bit payload</text>
+  <text class="subtitle" x="50" y="105">块大小与 scale 类型决定局部动态范围和元数据成本</text>
+
+  <rect class="panel" x="35" y="135" width="930" height="365" rx="24"/>
+  <!-- Connectors are above panel backgrounds and behind nodes. -->
+  <path class="edge" d="M500 314 H590"/>
+  <path class="edge" d="M790 314 H855"/>
+
+  <rect class="nv" x="55" y="157" width="210" height="58" rx="18"/>
+  <text class="panel-title" x="80" y="197">NVFP4</text>
+  <text class="badge-nv" x="294" y="195">更小微块 + 两级缩放</text>
+
+  <text class="label" x="75" y="264">16 × E2M1 数据</text>
+  <g aria-label="16 element micro block">
+    <rect class="cell" x="75" y="286" width="48" height="48" rx="7"/><rect class="cell" x="129" y="286" width="48" height="48" rx="7"/>
+    <rect class="cell" x="183" y="286" width="48" height="48" rx="7"/><rect class="cell" x="237" y="286" width="48" height="48" rx="7"/>
+    <rect class="cell" x="291" y="286" width="48" height="48" rx="7"/><rect class="cell" x="345" y="286" width="48" height="48" rx="7"/>
+    <rect class="cell" x="399" y="286" width="48" height="48" rx="7"/><rect class="cell" x="453" y="286" width="48" height="48" rx="7"/>
+    <rect class="cell" x="75" y="340" width="48" height="48" rx="7"/><rect class="cell" x="129" y="340" width="48" height="48" rx="7"/>
+    <rect class="cell" x="183" y="340" width="48" height="48" rx="7"/><rect class="cell" x="237" y="340" width="48" height="48" rx="7"/>
+    <rect class="cell" x="291" y="340" width="48" height="48" rx="7"/><rect class="cell" x="345" y="340" width="48" height="48" rx="7"/>
+    <rect class="cell" x="399" y="340" width="48" height="48" rx="7"/><rect class="cell" x="453" y="340" width="48" height="48" rx="7"/>
+  </g>
+  <text class="small" x="75" y="430">每值 4 bit · payload 64 bit</text>
+
+  <rect class="scale-nv" x="600" y="256" width="190" height="116" rx="20"/>
+  <text class="label" x="628" y="304">E4M3 scale</text>
+  <text class="small" x="632" y="343">每 16 值共享</text>
+  <rect class="global" x="865" y="256" width="80" height="116" rx="20"/>
+  <text class="label" x="883" y="304">FP32</text>
+  <text class="small" x="879" y="343">tensor</text>
+  <text class="note" x="600" y="430">≈ 4.5 bit/值 + tensor 元数据</text>
+
+  <rect class="panel" x="35" y="525" width="930" height="365" rx="24"/>
+  <path class="edge" d="M500 713 H590"/>
+  <rect class="mx" x="55" y="547" width="210" height="58" rx="18"/>
+  <text class="panel-title" x="80" y="587">MXFP4</text>
+  <text class="badge-mx" x="294" y="585">更大微块 + 2 的幂 scale</text>
+
+  <text class="label" x="75" y="655">32 × E2M1 数据</text>
+  <g aria-label="32 element micro block">
+    <rect class="cell" x="75" y="677" width="48" height="32" rx="6"/><rect class="cell" x="129" y="677" width="48" height="32" rx="6"/>
+    <rect class="cell" x="183" y="677" width="48" height="32" rx="6"/><rect class="cell" x="237" y="677" width="48" height="32" rx="6"/>
+    <rect class="cell" x="291" y="677" width="48" height="32" rx="6"/><rect class="cell" x="345" y="677" width="48" height="32" rx="6"/>
+    <rect class="cell" x="399" y="677" width="48" height="32" rx="6"/><rect class="cell" x="453" y="677" width="48" height="32" rx="6"/>
+    <rect class="cell" x="75" y="715" width="48" height="32" rx="6"/><rect class="cell" x="129" y="715" width="48" height="32" rx="6"/>
+    <rect class="cell" x="183" y="715" width="48" height="32" rx="6"/><rect class="cell" x="237" y="715" width="48" height="32" rx="6"/>
+    <rect class="cell" x="291" y="715" width="48" height="32" rx="6"/><rect class="cell" x="345" y="715" width="48" height="32" rx="6"/>
+    <rect class="cell" x="399" y="715" width="48" height="32" rx="6"/><rect class="cell" x="453" y="715" width="48" height="32" rx="6"/>
+    <rect class="cell" x="75" y="753" width="48" height="32" rx="6"/><rect class="cell" x="129" y="753" width="48" height="32" rx="6"/>
+    <rect class="cell" x="183" y="753" width="48" height="32" rx="6"/><rect class="cell" x="237" y="753" width="48" height="32" rx="6"/>
+    <rect class="cell" x="291" y="753" width="48" height="32" rx="6"/><rect class="cell" x="345" y="753" width="48" height="32" rx="6"/>
+    <rect class="cell" x="399" y="753" width="48" height="32" rx="6"/><rect class="cell" x="453" y="753" width="48" height="32" rx="6"/>
+    <rect class="cell" x="75" y="791" width="48" height="32" rx="6"/><rect class="cell" x="129" y="791" width="48" height="32" rx="6"/>
+    <rect class="cell" x="183" y="791" width="48" height="32" rx="6"/><rect class="cell" x="237" y="791" width="48" height="32" rx="6"/>
+    <rect class="cell" x="291" y="791" width="48" height="32" rx="6"/><rect class="cell" x="345" y="791" width="48" height="32" rx="6"/>
+    <rect class="cell" x="399" y="791" width="48" height="32" rx="6"/><rect class="cell" x="453" y="791" width="48" height="32" rx="6"/>
+  </g>
+  <text class="small" x="75" y="860">每值 4 bit · payload 128 bit</text>
+
+  <rect class="scale-mx" x="600" y="655" width="190" height="116" rx="20"/>
+  <text class="label" x="628" y="703">E8M0 scale</text>
+  <text class="small" x="620" y="742">每 32 值共享</text>
+  <text class="note" x="600" y="820">≈ 4.25 bit/值</text>
+</svg>

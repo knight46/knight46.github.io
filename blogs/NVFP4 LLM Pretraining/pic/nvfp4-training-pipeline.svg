@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1180" viewBox="0 0 1000 1180" role="img" aria-labelledby="title desc">
+  <title id="title">NVFP4 预训练数值稳定流水线</title>
+  <desc id="desc">高精度张量依次经过随机 Hadamard 变换、二维 NVFP4 量化、Blackwell FP4 矩阵乘和高精度累加；反向量化使用随机舍入，敏感操作走高精度旁路。</desc>
+  <metadata>Original diagram. Sources: arXiv:2509.25149v2 Sections 4-5, NVIDIA Transformer Engine NVFP4 documentation, and NVIDIA Technical Blog. License: original site content.</metadata>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .bg{fill:#0b1220}.zone{fill:#101a2c;stroke:#334155;stroke-width:2}.input{fill:#172554;stroke:#60a5fa;stroke-width:3}
+      .process{fill:#1e293b;stroke:#a78bfa;stroke-width:3}.quant{fill:#0f3b3a;stroke:#2dd4bf;stroke-width:3}.compute{fill:#3b2d13;stroke:#fbbf24;stroke-width:3}
+      .output{fill:#312e4f;stroke:#c4b5fd;stroke-width:3}.fallback{fill:#421d2a;stroke:#fb7185;stroke-width:3}.chip{fill:#153047;stroke:#38bdf8;stroke-width:2}
+      .edge{fill:none;stroke:#94a3b8;stroke-width:4;marker-end:url(#arrow)}.branch{fill:none;stroke:#fb7185;stroke-width:4;stroke-dasharray:10 8;marker-end:url(#arrow)}
+      .title{fill:#f8fafc;font:700 38px "Noto Sans CJK SC",system-ui,sans-serif}.subtitle{fill:#cbd5e1;font:500 24px "Noto Sans CJK SC",system-ui,sans-serif}
+      .label{fill:#f8fafc;font:700 29px "Noto Sans CJK SC",system-ui,sans-serif}.small{fill:#cbd5e1;font:500 23px "Noto Sans CJK SC",system-ui,sans-serif}.tiny{fill:#bae6fd;font:650 21px "Noto Sans CJK SC",system-ui,sans-serif}
+      .lane{fill:#94a3b8;font:700 22px "Noto Sans CJK SC",system-ui,sans-serif;letter-spacing:2px}.risk{fill:#fecdd3;font:650 21px "Noto Sans CJK SC",system-ui,sans-serif}
+    </style>
+  </defs>
+  <rect class="bg" width="1000" height="1180" rx="28"/>
+  <text class="title" x="50" y="62">NVFP4：稳定机制必须串成一条数据路径</text>
+  <text class="subtitle" x="50" y="103">低精度主干获取吞吐，高精度旁路守住敏感操作</text>
+
+  <rect class="zone" x="35" y="135" width="930" height="920" rx="26"/>
+  <!-- Main and bypass connectors are above the zone and behind every node. -->
+  <path class="edge" d="M415 260 V310"/>
+  <path class="edge" d="M415 440 V490"/>
+  <path class="edge" d="M415 640 V690"/>
+  <path class="edge" d="M415 820 V870"/>
+  <path class="edge" d="M415 1000 V1050"/>
+  <path class="branch" d="M730 205 H860 V745 H760"/>
+
+  <text class="lane" x="65" y="175">NVFP4 主干</text>
+
+  <rect class="input" x="100" y="190" width="630" height="70" rx="20"/>
+  <text class="label" x="145" y="232">高精度 tensor</text>
+  <text class="small" x="450" y="232">BF16 / FP32 source</text>
+
+  <rect class="process" x="100" y="310" width="630" height="130" rx="20"/>
+  <text class="label" x="145" y="358">Random Hadamard Transform</text>
+  <text class="small" x="145" y="400">正交混合：分散 outlier，压低局部动态范围</text>
+
+  <rect class="quant" x="100" y="490" width="630" height="150" rx="20"/>
+  <text class="label" x="145" y="538">二维 NVFP4 量化</text>
+  <text class="small" x="145" y="580">E2M1 × 16 + E4M3 block scale + FP32 tensor scale</text>
+  <text class="small" x="145" y="615">为原布局 / 转置布局准备匹配的量化表示</text>
+  <rect class="chip" x="755" y="515" width="180" height="100" rx="18"/>
+  <text class="tiny" x="778" y="552">Backward</text>
+  <text class="tiny" x="774" y="585">随机舍入</text>
+
+  <rect class="compute" x="100" y="690" width="630" height="130" rx="20"/>
+  <text class="label" x="145" y="738">Blackwell FP4 GEMM</text>
+  <text class="small" x="145" y="780">Tensor Core 消费 FP4 payload 与 scale metadata</text>
+
+  <rect class="output" x="100" y="870" width="630" height="130" rx="20"/>
+  <text class="label" x="145" y="918">高精度累加与归约</text>
+  <text class="small" x="145" y="960">输出进入 residual、loss 或下一层训练状态</text>
+
+  <rect class="fallback" x="760" y="665" width="175" height="160" rx="20"/>
+  <text class="risk" x="781" y="707">敏感路径</text>
+  <text class="risk" x="781" y="742">BF16 / FP32</text>
+  <text class="risk" x="781" y="782">norm · loss</text>
+  <text class="risk" x="781" y="810">embedding</text>
+
+  <rect class="chip" x="70" y="1050" width="860" height="85" rx="20"/>
+  <text class="label" x="110" y="1092">验证闭环</text>
+  <text class="small" x="310" y="1092">loss parity · saturation · kernel 覆盖 · tokens/s · GPU-hours</text>
+  <text class="small" x="110" y="1123">先证明长程质量稳定，再证明端到端收益</text>
+</svg>
