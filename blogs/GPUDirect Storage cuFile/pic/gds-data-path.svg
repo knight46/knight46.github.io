@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
+  <title id="title">传统 CPU bounce-buffer 路径与 GPUDirect Storage direct DMA 路径</title>
+  <desc id="desc">上半部分展示存储数据先进入 CPU DRAM 再复制到 GPU memory；下半部分展示存储 DMA 绕过 CPU DRAM 直接进入 GPU memory，同时 CPU 仍负责文件系统、驱动、映射和提交控制。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; }
+      .storage { fill: #ccfbf1; stroke: #0f766e; stroke-width: 2; }
+      .host { fill: #ffedd5; stroke: #c2410c; stroke-width: 2; }
+      .gpu { fill: #dbeafe; stroke: #2563eb; stroke-width: 2; }
+      .control { fill: #ede9fe; stroke: #7c3aed; stroke-width: 2; }
+      .title { font: 700 31px Arial, "Noto Sans CJK SC", sans-serif; fill: #0f172a; }
+      .panel-title { font: 700 25px Arial, "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .label { font: 700 24px Arial, "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .small { font: 400 19px Arial, "Noto Sans CJK SC", sans-serif; fill: #475569; }
+      .edge { stroke: #2563eb; stroke-width: 6; fill: none; marker-end: url(#data-arrow); }
+      .control-edge { stroke: #7c3aed; stroke-width: 3; stroke-dasharray: 10 8; fill: none; marker-end: url(#control-arrow); }
+      .legend-line { stroke-width: 5; fill: none; }
+    </style>
+    <marker id="data-arrow" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+      <path d="M0,0 L12,5 L0,10 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="control-arrow" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+      <path d="M0,0 L12,5 L0,10 Z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="900" height="900"/>
+  <text class="title" x="40" y="58">存储到 GPU：数据面变短，控制面仍在</text>
+
+  <path class="legend-line" d="M48 100 H98" stroke="#2563eb"/>
+  <text class="small" x="110" y="107">Payload 数据面</text>
+  <path class="legend-line" d="M300 100 H350" stroke="#7c3aed" stroke-dasharray="10 8"/>
+  <text class="small" x="362" y="107">CPU 控制面</text>
+
+  <rect class="panel" x="30" y="135" width="840" height="315" rx="18"/>
+  <text class="panel-title" x="55" y="180">传统路径：CPU DRAM 是 bounce buffer</text>
+
+  <!-- Connectors are drawn before nodes. -->
+  <path class="edge" d="M230 310 H340"/>
+  <path class="edge" d="M560 310 H670"/>
+  <path class="control-edge" d="M450 242 V252"/>
+  <path class="control-edge" d="M352 228 C260 218 185 230 140 260"/>
+  <path class="control-edge" d="M548 228 C640 218 715 230 760 260"/>
+
+  <rect class="control" x="330" y="190" width="240" height="62" rx="12"/>
+  <text class="label" x="450" y="230" text-anchor="middle">CPU 软件控制</text>
+
+  <rect class="storage" x="50" y="260" width="180" height="104" rx="14"/>
+  <text class="label" x="140" y="305" text-anchor="middle">NVMe / NIC</text>
+  <text class="small" x="140" y="337" text-anchor="middle">存储端点</text>
+
+  <rect class="host" x="340" y="260" width="220" height="104" rx="14"/>
+  <text class="label" x="450" y="305" text-anchor="middle">CPU DRAM</text>
+  <text class="small" x="450" y="337" text-anchor="middle">page cache / buffer</text>
+
+  <rect class="gpu" x="670" y="260" width="180" height="104" rx="14"/>
+  <text class="label" x="760" y="305" text-anchor="middle">GPU Memory</text>
+  <text class="small" x="760" y="337" text-anchor="middle">HBM allocation</text>
+
+  <text class="small" x="285" y="400" text-anchor="middle">① storage → host</text>
+  <text class="small" x="615" y="400" text-anchor="middle">② host → GPU</text>
+  <text class="small" x="450" y="429" text-anchor="middle">CPU DRAM 承受 payload 写入与读出</text>
+
+  <rect class="panel" x="30" y="480" width="840" height="365" rx="18"/>
+  <text class="panel-title" x="55" y="525">GDS direct path：payload 绕过 CPU memory</text>
+
+  <!-- Connectors are drawn before nodes. -->
+  <path class="edge" d="M230 710 C315 625 585 625 670 710"/>
+  <path class="control-edge" d="M352 615 C260 612 185 628 140 658"/>
+  <path class="control-edge" d="M450 616 V658"/>
+  <path class="control-edge" d="M548 615 C640 612 715 628 760 658"/>
+
+  <rect class="control" x="320" y="555" width="260" height="62" rx="12"/>
+  <text class="label" x="450" y="595" text-anchor="middle">CPU + FS + Driver</text>
+
+  <rect class="storage" x="50" y="658" width="180" height="104" rx="14"/>
+  <text class="label" x="140" y="703" text-anchor="middle">NVMe / NIC</text>
+  <text class="small" x="140" y="735" text-anchor="middle">DMA 发起端</text>
+
+  <rect class="host" x="340" y="658" width="220" height="104" rx="14" opacity="0.52"/>
+  <text class="label" x="450" y="703" text-anchor="middle">CPU DRAM</text>
+  <text class="small" x="450" y="735" text-anchor="middle">不承载 payload</text>
+
+  <rect class="gpu" x="670" y="658" width="180" height="104" rx="14"/>
+  <text class="label" x="760" y="703" text-anchor="middle">GPU Memory</text>
+  <text class="small" x="760" y="735" text-anchor="middle">DMA 目标地址</text>
+
+  <text class="small" x="450" y="802" text-anchor="middle">实线：direct DMA；虚线：open / mapping / submit / completion</text>
+</svg>

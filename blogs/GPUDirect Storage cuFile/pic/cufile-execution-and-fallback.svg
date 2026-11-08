@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1120" viewBox="0 0 900 1120" role="img" aria-labelledby="title desc">
+  <title id="title">cuFile 执行模型与 direct path fallback 决策</title>
+  <desc id="desc">上半部分比较同步、Batch 和 Stream 三种 cuFile 执行模型；下半部分展示文件系统、驱动、内存、对齐和拓扑检查后进入 GDS direct path 或 CPU compatibility path。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; }
+      .input { fill: #dbeafe; stroke: #2563eb; stroke-width: 2; }
+      .process { fill: #ede9fe; stroke: #7c3aed; stroke-width: 2; }
+      .complete { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; }
+      .risk { fill: #fee2e2; stroke: #dc2626; stroke-width: 2; }
+      .check { fill: #fef3c7; stroke: #d97706; stroke-width: 2; }
+      .title { font: 700 31px Arial, "Noto Sans CJK SC", sans-serif; fill: #0f172a; }
+      .section { font: 700 27px Arial, "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .label { font: 700 23px Arial, "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .small { font: 400 19px Arial, "Noto Sans CJK SC", sans-serif; fill: #475569; }
+      .tiny { font: 400 18px Arial, "Noto Sans CJK SC", sans-serif; fill: #475569; }
+      .lane { font: 700 20px Arial, "Noto Sans CJK SC", sans-serif; fill: #334155; }
+      .edge { stroke: #64748b; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .direct-edge { stroke: #16a34a; stroke-width: 5; fill: none; marker-end: url(#green-arrow); }
+      .fallback-edge { stroke: #dc2626; stroke-width: 5; fill: none; marker-end: url(#red-arrow); }
+      .divider { stroke: #e2e8f0; stroke-width: 2; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+      <path d="M0,0 L12,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+    <marker id="green-arrow" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+      <path d="M0,0 L12,5 L0,10 Z" fill="#16a34a"/>
+    </marker>
+    <marker id="red-arrow" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+      <path d="M0,0 L12,5 L0,10 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="900" height="1120"/>
+  <text class="title" x="40" y="60">cuFile：提交语义与真实数据路径</text>
+
+  <rect class="panel" x="30" y="100" width="840" height="480" rx="18"/>
+  <text class="section" x="55" y="145">提交与完成模型</text>
+  <line class="divider" x1="55" y1="166" x2="845" y2="166"/>
+
+  <!-- All connectors are drawn before nodes. -->
+  <path class="edge" d="M270 235 H350"/>
+  <path class="edge" d="M550 235 H650"/>
+  <path class="edge" d="M270 355 H350"/>
+  <path class="edge" d="M550 355 H650"/>
+  <path class="edge" d="M270 475 H350"/>
+  <path class="edge" d="M550 475 H650"/>
+
+  <text class="lane" x="45" y="242">SYNC</text>
+  <rect class="input" x="130" y="195" width="140" height="80" rx="12"/>
+  <text class="label" x="200" y="229" text-anchor="middle">调用</text>
+  <text class="small" x="200" y="257" text-anchor="middle">Read / Write</text>
+  <rect class="process" x="350" y="195" width="200" height="80" rx="12"/>
+  <text class="label" x="450" y="229" text-anchor="middle">当前线程等待</text>
+  <text class="small" x="450" y="257" text-anchor="middle">适合可信基线</text>
+  <rect class="complete" x="650" y="195" width="180" height="80" rx="12"/>
+  <text class="label" x="740" y="229" text-anchor="middle">返回结果</text>
+  <text class="small" x="740" y="257" text-anchor="middle">完成点明确</text>
+
+  <text class="lane" x="38" y="362">BATCH</text>
+  <rect class="input" x="130" y="315" width="140" height="80" rx="12"/>
+  <text class="label" x="200" y="349" text-anchor="middle">请求数组</text>
+  <text class="small" x="200" y="377" text-anchor="middle">descriptors</text>
+  <rect class="process" x="350" y="315" width="200" height="80" rx="12"/>
+  <text class="label" x="450" y="349" text-anchor="middle">批量提交</text>
+  <text class="small" x="450" y="377" text-anchor="middle">提高 queue depth</text>
+  <rect class="complete" x="650" y="315" width="180" height="80" rx="12"/>
+  <text class="label" x="740" y="349" text-anchor="middle">逐请求状态</text>
+  <text class="small" x="740" y="377" text-anchor="middle">允许 partial 完成</text>
+
+  <text class="lane" x="34" y="482">STREAM</text>
+  <rect class="input" x="130" y="435" width="140" height="80" rx="12"/>
+  <text class="label" x="200" y="469" text-anchor="middle">Async I/O</text>
+  <text class="small" x="200" y="497" text-anchor="middle">CUDA stream</text>
+  <rect class="process" x="350" y="435" width="200" height="80" rx="12"/>
+  <text class="label" x="450" y="469" text-anchor="middle">Stream 顺序</text>
+  <text class="small" x="450" y="497" text-anchor="middle">event / kernel 协同</text>
+  <rect class="complete" x="650" y="435" width="180" height="80" rx="12"/>
+  <text class="label" x="740" y="469" text-anchor="middle">流水执行</text>
+  <text class="small" x="740" y="497" text-anchor="middle">重叠仍需实测</text>
+
+  <text class="tiny" x="450" y="552" text-anchor="middle">异步提交 ≠ 物理直连 ≠ 必然与 GPU kernel 重叠</text>
+
+  <rect class="panel" x="30" y="610" width="840" height="460" rx="18"/>
+  <text class="section" x="55" y="655">数据路径决策</text>
+  <line class="divider" x1="55" y1="676" x2="845" y2="676"/>
+
+  <!-- Decision connectors are drawn before nodes. -->
+  <path class="edge" d="M250 765 H320"/>
+  <path class="edge" d="M580 765 H650"/>
+  <path class="direct-edge" d="M740 810 V872 H580"/>
+  <path class="fallback-edge" d="M740 810 V980 H580"/>
+
+  <rect class="input" x="70" y="720" width="180" height="90" rx="12"/>
+  <text class="label" x="160" y="758" text-anchor="middle">cuFile 请求</text>
+  <text class="small" x="160" y="787" text-anchor="middle">fd + GPU buffer</text>
+
+  <rect class="check" x="320" y="706" width="260" height="118" rx="12"/>
+  <text class="label" x="450" y="744" text-anchor="middle">路径条件检查</text>
+  <text class="small" x="450" y="776" text-anchor="middle">FS / driver / memory</text>
+  <text class="small" x="450" y="803" text-anchor="middle">alignment / topology</text>
+
+  <rect class="process" x="650" y="720" width="180" height="90" rx="12"/>
+  <text class="label" x="740" y="758" text-anchor="middle">Runtime 决策</text>
+  <text class="small" x="740" y="787" text-anchor="middle">日志 + 统计</text>
+
+  <rect class="complete" x="320" y="838" width="260" height="90" rx="12"/>
+  <text class="label" x="450" y="876" text-anchor="middle">GDS Direct Path</text>
+  <text class="small" x="450" y="905" text-anchor="middle">storage DMA → GPU</text>
+  <text class="lane" x="660" y="858" fill="#16a34a">满足条件</text>
+
+  <rect class="risk" x="320" y="946" width="260" height="90" rx="12"/>
+  <text class="label" x="450" y="984" text-anchor="middle">Compatibility Path</text>
+  <text class="small" x="450" y="1013" text-anchor="middle">CPU staging / bounce</text>
+  <text class="lane" x="660" y="966" fill="#dc2626">回退</text>
+
+  <text class="tiny" x="450" y="1055" text-anchor="middle">API 成功只证明 I/O 完成；日志与计数器才能证明 direct path 生效</text>
+</svg>

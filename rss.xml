@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 06 Nov 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 09 Nov 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>GPUDirect Storage 与 cuFile：让 GPU 绕过 CPU Bounce Buffer 直连存储</title>
+            <link>https://knight46.github.io/blog.html?slug=GPUDirect%20Storage%20cuFile</link>
+            <guid>https://knight46.github.io/blog.html?slug=GPUDirect%20Storage%20cuFile</guid>
+            <pubDate>Mon, 09 Nov 2026 00:00:00 GMT</pubDate>
+            <description>从数据路径、cuFile 编程模型、同步与异步 API、compatibility fallback、PCIe 拓扑和请求并发出发，系统梳理 GPUDirect Storage 的机制与可验证的工程落地流程。</description>
+            <category>HPC / CUDA 系统</category><category>CUDA</category><category>GPUDirect Storage</category><category>cuFile</category><category>GPU I/O</category><category>NVMe</category><category>HPC</category>
+        </item>
         <item>
             <title>Hopper Warp Specialization：用 TMA、mbarrier 与寄存器再分配拆开搬运和计算</title>
             <link>https://knight46.github.io/blog.html?slug=Hopper%20Warp%20Specialization</link>
