@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1440" viewBox="0 0 720 1440" role="img" aria-labelledby="title desc">
+  <title id="title">CUDA VMM 与 PyTorch Expandable Segments</title>
+  <desc id="desc">三部分示意图：传统独立 segment 尾部碎片，CUDA VMM 的虚拟地址到物理页映射，以及动态 batch 下 expandable segment 的增长与整页回收。</desc>
+  <metadata>本站原创，依据 NVIDIA CUDA Driver API Virtual Memory Management 文档与 PyTorch CUDACachingAllocator 源码整理；未复用第三方图像。</metadata>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="12" height="12" fill="#fee2e2"/>
+      <line x1="0" y1="0" x2="0" y2="12" stroke="#ef4444" stroke-width="4"/>
+    </pattern>
+    <style>
+      .canvas { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #94a3b8; stroke-width: 2; }
+      .title { fill: #0f172a; font: 700 34px system-ui, -apple-system, "Segoe UI", sans-serif; }
+      .panel-title { fill: #0f172a; font: 700 30px system-ui, -apple-system, "Segoe UI", sans-serif; }
+      .label { fill: #1e293b; font: 650 28px system-ui, -apple-system, "Segoe UI", sans-serif; }
+      .body { fill: #334155; font: 550 26px system-ui, -apple-system, "Segoe UI", sans-serif; }
+      .small { fill: #475569; font: 500 24px system-ui, -apple-system, "Segoe UI", sans-serif; }
+      .mono { fill: #1e293b; font: 650 24px ui-monospace, SFMono-Regular, Consolas, monospace; }
+      .edge { fill: none; stroke: #475569; stroke-width: 3; marker-end: url(#arrow); }
+      .active { fill: #bae6fd; stroke: #0284c7; stroke-width: 2; }
+      .mapped { fill: #bbf7d0; stroke: #16a34a; stroke-width: 2; }
+      .new { fill: #fde68a; stroke: #d97706; stroke-width: 2; }
+      .free { fill: url(#hatch); stroke: #ef4444; stroke-width: 2; }
+      .reserved { fill: #f1f5f9; stroke: #64748b; stroke-width: 2; stroke-dasharray: 9 7; }
+      .physical { fill: #ddd6fe; stroke: #7c3aed; stroke-width: 2; }
+      .unmapped { fill: #e2e8f0; stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 8 6; }
+      .chip { fill: #e0e7ff; stroke: #6366f1; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect class="canvas" width="720" height="1440"/>
+  <text class="title" x="360" y="52" text-anchor="middle">把显存碎片改写成虚拟映射问题</text>
+
+  <!-- Panel 1 -->
+  <rect class="panel" x="20" y="80" width="680" height="370" rx="22"/>
+  <text class="panel-title" x="50" y="130">① 固定 cudaMalloc：边界隔开空闲</text>
+
+  <rect class="active" x="55" y="175" width="380" height="62" rx="8"/>
+  <rect class="free" x="435" y="175" width="220" height="62" rx="8"/>
+  <rect class="active" x="55" y="255" width="440" height="62" rx="8"/>
+  <rect class="free" x="495" y="255" width="160" height="62" rx="8"/>
+  <rect class="active" x="55" y="335" width="350" height="62" rx="8"/>
+  <rect class="free" x="405" y="335" width="250" height="62" rx="8"/>
+
+  <text class="body" x="75" y="215">Segment A：活跃</text>
+  <text class="body" x="75" y="295">Segment B：活跃</text>
+  <text class="body" x="75" y="375">Segment C：活跃</text>
+  <text class="body" x="545" y="215" text-anchor="middle">尾部空洞</text>
+  <text class="body" x="575" y="295" text-anchor="middle">空洞</text>
+  <text class="body" x="530" y="375" text-anchor="middle">尾部空洞</text>
+  <text class="small" x="360" y="428" text-anchor="middle">总量够，也不能跨独立 segment 合并</text>
+
+  <!-- Panel 2: connectors first, behind nodes -->
+  <rect class="panel" x="20" y="475" width="680" height="430" rx="22"/>
+  <path class="edge" d="M 120 675 C 120 725, 140 735, 140 775"/>
+  <path class="edge" d="M 250 675 C 250 725, 295 735, 295 775"/>
+  <path class="edge" d="M 380 675 C 380 725, 450 735, 450 775"/>
+
+  <text class="panel-title" x="50" y="525">② CUDA VMM：地址与物理解耦</text>
+  <text class="label" x="55" y="575">虚拟地址（Reserve）</text>
+  <rect class="mapped" x="55" y="600" width="130" height="75" rx="8"/>
+  <rect class="mapped" x="185" y="600" width="130" height="75" rx="8"/>
+  <rect class="mapped" x="315" y="600" width="130" height="75" rx="8"/>
+  <rect class="reserved" x="445" y="600" width="220" height="75" rx="8"/>
+  <text class="mono" x="120" y="647" text-anchor="middle">VA 0</text>
+  <text class="mono" x="250" y="647" text-anchor="middle">VA 1</text>
+  <text class="mono" x="380" y="647" text-anchor="middle">VA 2</text>
+  <text class="body" x="555" y="647" text-anchor="middle">预留、未映射</text>
+
+  <text class="label" x="535" y="745">物理页</text>
+  <rect class="physical" x="70" y="775" width="140" height="65" rx="10"/>
+  <rect class="physical" x="225" y="775" width="140" height="65" rx="10"/>
+  <rect class="physical" x="380" y="775" width="140" height="65" rx="10"/>
+  <rect class="chip" x="535" y="775" width="130" height="65" rx="30"/>
+  <text class="mono" x="140" y="817" text-anchor="middle">page A</text>
+  <text class="mono" x="295" y="817" text-anchor="middle">page B</text>
+  <text class="mono" x="450" y="817" text-anchor="middle">page C</text>
+  <text class="mono" x="600" y="817" text-anchor="middle">Access</text>
+  <text class="small" x="360" y="880" text-anchor="middle">虚拟连续 ≠ 物理连续；未映射区间不占 HBM</text>
+
+  <!-- Panel 3 -->
+  <rect class="panel" x="20" y="930" width="680" height="430" rx="22"/>
+  <path class="edge" d="M 650 1065 L 680 1065 L 680 1155 L 650 1155"/>
+  <path class="edge" d="M 650 1155 L 680 1155 L 680 1245 L 650 1245"/>
+
+  <text class="panel-title" x="50" y="980">③ Expandable Segment：增长与回收</text>
+
+  <text class="label" x="55" y="1075">batch N</text>
+  <rect class="mapped" x="200" y="1025" width="140" height="75" rx="8"/>
+  <rect class="mapped" x="340" y="1025" width="140" height="75" rx="8"/>
+  <rect class="unmapped" x="480" y="1025" width="170" height="75" rx="8"/>
+  <text class="body" x="270" y="1072" text-anchor="middle">已映射</text>
+  <text class="body" x="410" y="1072" text-anchor="middle">已映射</text>
+  <text class="body" x="565" y="1072" text-anchor="middle">预留空间</text>
+
+  <text class="label" x="55" y="1165">batch N+1</text>
+  <rect class="mapped" x="200" y="1115" width="140" height="75" rx="8"/>
+  <rect class="mapped" x="340" y="1115" width="140" height="75" rx="8"/>
+  <rect class="new" x="480" y="1115" width="120" height="75" rx="8"/>
+  <rect class="unmapped" x="600" y="1115" width="50" height="75" rx="8"/>
+  <text class="body" x="270" y="1162" text-anchor="middle">复用</text>
+  <text class="body" x="410" y="1162" text-anchor="middle">复用</text>
+  <text class="body" x="540" y="1162" text-anchor="middle">追加</text>
+
+  <text class="label" x="55" y="1255">batch N-1</text>
+  <rect class="mapped" x="200" y="1205" width="140" height="75" rx="8"/>
+  <rect class="mapped" x="340" y="1205" width="140" height="75" rx="8"/>
+  <rect class="unmapped" x="480" y="1205" width="170" height="75" rx="8"/>
+  <text class="body" x="270" y="1252" text-anchor="middle">保留</text>
+  <text class="body" x="410" y="1252" text-anchor="middle">保留</text>
+  <text class="body" x="565" y="1252" text-anchor="middle">整页 unmap</text>
+
+  <text class="small" x="360" y="1330" text-anchor="middle">只回收完整页；活跃 tensor 与页内余量仍占显存</text>
+  <text class="small" x="360" y="1410" text-anchor="middle">原创｜依据 NVIDIA CUDA Driver API 与 PyTorch 源码整理</text>
+</svg>
