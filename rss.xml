@@ -5,7 +5,15 @@
         <link>https://knight46.github.io/</link>
         <description>高性能计算、GPU 系统、深度学习系统和相关研究笔记。</description>
         <language>zh-CN</language>
-        <lastBuildDate>Fri, 13 Nov 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 16 Nov 2026 00:00:00 GMT</lastBuildDate>
+        <item>
+            <title>CUDA L2 持久化缓存：用 Access Policy Window 管住热点数据</title>
+            <link>https://knight46.github.io/blog.html?slug=CUDA%20L2%20Persistence%20Access%20Policy%20Window</link>
+            <guid>https://knight46.github.io/blog.html?slug=CUDA%20L2%20Persistence%20Access%20Policy%20Window</guid>
+            <pubDate>Mon, 16 Nov 2026 00:00:00 GMT</pubDate>
+            <description>从 L2 set-aside、Access Policy Window 与 hitRatio 的真实语义出发，给出 CUDA 热点数据持久化缓存的配置流程、并发容量模型、复位方法与可复现实验清单。</description>
+            <category>CUDA 高性能计算</category><category>CUDA</category><category>L2 Cache</category><category>Access Policy Window</category><category>GPU Memory</category><category>Performance</category><category>HPC</category>
+        </item>
         <item>
             <title>CUDA VMM 与 PyTorch Expandable Segments：把显存碎片从物理分配改成虚拟映射问题</title>
             <link>https://knight46.github.io/blog.html?slug=CUDA%20VMM%20Expandable%20Segments</link>
