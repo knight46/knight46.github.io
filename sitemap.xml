@@ -2,8 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://knight46.github.io/</loc>
-        <lastmod>2026-11-15</lastmod>
+        <lastmod>2026-11-19</lastmod>
         <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://knight46.github.io/blog.html?slug=SET%20CUDA%20Graph%20Pipeline%20Scheduling</loc>
+        <lastmod>2026-11-20</lastmod>
+        <priority>0.8</priority>
     </url>
     <url>
         <loc>https://knight46.github.io/blog.html?slug=CUDA%20L2%20Persistence%20Access%20Policy%20Window</loc>
